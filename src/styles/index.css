@@ -1,0 +1,194 @@
+@import 'tailwindcss' source(none);
+@source '../**/*.{js,ts,jsx,tsx}';
+
+/* ── Design tokens ───────────────────────────────────────────────────────────
+   Spacing is a 4px base on an 8px rhythm. With --spacing at 4px, the numeric
+   utilities land exactly on the scale, so `gap-2` is 8px and `p-6` is 24px:
+
+     1→4   2→8   3→12  4→16  6→24  8→32  10→40  12→48  16→64  20→80  24→96
+
+   Only those steps are used. Fractional utilities (gap-1.5, py-2.5) and
+   arbitrary bracket values fall between them, so they are never used for
+   spacing — 4px and 12px cover the fine adjustments inside components.
+
+   Radii are a four-step scale for the same reason: one card shape, one control
+   shape, no one-off pixel values. */
+@theme {
+  --spacing: 4px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* One motion value for the whole interface. Every `transition-*` utility
+     inherits these unless it overrides them, so the close button, the header
+     chips and every call to action move on the same curve at the same speed
+     instead of each having its own feel. */
+  --default-transition-duration: 350ms;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ambient glow accent. Registering it as a <color> is what lets the gradient
+   cross-fade when you move between cases — an unregistered custom property is
+   just a string, and gradients built from one snap instead of interpolating.
+   Browsers without @property fall back to that snap, which is harmless. */
+@property --accent {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #7c5cff;
+}
+
+/* The header's jump links land on a section rather than teleporting to it.
+   Sections carry their own scroll-margin so the sticky header does not cover
+   the heading they arrive at. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Modal entrance. The scrim fades on its own while the panel also rises, so the
+   dialog reads as arriving over the page rather than being cut into it. */
+@keyframes modal-scrim-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-panel-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.99); }
+  to { opacity: 1; transform: none; }
+}
+
+.modal-scrim {
+  animation: modal-scrim-in 200ms ease-out;
+}
+
+.modal-panel {
+  animation: modal-panel-in 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* No scrollbar on the modal. A case study is a column of full-bleed screens,
+   and a track running down the edge of them cuts the page in half visually.
+   The scroll hint at the bottom of the panel carries the affordance instead. */
+.modal-panel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal-panel::-webkit-scrollbar {
+  display: none;
+}
+
+/* The hint drifts a few pixels rather than blinking: enough motion to read as
+   "there is more below", quiet enough to ignore while reading. */
+@keyframes scroll-hint {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+.scroll-hint {
+  animation: scroll-hint 1800ms ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-scrim,
+  .modal-panel,
+  .scroll-hint {
+    animation: none;
+  }
+}
+
+/* Fullscreen Loader Animation */
+.loader {
+  height: 70px;
+  aspect-ratio: 1;
+  animation: l6 2s infinite;
+  border-image: conic-gradient(#ffffff) fill 0/0/999px;
+}
+
+@keyframes l6 {
+  0%, 100% {
+    clip-path: shape(
+      from 99.49% 44.97%,
+      curve to 99.49% 55.03% with 100.00% 50.00%,
+      curve to 97.46% 64.89% with 98.98% 60.06%,
+      curve to 93.49% 74.14% with 95.95% 69.72%,
+      curve to 87.74% 82.40% with 91.04% 78.56%,
+      curve to 80.45% 89.34% with 84.45% 86.24%,
+      curve to 71.91% 94.66% with 76.45% 92.43%,
+      curve to 62.47% 98.16% with 67.37% 96.89%,
+      curve to 52.52% 99.68% with 57.57% 99.42%,
+      curve to 42.47% 99.17% with 47.47% 99.94%,
+      curve to 32.72% 96.65% with 37.47% 98.40%,
+      curve to 23.69% 92.21% with 27.98% 94.89%,
+      curve to 15.73% 86.05% with 19.39% 89.54%,
+      curve to 9.17% 78.42% with 12.06% 82.57%,
+      curve to 4.29% 69.62% with 6.28% 74.27%,
+      curve to 1.27% 60.01% with 2.29% 64.97%,
+      curve to 0.26% 50.00% with 0.26% 55.06%,
+      curve to 1.27% 39.99% with 0.26% 44.94%,
+      curve to 4.29% 30.38% with 2.29% 35.03%,
+      curve to 9.17% 21.58% with 6.28% 25.73%,
+      curve to 15.73% 13.95% with 12.06% 17.43%,
+      curve to 23.69% 7.79% with 19.39% 10.46%,
+      curve to 32.72% 3.35% with 27.98% 5.11%,
+      curve to 42.47% 0.83% with 37.47% 1.60%,
+      curve to 52.52% 0.32% with 47.47% 0.06%,
+      curve to 62.47% 1.84% with 57.57% 0.58%,
+      curve to 71.91% 5.34% with 67.37% 3.11%,
+      curve to 80.45% 10.66% with 76.45% 7.57%,
+      curve to 87.74% 17.60% with 84.45% 13.76%,
+      curve to 93.49% 25.86% with 91.04% 21.44%,
+      curve to 97.46% 35.11% with 95.95% 30.28%,
+      curve to 99.49% 44.97% with 98.98% 39.94%
+    );
+    animation-timing-function: linear(
+      0, 0.015, 0.058 0.7%, 0.238 1.5%, 1.422 4.9%, 1.581 5.7%, 1.622, 1.638, 1.632,
+      1.606 7.2%, 1.491 8.1%, 0.727 11.5%, 0.629, 0.593 13.1%, 0.597, 0.613 13.8%,
+      0.685 14.6%, 1.174 18%, 1.237, 1.26 19.6%, 1.258, 1.247 20.4%, 1.201 21.2%,
+      0.888 24.6%, 0.849, 0.834 26.2%, 0.836, 0.842 26.9%, 0.872 27.7%, 1.071 31.2%,
+      1.096, 1.106, 1.101, 1.082 34.3%, 0.955 37.7%, 0.938, 0.932, 0.935,
+      0.948 40.9%, 1.029 44.3%, 1.039, 1.043, 1.041, 1.034 47.4%, 0.982 50.9%,
+      0.972, 0.977 53.8%, 1.01 57.2%, 1.018 59%, 1.015 60.3%, 0.994 63.7%,
+      0.989 65.5%, 0.991 66.9%, 1.004 70.3%, 1.007 72%, 0.995 78.6%, 1.003 85%,
+      0.998 91.6%, 1.001
+    );
+  }
+  30% {
+    clip-path: shape(
+      from 73.99% 47.36%,
+      curve to 79.87% 53.85% with 72.28% 50.00%,
+      curve to 88.83% 62.47% with 87.47% 57.70%,
+      curve to 79.89% 65.44% with 90.19% 67.25%,
+      curve to 71.86% 69.51% with 69.59% 63.63%,
+      curve to 71.30% 77.50% with 74.14% 75.39%,
+      curve to 64.93% 80.21% with 68.45% 79.61%,
+      curve to 58.77% 85.38% with 61.42% 80.82%,
+      curve to 52.40% 83.06% with 56.12% 89.93%,
+      curve to 44.62% 81.30% with 48.67% 76.18%,
+      curve to 39.82% 79.35% with 40.57% 86.43%,
+      curve to 34.42% 74.21% with 39.08% 72.26%,
+      curve to 21.83% 78.57% with 29.75% 76.16%,
+      curve to 16.56% 74.04% with 13.91% 80.98%,
+      curve to 24.21% 61.81% with 19.20% 67.09%,
+      curve to 14.76% 55.79% with 29.23% 56.52%,
+      curve to 5.19% 50.50% with 0.30% 55.05%,
+      curve to 15.10% 43.28% with 10.08% 45.94%,
+      curve to 25.35% 39.92% with 20.12% 40.63%,
+      curve to 21.89% 28.82% with 30.57% 39.22%,
+      curve to 21.55% 21.22% with 13.21% 18.41%,
+      curve to 33.36% 23.58% with 29.89% 24.02%,
+      curve to 38.67% 18.26% with 36.82% 23.14%,
+      curve to 44.18% 10.34% with 40.52% 13.39%,
+      curve to 50.54% 18.08% with 47.83% 7.29%,
+      curve to 56.70% 25.72% with 53.24% 28.87%,
+      curve to 65.38% 19.77% with 60.16% 22.56%,
+      curve to 76.19% 16.76% with 70.59% 16.97%,
+      curve to 82.03% 22.05% with 81.79% 16.55%,
+      curve to 81.63% 32.12% with 82.27% 27.54%,
+      curve to 78.35% 40.71% with 81.00% 36.70%,
+      curve to 73.99% 47.36% with 75.70% 44.72%
+    );
+  }
+}
