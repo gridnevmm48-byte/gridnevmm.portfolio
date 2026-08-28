@@ -137,7 +137,11 @@ function WorkSection({ onOpen }: { onOpen: (id: CaseId) => void }) {
   return (
     <section id={SECTION_WORK} className="flex flex-col gap-4 scroll-mt-24">
       <CardTitle>{t.sections.work}</CardTitle>
-      <div className="flex flex-col lg:flex-row gap-4 items-stretch">
+      {/* Two columns rather than one row: across four projects a single row
+          squeezed every card thinner the more of them there were, and on a wide
+          screen they stretched away from the proportions the design gives them.
+          A two-column grid holds the same card shape at every width. */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {CASES.map((meta) => (
           <WorkCard key={meta.id} meta={meta} onOpen={onOpen} />
         ))}

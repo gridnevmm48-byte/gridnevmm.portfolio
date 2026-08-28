@@ -32,3 +32,7 @@ portfolio_2026-main.zip
 
 # Screenshots taken while reviewing the build; not part of the site.
 review
+
+# Ad-hoc tooling used while checking a build: contact sheets, coordinate grids,
+# headless screenshots. Useful locally, noise in the repository.
+scripts/_*.mjs

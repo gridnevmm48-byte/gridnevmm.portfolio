@@ -4,8 +4,10 @@ import { BUTTON, TIGHT } from "./Root";
 import { useLang, useT } from "@/app/i18n";
 import cvEnAvif from "@/assets/cv/cv-en.avif";
 import cvEnJpg from "@/assets/cv/cv-en.jpg";
+import cvEnPdf from "@/assets/cv/cv-en.pdf?url";
 import cvRuAvif from "@/assets/cv/cv-ru.avif";
 import cvRuJpg from "@/assets/cv/cv-ru.jpg";
+import cvRuPdf from "@/assets/cv/cv-ru.pdf?url";
 
 /**
  * The résumé, as the image it was exported as.
@@ -14,8 +16,8 @@ import cvRuJpg from "@/assets/cv/cv-ru.jpg";
  * its own: someone reading the site in Russian wants the Russian CV.
  */
 const CV = {
-  en: { avif: cvEnAvif, jpg: cvEnJpg, file: "Maksim-Gridnev-AI-Native-Product-Designer-EN.jpg" },
-  ru: { avif: cvRuAvif, jpg: cvRuJpg, file: "Maksim-Gridnev-AI-Native-Product-Designer-RU.jpg" },
+  en: { avif: cvEnAvif, jpg: cvEnJpg, pdf: cvEnPdf, file: "Maksim-Gridnev-AI-Native-Product-Designer-EN.pdf" },
+  ru: { avif: cvRuAvif, jpg: cvRuJpg, pdf: cvRuPdf, file: "Maksim-Gridnev-AI-Native-Product-Designer-RU.pdf" },
 };
 
 export default function CvModal({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -39,10 +41,11 @@ export default function CvModal({ open, onClose }: { open: boolean; onClose: () 
           >
             {t.caseUi.cvTitle}
           </h2>
-          {/* The jpg, not the avif: this is the copy that leaves the site, and a
-              jpg opens anywhere the recipient drops it. */}
+          {/* The PDF, not the picture on screen: this is the copy that leaves
+              the site, and a recruiter wants a document they can print and
+              search rather than a screenshot of one. */}
           <a
-            href={cv.jpg}
+            href={cv.pdf}
             download={cv.file}
             className="bg-white text-black rounded-lg h-10 flex items-center justify-center px-6 font-semibold uppercase no-underline shrink-0 hover:opacity-80 transition-opacity"
             style={{ fontSize: "13px", letterSpacing: BUTTON }}

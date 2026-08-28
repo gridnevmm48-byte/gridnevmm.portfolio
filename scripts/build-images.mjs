@@ -8,7 +8,7 @@
  * Idempotent: run `npm run images` after dropping new files into `raw/`.
  */
 import sharp from "sharp";
-import { mkdir, readdir, rm } from "node:fs/promises";
+import { copyFile, mkdir, readdir, rm } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -16,30 +16,20 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const raw = path.join(root, "raw");
 const out = path.join(root, "src/assets");
 
-/** The hero slider frame. Sources that are not 16:9 are padded to it. */
+/** The hero slider frame. Every source is cropped to fill it. */
 const HERO = { width: 1440, height: 810 };
 
 /**
- * Fits any mockup into the 16:9 slider frame without cropping it.
+ * Fills the 16:9 slider frame with a mockup.
  *
  * The slides come in three shapes — 16:9 renders, a 4:3 tablet, a portrait
- * phone — and the slider paints them with object-cover, which would have sliced
- * the top and bottom off the tablet and left only a sliver of the portrait one.
- * Instead the whole mockup is fitted inside the frame and the gap either side is
- * filled with a blurred, darkened copy of the same image, so the seam reads as
- * depth of field rather than as a letterbox. A source that is already 16:9
- * covers the fill completely and comes out untouched.
+ * phone — and every one of them has to reach the edges of the frame, so each is
+ * scaled to cover and the overhang is trimmed off. Every device sits in the
+ * middle of its own shot, so a centre crop takes background rather than
+ * hardware.
  */
 async function toHeroFrame(file) {
-  const background = await sharp(file)
-    .resize(HERO.width, HERO.height, { fit: "cover" })
-    .blur(40)
-    .modulate({ brightness: 0.55 })
-    .toBuffer();
-  const foreground = await sharp(file)
-    .resize(HERO.width, HERO.height, { fit: "inside", withoutEnlargement: false })
-    .toBuffer();
-  return sharp(background).composite([{ input: foreground, gravity: "center" }]);
+  return sharp(file).resize(HERO.width, HERO.height, { fit: "cover", position: "centre" });
 }
 
 /** Widths are capped, never upscaled — the sources are already small. */
@@ -57,6 +47,10 @@ async function convertDir({ from, to, width, keepName, frame }) {
   const dstDir = path.join(out, to);
   await rm(dstDir, { recursive: true, force: true });
   await mkdir(dstDir, { recursive: true });
+
+  for (const doc of (await readdir(srcDir)).filter((f) => /\.pdf$/i.test(f))) {
+    await copyFile(path.join(srcDir, doc), path.join(dstDir, doc));
+  }
 
   const files = (await readdir(srcDir)).filter((f) => /\.(png|jpe?g)$/i.test(f)).sort();
   for (const file of files) {

@@ -27,12 +27,14 @@ export default function WorkCard({
       className={`${cardClass} group p-4 lg:p-6 flex flex-col gap-4 flex-1 min-w-0 text-left border-none cursor-pointer outline-none transition-colors hover:bg-white/15`}
     >
       <div className="flex items-start gap-4">
-        <img
-          src={meta.logo}
-          alt=""
-          aria-hidden
-          className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg object-cover shrink-0"
-        />
+        {meta.logo && (
+          <img
+            src={meta.logo}
+            alt=""
+            aria-hidden
+            className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg object-cover shrink-0"
+          />
+        )}
         <div className="flex flex-col min-w-0 flex-1">
           {/* The dates are detail rather than headline on a phone, and the case
               modal repeats them in its facts strip anyway. */}

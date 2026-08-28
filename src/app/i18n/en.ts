@@ -26,7 +26,7 @@ export const en = {
   },
 
   footer: {
-    rights: "Maksim Gridnev. All rights reserved",
+    rights: "Designed by me. Built with AI. Maksim Gridnev.",
   },
 
   /** Browser tab title. Has to match the static <title> in index.html. */
@@ -144,6 +144,13 @@ Before moving into design, I worked in sales and team management, so I also unde
       period: "Independent Project",
       desc: "Designed and built a website for a Limassol automotive service to attract new customers and showcase its services and work",
     },
+
+    sales: {
+      name: "Additional Work Experience",
+      role: "Head of Sales",
+      period: "Oct 2023 – Apr 2025",
+      desc: "Head of Sales in Educational platform focused on professional development and online learning",
+    },
   },
 
   /**
@@ -234,6 +241,23 @@ Before moving into design, I worked in sales and team management, so I also unde
           text: "Took the redesigned experience from concept to a working website, iterating between design and implementation throughout the process",
         },
       },
+    },
+
+    sales: {
+      title: "ADDITIONAL WORK EXPERIENCE",
+      meta: {
+        dateWork: "Oct 2023 – Apr 2025",
+        role: "Head of Sales",
+        projectType: "Sales Operations",
+        platform: "EdTech",
+      },
+      /** Empty on purpose: this entry is a role, not a problem brief. */
+      problem: "",
+      whatIDid: `Led a sales team of 5 – 7 managers and managed performance across the full sales cycle, including KPI tracking, task distribution, onboarding and team development
+
+Built internal sales processes and training materials, including sales scripts, product knowledge and onboarding documentation. Conducted regular training focused on SPIN Selling, needs discovery and objection handling, while personally handling complex negotiations and closing challenging deals`,
+      results: [] as { value: string; label: string }[],
+      notes: {},
     },
   },
 };

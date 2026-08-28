@@ -103,12 +103,15 @@ export default function CaseModal({
         <div className="flex justify-center px-4 pt-8 pb-12">
           <div className="flex flex-col items-center gap-6 w-full sm:w-auto sm:min-w-[480px] max-w-full">
           <div className="flex items-center gap-4">
-            <img
-              src={meta.logo}
-              alt=""
-              aria-hidden
-              className="w-16 h-16 rounded-lg object-cover shrink-0"
-            />
+            {/* A role has no brand mark, so the title simply starts the row. */}
+            {meta.logo && (
+              <img
+                src={meta.logo}
+                alt=""
+                aria-hidden
+                className="w-16 h-16 rounded-lg object-cover shrink-0"
+              />
+            )}
             <h2
               id={titleId}
               className="text-white font-semibold text-[28px] leading-8 sm:text-[44px] sm:leading-[48px]"
@@ -159,12 +162,19 @@ export default function CaseModal({
           ))}
         </div>
 
-        {/* Problem / solution */}
-        <div className={`${panelClass} p-6 grid grid-cols-1 md:grid-cols-2 gap-6`}>
+        {/* Problem / solution. An entry with no brief to state drops the first
+            column and lets the second run the full width. */}
+        <div
+          className={`${panelClass} p-6 grid grid-cols-1 gap-6 ${
+            copy.problem ? "md:grid-cols-2" : ""
+          }`}
+        >
           {[
             { title: t.caseUi.problem, text: copy.problem },
             { title: t.caseUi.whatIDid, text: copy.whatIDid },
-          ].map(({ title, text }) => (
+          ]
+            .filter(({ text }) => text)
+            .map(({ title, text }) => (
             <div key={title} className="flex flex-col gap-2 min-w-0">
               <h3
                 className="text-white font-semibold text-base leading-5"
@@ -172,7 +182,10 @@ export default function CaseModal({
               >
                 {title}
               </h3>
-              <p className="text-white/70 text-sm leading-5" style={{ letterSpacing: LOOSE }}>
+              <p
+                className="text-white/70 text-sm leading-5 whitespace-pre-line"
+                style={{ letterSpacing: LOOSE }}
+              >
                 {text}
               </p>
             </div>

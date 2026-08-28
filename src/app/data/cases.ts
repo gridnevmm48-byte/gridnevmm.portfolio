@@ -27,6 +27,7 @@ export type CaseMeta = {
   id: CaseId;
   /** The product's own site. Empty hides the button, the same way a card does. */
   href: string;
+  /** Empty for an entry with no brand of its own, like the sales role. */
   logo: string;
   blocks: Block[];
 };
@@ -54,6 +55,7 @@ const respawn = shots("respawn");
 const queen = shots("queen");
 const queenMobile = shots("queen-mobile");
 const prowrap = shots("prowrap");
+const sales = shots("sales");
 
 const shot = (s: Shot): Block => ({ kind: "shot", shot: s });
 const note = (id: string): Block => ({ kind: "note", id });
@@ -98,6 +100,14 @@ export const CASES: CaseMeta[] = [
       note("build"),
       ...prowrap.slice(7).map(shot),
     ],
+  },
+  {
+    // A role rather than a product: no brand mark of its own and nothing public
+    // to link to, so the card and the modal both drop those.
+    id: "sales",
+    href: "",
+    logo: "",
+    blocks: sales.map(shot),
   },
 ];
 
