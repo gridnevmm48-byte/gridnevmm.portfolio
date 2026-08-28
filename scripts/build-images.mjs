@@ -39,6 +39,7 @@ const JOBS = [
   { from: "cases/queen", to: "cases/queen", width: 1440 },
   { from: "cases/queen-mobile", to: "cases/queen-mobile", width: 720 },
   { from: "cases/prowrap", to: "cases/prowrap", width: 1440 },
+  { from: "cases/sales", to: "cases/sales", width: 1440 },
   { from: "cv", to: "cv", width: 1600, keepName: true },
 ];
 

@@ -141,7 +141,7 @@ Before moving into design, I worked in sales and team management, so I also unde
     prowrap: {
       name: "Pro Wrap",
       role: "AI Native Product Design",
-      period: "Independent Project",
+      period: "Independent Project 2026",
       desc: "Designed and built a website for a Limassol automotive service to attract new customers and showcase its services and work",
     },
 
