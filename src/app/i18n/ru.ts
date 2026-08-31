@@ -10,7 +10,7 @@ export const ru: Dict = {
   nav: {
     work: "ОПЫТ",
     about: "О СЕБЕ",
-    cv: "CV",
+    cv: "Резюме",
     li: "LIN",
     liHref: "https://www.linkedin.com/in/gridnevmm/",
     tg: "TG",

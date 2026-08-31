@@ -155,28 +155,36 @@ function WorkSection({ onOpen }: { onOpen: (id: CaseId) => void }) {
 function AboutCard() {
   const t = useT();
   return (
-    <div className={`${cardClass} p-4 md:p-6 flex flex-col gap-4 flex-1 min-w-0`}>
-      {/* Heading above the row, the way the design has it, so the portrait and
-          the copy start on the same line. */}
-      <CardTitle>{t.sections.aboutMe}</CardTitle>
-      {/* The portrait is floated, not a flex column. Side by side, a square
-          photo is always shorter than five paragraphs beside it, which left a
-          block of dead glass underneath it; floated, the copy runs down its
-          side and then continues underneath, and the column closes up.
-          flow-root contains the float so it cannot escape the card. */}
-      <div className="flow-root min-w-0">
-        <div className="float-left w-full sm:w-[46%] aspect-square rounded-lg overflow-hidden mb-4 sm:mr-4">
-          <img src={imgPhoto} alt={t.about.photoAlt} className="w-full h-full object-cover" />
+    // The padding lives on an inner div, not on this flex item itself: Chrome
+    // mis-sizes a `flex: 1 1 0%` item that carries its own padding when it is
+    // also `display:flex; flex-direction:column` (as every card here is) —
+    // it comes out ~24px wider than its 50/50 share, stealing exactly that
+    // from the sibling column beside it. An unpadded outer keeps the fair
+    // split; the inner div's padding never enters that calculation.
+    <div className={`${cardClass} flex-1 min-w-0 flex flex-col`}>
+      <div className="p-4 md:p-6 flex flex-col gap-4 h-full">
+        {/* Heading above the row, the way the design has it, so the portrait
+            and the copy start on the same line. */}
+        <CardTitle>{t.sections.aboutMe}</CardTitle>
+        {/* The portrait is floated, not a flex column. Side by side, a square
+            photo is always shorter than five paragraphs beside it, which left
+            a block of dead glass underneath it; floated, the copy runs down
+            its side and then continues underneath, and the column closes up.
+            flow-root contains the float so it cannot escape the card. */}
+        <div className="flow-root min-w-0">
+          <div className="float-left w-full sm:w-[46%] aspect-square rounded-lg overflow-hidden mb-4 sm:mr-4">
+            <img src={imgPhoto} alt={t.about.photoAlt} className="w-full h-full object-cover" />
+          </div>
+          <p
+            className="text-white/70 text-sm leading-5 whitespace-pre-line"
+            style={{ letterSpacing: LOOSE }}
+          >
+            {t.about.text}
+          </p>
         </div>
-        <p
-          className="text-white/70 text-sm leading-5 whitespace-pre-line"
-          style={{ letterSpacing: LOOSE }}
-        >
-          {t.about.text}
-        </p>
-      </div>
-      <div className="mt-auto">
-        <ActionButton href={t.nav.tgHref} label={t.common.contactMe} />
+        <div className="mt-auto">
+          <ActionButton href={t.nav.tgHref} label={t.common.contactMe} />
+        </div>
       </div>
     </div>
   );
