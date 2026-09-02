@@ -76,14 +76,16 @@ function bindDeep<T>(value: T, lang: Lang): T {
   return value;
 }
 
-/** The prose blocks only: the project cards, the case studies and the about
- *  copy. Everything else (nav labels, section titles, skill tags) is too short
- *  to strand a word. */
+/** The prose blocks: the hero line, the footer line, the project cards, the
+ *  case studies and the about copy. Everything else (nav labels, section
+ *  titles, skill tags) is too short to strand a word. */
 export function withCopyTypography<
-  T extends { work: unknown; about: unknown; cases: unknown },
+  T extends { hero: { tagline: string }; footer: { rights: string }; work: unknown; about: unknown; cases: unknown },
 >(dict: T, lang: Lang): T {
   return {
     ...dict,
+    hero: { ...dict.hero, tagline: bindClingingWords(dict.hero.tagline, lang) },
+    footer: { ...dict.footer, rights: bindClingingWords(dict.footer.rights, lang) },
     work: bindDeep(dict.work, lang),
     about: bindDeep(dict.about, lang),
     cases: bindDeep(dict.cases, lang),

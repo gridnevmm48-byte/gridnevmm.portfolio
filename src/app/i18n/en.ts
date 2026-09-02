@@ -26,7 +26,7 @@ export const en = {
   },
 
   footer: {
-    rights: "Designed by me. Built with AI. Maksim Gridnev.",
+    rights: "Designed by me Built with AI Maksim Gridnev",
   },
 
   /** Browser tab title. Has to match the static <title> in index.html. */
@@ -69,13 +69,13 @@ export const en = {
     name: "Maksim Gridnev",
     subtitle: "AI-Native Product Designer",
     photoAlt: "Maksim Gridnev",
-    text: `I'm a Product Designer focused on AI-Native & AI-First design, working across web and digital products.
+    text: `I'm a Product Designer focused on AI-Native & AI-First design, working across web and digital products
 
-My experience covers UI/UX, product design, visual design and building interfaces with AI tools.
+My experience covers UI/UX, product design, visual design and building interfaces with AI tools
 
-I enjoy taking an idea, figuring out how it should work and turning it into a clear and engaging experience.
+I enjoy taking an idea, figuring out how it should work and turning it into a clear and engaging experience
 
-I've worked on different types of products, from esports and gaming platforms to websites for local businesses, which gives me a versatile approach to design and helps me adapt to different challenges and teams.
+I've worked on different types of products, from esports and gaming platforms to websites for local businesses, which gives me a versatile approach to design and helps me adapt to different challenges and teams
 
 Before moving into design, I worked in sales and team management, so I also understand the people and business side behind the products I design`,
   },
@@ -182,7 +182,7 @@ Before moving into design, I worked in sales and team management, so I also unde
       notes: {
         previous: {
           title: "Previous Website",
-          text: "The previous website did not fully reflect Respawn's premium positioning or the experience offered by the club. It focused mainly on zones, hardware and pricing, while leaving important questions customers had before visiting unanswered",
+          text: "The previous website did not fully reflect Respawn's premium positioning or the experience offered by the club It focused mainly on zones, hardware and pricing, while leaving important questions customers had before visiting unanswered",
         },
       },
     },
@@ -196,7 +196,7 @@ Before moving into design, I worked in sales and team management, so I also unde
         platform: "Web-App",
       },
       problem:
-        "The platform needed to improve both customer-facing experiences and internal workflows. Acquisition and loyalty features had to be easier to understand and use, while internal processes required a more structured and efficient experience",
+        "The platform needed to improve both customer-facing experiences and internal workflows Acquisition and loyalty features had to be easier to understand and use, while internal processes required a more structured and efficient experience",
       whatIDid:
         "I designed user journeys across acquisition, bonus and VIP programs, cashback and email campaigns, improved internal workflows for KYC and user management, and contributed to the launch of a crypto mobile app",
       results: [
@@ -208,7 +208,7 @@ Before moving into design, I worked in sales and team management, so I also unde
       notes: {
         designSystem: {
           title: "Design System & Workflow",
-          text: "Built and maintained a scalable design system with reusable components and consistent interaction patterns across the product. Structured Figma files and workflows to improve collaboration and make new product experiences faster to design",
+          text: "Built and maintained a scalable design system with reusable components and consistent interaction patterns across the product Structured Figma files and workflows to improve collaboration and make new product experiences faster to design",
         },
         crypto: {
           title: "Crypto Mobile App",
@@ -255,7 +255,7 @@ Before moving into design, I worked in sales and team management, so I also unde
       problem: "",
       whatIDid: `Led a sales team of 5 – 7 managers and managed performance across the full sales cycle, including KPI tracking, task distribution, onboarding and team development
 
-Built internal sales processes and training materials, including sales scripts, product knowledge and onboarding documentation. Conducted regular training focused on SPIN Selling, needs discovery and objection handling, while personally handling complex negotiations and closing challenging deals`,
+Built internal sales processes and training materials, including sales scripts, product knowledge and onboarding documentation Conducted regular training focused on SPIN Selling, needs discovery and objection handling, while personally handling complex negotiations and closing challenging deals`,
       results: [] as { value: string; label: string }[],
       notes: {},
     },
