@@ -56,9 +56,6 @@ export const ru: Dict = {
     problem: "Задача",
     whatIDid: "Что я сделал",
     results: "Результаты",
-    cvTitle: "Резюме",
-    cvDownload: "скачать",
-    cvAlt: "Резюме Максима Гриднева",
   },
 
   about: {

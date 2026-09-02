@@ -62,7 +62,7 @@ export function bindClingingWords(text: string, lang: Lang): string {
  *  short word followed by a literal space, and none of these contain one),
  *  but skipping them keeps the diff between source and rendered value obvious
  *  when a link is inspected. */
-const IDENTIFIER_KEYS = new Set(["liHref", "tgHref", "mailHref", "photoAlt", "cvAlt"]);
+const IDENTIFIER_KEYS = new Set(["liHref", "tgHref", "mailHref", "photoAlt"]);
 
 /** Walks the entire dictionary and rewrites every string it holds. Every
  *  section renders as visible text somewhere on the page — the hero line, the

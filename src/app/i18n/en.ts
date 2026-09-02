@@ -60,9 +60,6 @@ export const en = {
     problem: "The problem",
     whatIDid: "What I did",
     results: "The results",
-    cvTitle: "Resume",
-    cvDownload: "download",
-    cvAlt: "Resume of Maksim Gridnev",
   },
 
   about: {

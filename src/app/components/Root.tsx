@@ -6,8 +6,9 @@ import {
   type ReactNode,
 } from "react";
 import HomePage from "./HomePage";
-import CvModal from "./CvModal";
 import imgAvatar from "@/assets/avatar.jpg";
+import cvEnPdf from "@/assets/cv/cv-en.pdf?url";
+import cvRuPdf from "@/assets/cv/cv-ru.pdf?url";
 import { useLang, useT, type Lang } from "@/app/i18n";
 import { usePageTitle } from "@/app/title";
 
@@ -15,6 +16,9 @@ export const cardClass = "backdrop-blur-[30px] bg-white/10 rounded-lg";
 
 /** The page is one centred column at every width; nothing is fixed to a side. */
 export const shellClass = "mx-auto w-full max-w-[1200px] px-4 md:px-8 lg:px-12";
+
+/** Which language reads the site picks which résumé opens. */
+const CV_PDF = { en: cvEnPdf, ru: cvRuPdf };
 
 // ── Type scale ────────────────────────────────────────────────────────────────
 /** -0.08em — display/semibold text. */
@@ -130,8 +134,9 @@ export function LanguageDropdown() {
 export const SECTION_WORK = "work";
 export const SECTION_ABOUT = "about";
 
-export function Header({ onOpenCv }: { onOpenCv: () => void }) {
+export function Header() {
   const t = useT();
+  const { lang } = useLang();
   const jumps = [
     { id: SECTION_WORK, label: t.nav.work },
     { id: SECTION_ABOUT, label: t.nav.about },
@@ -173,16 +178,18 @@ export function Header({ onOpenCv }: { onOpenCv: () => void }) {
               {label}
             </a>
           ))}
-          {/* The résumé opens over the page rather than navigating away, so a
-              visitor never loses their place in the work they were reading. */}
-          <button
-            type="button"
-            onClick={onOpenCv}
+          {/* A new tab, not a download: the PDF has a real text layer, so this
+              is the one place on the site a visitor can select and copy the
+              résumé's text — a modal showing it as a picture couldn't do that. */}
+          <a
+            href={CV_PDF[lang]}
+            target="_blank"
+            rel="noopener noreferrer"
             className={CHIP}
             style={{ letterSpacing: LOOSE }}
           >
             {t.nav.cv}
-          </button>
+          </a>
           {links.map(({ id, label, href }) => (
             <a
               key={id}
@@ -346,8 +353,6 @@ function BackToTop() {
 export default function Root() {
   const [loading, setLoading] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
-  const [cvOpen, setCvOpen] = useState(false);
-
   usePageTitle();
 
   useEffect(() => {
@@ -377,11 +382,10 @@ export default function Root() {
           own here: the body is already black, and an opaque one would hide it. */}
       <AmbientGlow />
       <div id="top" className="relative z-[1] min-h-screen flex flex-col">
-        <Header onOpenCv={() => setCvOpen(true)} />
+        <Header />
         <HomePage />
       </div>
       <BackToTop />
-      <CvModal open={cvOpen} onClose={() => setCvOpen(false)} />
     </>
   );
 }
