@@ -34,8 +34,12 @@ const CLINGING: Record<Lang, string[]> = {
 };
 
 /** Openers a clinging word may follow — a line start, whitespace, or a bracket
- *  or dash it sits right behind. */
-const OPENER = "(^|[\\s(\\[«\"“'\\u2014\\u2013\\-])";
+ *  or dash it sits right behind. A lookbehind, not a capturing group: a
+ *  consumed opener would swallow the space two clinging words in a row share
+ *  ("or the experience"), leaving nothing for the second word's own match to
+ *  open on. Zero-width, it never gets used up, so "or" and "the" each bind
+ *  independently instead of only the first one taking. */
+const OPENER = "(?<=^|[\\s(\\[«\"“'\\u2014\\u2013\\-])";
 
 const PATTERNS: Record<Lang, RegExp> = {
   ru: new RegExp(`${OPENER}(${CLINGING.ru.join("|")}) +`, "giu"),
@@ -46,48 +50,41 @@ const PATTERNS: Record<Lang, RegExp> = {
  * Binds clinging words to the word that follows them.
  *
  * Only literal spaces are swapped, never newlines, so paragraph breaks in the
- * case copy survive. Chains break on their own: the match eats the space that
- * would have opened the next word, so two short words in a row bind at most
- * once and never pile into one long unbreakable run.
+ * case copy survive.
  */
 export function bindClingingWords(text: string, lang: Lang): string {
-  return text.replace(PATTERNS[lang], (_, opener: string, word: string) => `${opener}${word}${NBSP}`);
+  return text.replace(PATTERNS[lang], (_match: string, word: string) => `${word}${NBSP}`);
 }
 
-/** Copy that belongs to the sidebar rather than a page section, so it keeps the
- *  plain spacing the rest of the shell uses. `desc` is the sidebar card line,
- *  and the stat captions under a figure are too short to need binding.
- *  `meta` and `results` are label/figure pairs in the case modal, short enough
- *  that binding them would only risk widening a narrow column. */
-const SKIP_KEYS = new Set(["desc", "stats", "meta", "results"]);
+/** Keys whose string value is an identifier, not prose — a URL, an email
+ *  address, a language code — and must survive untouched. Binding a clinging
+ *  word is technically harmless on these too (the pattern only ever matches a
+ *  short word followed by a literal space, and none of these contain one),
+ *  but skipping them keeps the diff between source and rendered value obvious
+ *  when a link is inspected. */
+const IDENTIFIER_KEYS = new Set(["liHref", "tgHref", "mailHref", "photoAlt", "cvAlt"]);
 
-/** Walks a dictionary branch and rewrites every string it renders. */
-function bindDeep<T>(value: T, lang: Lang): T {
-  if (typeof value === "string") return bindClingingWords(value, lang) as T;
+/** Walks the entire dictionary and rewrites every string it holds. Every
+ *  section renders as visible text somewhere on the page — the hero line, the
+ *  footer, nav labels, skill tags, case facts, stat labels — so nothing here
+ *  is short enough to exempt: a two-word tag can still wrap on a narrow phone
+ *  and strand its own preposition. */
+function bindDeep<T>(value: T, lang: Lang, key?: string): T {
+  if (typeof value === "string") {
+    return (key && IDENTIFIER_KEYS.has(key) ? value : bindClingingWords(value, lang)) as T;
+  }
   if (Array.isArray(value)) return value.map((item) => bindDeep(item, lang)) as T;
   if (value && typeof value === "object") {
     return Object.fromEntries(
-      Object.entries(value).map(([key, val]) => [
-        key,
-        SKIP_KEYS.has(key) ? val : bindDeep(val, lang),
-      ]),
+      Object.entries(value).map(([k, val]) => [k, bindDeep(val, lang, k)]),
     ) as T;
   }
   return value;
 }
 
-/** The prose blocks: the hero line, the footer line, the project cards, the
- *  case studies and the about copy. Everything else (nav labels, section
- *  titles, skill tags) is too short to strand a word. */
-export function withCopyTypography<
-  T extends { hero: { tagline: string }; footer: { rights: string }; work: unknown; about: unknown; cases: unknown },
->(dict: T, lang: Lang): T {
-  return {
-    ...dict,
-    hero: { ...dict.hero, tagline: bindClingingWords(dict.hero.tagline, lang) },
-    footer: { ...dict.footer, rights: bindClingingWords(dict.footer.rights, lang) },
-    work: bindDeep(dict.work, lang),
-    about: bindDeep(dict.about, lang),
-    cases: bindDeep(dict.cases, lang),
-  };
+/** Applied to the whole dictionary: every field that reaches the page runs
+ *  through the same clinging-word pass, so a line never ends on a bare
+ *  preposition regardless of which section it's in. */
+export function withCopyTypography<T extends object>(dict: T, lang: Lang): T {
+  return bindDeep(dict, lang);
 }
