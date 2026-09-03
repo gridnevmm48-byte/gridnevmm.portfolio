@@ -203,25 +203,28 @@ export function Header() {
             </a>
           ))}
           <LanguageDropdown />
+          {/* Vercel's hosting sits behind a block in some regions, so a visitor
+              there gets a blank hero and dead case-study screenshots with no
+              explanation why. Plain text, not a chip: it isn't a control, so
+              it shouldn't look like one of the clickable ones beside it. */}
+          <span
+            className="hidden sm:inline-block text-white font-semibold text-lg uppercase whitespace-nowrap"
+            style={{ letterSpacing: LOOSE }}
+          >
+            {t.nav.vpnNotice}
+          </span>
         </nav>
       </div>
 
-      {/* Vercel's hosting sits behind a block in some regions, so a visitor
-          there gets a blank hero and dead case-study screenshots with no
-          explanation why. A strip of its own, not another chip in the nav
-          row above: that row already runs out of width on a narrow phone
-          (WORK/ABOUT already drop below md for the same reason), and a sixth
-          item there would just be the one thing most worth seeing pushed
-          off-screen. Static text, not a tooltip, since a phone has no hover
-          to reveal one. */}
-      <div className="bg-amber-400/10 border-t border-amber-400/20">
-        <p
-          className={`${shellClass} text-xs font-semibold text-amber-300 text-center sm:text-right py-1.5`}
-          style={{ letterSpacing: LOOSE }}
-        >
-          {t.nav.vpnNotice}
-        </p>
-      </div>
+      {/* Same notice, for a phone: the row above hides it rather than letting
+          it force a scroll, so it needs a place that can't be scrolled out of
+          view — a strip of its own, sized to actually fit the words at 375px. */}
+      <p
+        className={`${shellClass} sm:hidden text-white font-semibold text-sm uppercase text-center py-2`}
+        style={{ letterSpacing: LOOSE }}
+      >
+        {t.nav.vpnNotice}
+      </p>
     </header>
   );
 }
