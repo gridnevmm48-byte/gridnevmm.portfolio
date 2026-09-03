@@ -50,8 +50,11 @@ export default function WorkCard({
           >
             {entry.name}
           </h3>
+          {/* Plain weight and full opacity: bold at the same dimness as the
+              date above it read as a second headline stacked on the company
+              name, the two blurring into one line at a glance. */}
           <p
-            className="text-white/70 font-semibold text-base lg:text-xl leading-6"
+            className="text-white text-base lg:text-xl leading-6"
             style={{ letterSpacing: TIGHT }}
           >
             {entry.role}
