@@ -28,11 +28,15 @@ export default function WorkCard({
     >
       <div className="flex items-start gap-4">
         {meta.logo && (
+          // lg:20 (80px), not 16 (64px): three lines of text next to it — date,
+          // name, role — run to about 68px, a few past a 64px logo, so the last
+          // line hung visibly below the image's bottom edge instead of the two
+          // lining up as a block.
           <img
             src={meta.logo}
             alt=""
             aria-hidden
-            className="w-12 h-12 lg:w-16 lg:h-16 rounded-lg object-cover shrink-0"
+            className="w-12 h-12 lg:w-20 lg:h-20 rounded-lg object-cover shrink-0"
           />
         )}
         <div className="flex flex-col min-w-0 flex-1">
