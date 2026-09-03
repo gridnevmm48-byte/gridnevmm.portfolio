@@ -12,13 +12,16 @@ export const en = {
     /** Jump links to the sections of the one page. */
     work: "WORK",
     about: "ABOUT",
-    /** Opens the résumé image in a modal rather than navigating away. */
+    /** Opens the résumé PDF in a new tab. */
     cv: "CV",
     li: "LIN",
     liHref: "https://www.linkedin.com/in/gridnevmm/",
     tg: "TG",
     tgHref: "https://t.me/grid1max",
     mailHref: "https://mail.google.com/mail/?view=cm&fs=1&to=gridnevmm48@gmail.com",
+    /** Vercel's hosting is blocked in some regions without one, which also
+     *  means the mockups and the linked project sites won't load there. */
+    vpnNotice: "Some images and links on this site need a VPN to load",
   },
 
   hero: {

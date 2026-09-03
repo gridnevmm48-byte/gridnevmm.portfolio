@@ -205,6 +205,23 @@ export function Header() {
           <LanguageDropdown />
         </nav>
       </div>
+
+      {/* Vercel's hosting sits behind a block in some regions, so a visitor
+          there gets a blank hero and dead case-study screenshots with no
+          explanation why. A strip of its own, not another chip in the nav
+          row above: that row already runs out of width on a narrow phone
+          (WORK/ABOUT already drop below md for the same reason), and a sixth
+          item there would just be the one thing most worth seeing pushed
+          off-screen. Static text, not a tooltip, since a phone has no hover
+          to reveal one. */}
+      <div className="bg-amber-400/10 border-t border-amber-400/20">
+        <p
+          className={`${shellClass} text-xs font-semibold text-amber-300 text-center sm:text-right py-1.5`}
+          style={{ letterSpacing: LOOSE }}
+        >
+          {t.nav.vpnNotice}
+        </p>
+      </div>
     </header>
   );
 }

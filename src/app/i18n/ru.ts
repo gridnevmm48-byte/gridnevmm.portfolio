@@ -16,6 +16,7 @@ export const ru: Dict = {
     tg: "TG",
     tgHref: "https://t.me/grid1max",
     mailHref: "https://mail.google.com/mail/?view=cm&fs=1&to=gridnevmm48@gmail.com",
+    vpnNotice: "Для загрузки некоторых картинок и ссылок на сайте нужен VPN",
   },
 
   hero: {
