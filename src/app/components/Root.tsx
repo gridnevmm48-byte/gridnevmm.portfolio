@@ -157,11 +157,22 @@ export function Header() {
             alt={t.about.photoAlt}
             className="w-10 h-10 rounded-md object-cover"
           />
-          <span
-            className="text-white font-semibold text-sm leading-4 hidden sm:block"
-            style={{ letterSpacing: "-0.04em" }}
-          >
-            {t.about.name}
+          <span className="hidden sm:flex flex-col justify-center">
+            <span
+              className="text-white font-semibold text-sm leading-4"
+              style={{ letterSpacing: "-0.04em" }}
+            >
+              {t.about.name}
+            </span>
+            {/* Vercel's hosting sits behind a block in some regions, so a
+                visitor there gets a blank hero and dead case-study
+                screenshots with no explanation why. Plain and quiet, a
+                caption under the name rather than a shout in the nav: it
+                isn't a control, so it shouldn't compete with the ones
+                beside it for attention. */}
+            <span className="text-white/60 font-normal text-sm leading-4 whitespace-nowrap">
+              {t.nav.vpnNotice}
+            </span>
           </span>
         </a>
 
@@ -203,25 +214,14 @@ export function Header() {
             </a>
           ))}
           <LanguageDropdown />
-          {/* Vercel's hosting sits behind a block in some regions, so a visitor
-              there gets a blank hero and dead case-study screenshots with no
-              explanation why. Plain text, not a chip: it isn't a control, so
-              it shouldn't look like one of the clickable ones beside it. */}
-          <span
-            className="hidden sm:inline-block text-white font-semibold text-lg uppercase whitespace-nowrap"
-            style={{ letterSpacing: LOOSE }}
-          >
-            {t.nav.vpnNotice}
-          </span>
         </nav>
       </div>
 
-      {/* Same notice, for a phone: the row above hides it rather than letting
-          it force a scroll, so it needs a place that can't be scrolled out of
-          view — a strip of its own, sized to actually fit the words at 375px. */}
+      {/* Same notice, for a phone: the name/caption block above is hidden
+          below sm to keep the compact header from crowding, so this is the
+          only place a narrow screen sees it. */}
       <p
-        className={`${shellClass} sm:hidden text-white font-semibold text-sm uppercase text-center py-2`}
-        style={{ letterSpacing: LOOSE }}
+        className={`${shellClass} sm:hidden text-white/60 font-normal text-sm leading-4 text-center pb-3`}
       >
         {t.nav.vpnNotice}
       </p>
