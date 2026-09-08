@@ -15,6 +15,7 @@ import {
 import CaseModal from "./CaseModal";
 import WorkCard from "./WorkCard";
 import { CASES, type CaseId } from "@/app/data/cases";
+import { reachGoal } from "@/app/metrika";
 import { useT } from "@/app/i18n";
 
 // ── Banner ────────────────────────────────────────────────────────────────────
@@ -284,11 +285,19 @@ export default function HomePage() {
   // none of the case screenshots are fetched on a first visit.
   const [openCase, setOpenCase] = useState<CaseId | null>(null);
 
+  // A button swapping state isn't a navigation, so Metrika's automatic link
+  // tracking never sees it — a goal call is the only way to learn which case
+  // gets opened most.
+  const openCaseAndTrack = (id: CaseId) => {
+    setOpenCase(id);
+    reachGoal(`open_case_${id}`);
+  };
+
   return (
     <main className={`${shellClass} flex flex-col gap-8 md:gap-12 pb-8 md:pb-12`}>
       <Hero />
       <BannerSlider />
-      <WorkSection onOpen={setOpenCase} />
+      <WorkSection onOpen={openCaseAndTrack} />
       <AboutSection />
       <Footer />
       <CaseModal caseId={openCase} onClose={() => setOpenCase(null)} />
