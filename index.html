@@ -611,10 +611,16 @@
   .cx-top{ display:flex; align-items:center; justify-content:space-between; gap:16px; } .cx-label{ font:600 24px/32px var(--sans); }
   .cx .cx-btn{ width:44px; height:44px; } .cx .concept-card{ gap:16px; cursor:default; } .cx .concept-card .title{ font:500 24px/32px var(--sans); }
   .m-concept{ display:none; }
-  .m-app[data-view="concept"] .hero, .m-app[data-view="concept"] #m-sec-projects, .m-app[data-view="concept"] #p-lab, .m-app[data-view="concept"] .m-sh-lab, .m-app[data-view="concept"] .m-about{ display:none; }
-  .m-app[data-view="concept"] .m-head-lab{ display:flex; }
-  .m-app[data-view="concept"] .m-concept{ display:flex; flex-direction:column; gap:20px; }
-  .m-app .m-concept .concept-card{ gap:12px; cursor:default; } .m-app .m-concept .concept-card .cover{ aspect-ratio:1/1 !important; border-radius:16px; } .m-app .m-concept .ls{ border-radius:16px; }
+  .m-app[data-view="concept"] .hero, .m-app[data-view="concept"] #m-sec-projects, .m-app[data-view="concept"] #p-lab, .m-app[data-view="concept"] .m-sh-lab, .m-app[data-view="concept"] .m-about, .m-app[data-view="concept"] .m-head-lab{ display:none; }
+  /* страница концепта на весь экран: управление закреплено над таб-баром, карточка подстраивается под высоту экрана, ничего не прокручивается */
+  .m-app[data-view="concept"], .m-app[data-view="concept"] body{ overflow:hidden; }
+  .m-app[data-view="concept"] .m-concept{ position:fixed; inset:0; z-index:14; display:flex; flex-direction:column; gap:12px; padding:calc(20px + env(safe-area-inset-top, 0px)) 16px calc(86px + env(safe-area-inset-bottom, 0px)); background:var(--paper); overflow:hidden; overscroll-behavior:contain; touch-action:pan-y; }
+  .m-concept .cx-top{ flex:none; display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+  .m-concept .cx-label{ font:600 28px/34px var(--sans); } .m-concept .cx-count{ font:400 14px/21px var(--sans); color:var(--mute); font-variant-numeric:tabular-nums; }
+  .m-concept .cx-slide{ flex:1 1 auto; min-height:0; justify-content:center; }
+  .m-concept .cx-bar{ flex:none; }
+  .m-app .m-concept .concept-card{ width:min(100%, max(200px, calc(100vh - 310px))); width:min(100%, max(200px, calc(100dvh - 310px))); margin:0 auto; gap:12px; cursor:default; }
+  .m-app .m-concept .concept-card .cover{ width:100%; aspect-ratio:1/1 !important; border-radius:16px; } .m-app .m-concept .ls{ border-radius:16px; }
   .m-app .m-concept .concept-card .title{ font:500 16px/24px var(--sans); } .m-app .m-concept .concept-card .desc{ font:400 14px/21px var(--sans); }
   .m-grab{ display:block; width:36px; height:5px; margin:0 auto 8px; border-radius:3px; background:rgba(20,19,15,.18); }
   .m-sheet-head{ display:flex; align-items:center; justify-content:space-between; } .m-sheet-head h3{ margin:0; font:600 20px/26px var(--sans); }
@@ -1132,9 +1138,10 @@
     };
     const reset = () => { camEl.style.transform = ''; cur.style.opacity = tapEl.style.opacity = 0; };
     // у живого концепта своя камера внутри; картинку-камеру крутим только пока он не загрузился
-    const start = () => { if (live && liveReady) { live.contentWindow.postMessage({ lab:'play' }, '*'); return; }
+    const post = m => { try { if (live.contentWindow) live.contentWindow.postMessage({ lab:m }, '*'); } catch (e) {} };   // iframe мог уже уйти из страницы (листание концептов)
+    const start = () => { if (live && liveReady) { post('play'); return; }
       if (on) return; build(); if (!LOOP) return; on = true; t0 = performance.now() - (c.lag || 0) * 1000; raf = requestAnimationFrame(frame); };
-    const stop = () => { if (live && liveReady) live.contentWindow.postMessage({ lab:'rest' }, '*'); on = false; cancelAnimationFrame(raf); reset(); };
+    const stop = () => { if (live && liveReady) post('rest'); on = false; cancelAnimationFrame(raf); reset(); };
     let seen = false;
     new IntersectionObserver(es => es.forEach(e => { seen = e.isIntersecting; seen ? start() : stop(); }), { threshold:.2 }).observe(cover);
     new ResizeObserver(() => { if (on) build(); }).observe(cover);
@@ -1197,12 +1204,12 @@
     typo(host, curLang);
     host.classList.remove('to-next', 'to-prev'); void host.offsetWidth; if (dir && !reduced) host.classList.add(dir > 0 ? 'to-next' : 'to-prev');
     camScene($('.cover', host), { id, ...c }); };
-  const cxCtl = (slideHost, barHost, { onList, onMoved }) => {
+  const cxCtl = (slideHost, barHost, { onList, onMoved, count }) => {
     let idx = -1;
     barHost.innerHTML = `<button type="button" class="cx-btn" data-act="list">${CX_IC.list}</button><button type="button" class="cx-btn" data-act="prev">${CX_IC.prev}</button><span class="cx-prog"><i></i></span><button type="button" class="cx-btn go" data-act="next">${CX_IC.next}</button>`;
     const prog = $('.cx-prog i', barHost);
     const labels = () => { const L = CX_TXT[curLang]; ['list', 'prev', 'next'].forEach(a => $(`[data-act="${a}"]`, barHost).setAttribute('aria-label', L[a])); };
-    const show = (i, dir = 0) => { idx = i; labels(); cxSlide(slideHost, LAB_ORDER[i], dir); prog.style.width = ((i + 1) / LAB_ORDER.length * 100) + '%'; };
+    const show = (i, dir = 0) => { idx = i; labels(); cxSlide(slideHost, LAB_ORDER[i], dir); prog.style.width = ((i + 1) / LAB_ORDER.length * 100) + '%'; if (count) count.textContent = (i + 1) + ' / ' + LAB_ORDER.length; };
     const move = d => { const n = idx + d; if (n < 0 || n >= LAB_ORDER.length) { onList(); return; } show(n, d); onMoved(LAB_ORDER[n]); };
     barHost.addEventListener('click', e => { const b = e.target.closest('[data-act]'); if (!b) return; const a = b.dataset.act; if (a === 'list') onList(); else move(a === 'next' ? 1 : -1); });
     let x0 = null, y0 = 0;
@@ -1486,18 +1493,20 @@
     document.body.append(tabs);
     // страница концепта (Figma «Лаборатория · N»): шапка и заголовок «Лаборатория» остаются, ниже — большая карточка и управление
     const cxPage = el('section', 'm-concept'); cxPage.setAttribute('aria-label', 'Концепт');
-    const cxHost = el('div', 'cx-slide'), cxBarEl = el('div', 'cx-bar'); cxPage.append(cxHost, cxBarEl); $('.content').append(cxPage);
+    const cxTop = el('div', 'cx-top', '<span class="cx-label"></span><span class="cx-count"></span>'), cxHost = el('div', 'cx-slide'), cxBarEl = el('div', 'cx-bar');
+    cxPage.append(cxTop, cxHost, cxBarEl); $('.content').append(cxPage);
+    const cxLabel = $('.cx-label', cxPage), cxCount = $('.cx-count', cxPage), cxTitle = () => { cxLabel.textContent = CX_TXT[curLang].lab; };
     const cxUrl = id => '#lab/' + id;
     let cxFrom = 'home';   // откуда открыли: из сетки «Лаборатория» кнопка «список» просто возвращается назад по истории
     const mctl = cxCtl(cxHost, cxBarEl, {
       onList: () => { if (cxFrom === 'lab') history.back(); else { setView('lab', false); history.replaceState({ v:'lab' }, '', '#lab'); } },
-      onMoved: id => history.replaceState({ v:'concept', id }, '', cxUrl(id)) });
-    cxRefresh = () => mctl.refresh();
+      onMoved: id => history.replaceState({ v:'concept', id }, '', cxUrl(id)), count:cxCount });
+    cxRefresh = () => { cxTitle(); mctl.refresh(); };
     openConcept = id => { if (LAB_ORDER.includes(id)) { cxFrom = root.dataset.view === 'lab' ? 'lab' : 'home'; setView('concept', true, id); } };
     const setView = (v, push = true, id) => { if (v === 'contact') { openSheet(); return; }
       if (v === 'concept' && !LAB_ORDER.includes(id)) v = 'lab';
       root.dataset.view = v; $$('button', tabs).forEach(b => b.classList.toggle('on', b.dataset.v === (v === 'concept' ? 'lab' : v))); scrollTo(0, 0);
-      if (v === 'concept') mctl.show(LAB_ORDER.indexOf(id));
+      if (v === 'concept') { cxTitle(); mctl.show(LAB_ORDER.indexOf(id)); }
       if (push) history.pushState(v === 'concept' ? { v, id } : { v }, '', v === 'home' ? location.pathname + location.search : v === 'concept' ? cxUrl(id) : '#' + v); };
     tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (b) setView(b.dataset.v); });
     all.addEventListener('click', () => setView('lab'));
