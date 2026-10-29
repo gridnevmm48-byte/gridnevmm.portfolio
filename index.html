@@ -592,6 +592,30 @@
   .m-scrim{ position:fixed; inset:0; z-index:30; background:rgba(20,19,15,.4); opacity:0; pointer-events:none; transition:opacity .3s var(--ease); }
   .m-sheet{ visibility:hidden; transition:translate .4s var(--ease), visibility 0s .4s; position:fixed; left:0; right:0; bottom:0; z-index:31; padding:8px 16px calc(24px + env(safe-area-inset-bottom, 0px)); border-radius:28px 28px 0 0; background:var(--paper); translate:0 105%; transition:translate .4s var(--ease); }
   .m-sheet-open .m-scrim{ opacity:1; pointer-events:auto; } .m-sheet-open .m-sheet{ translate:0 0; visibility:visible; transition:translate .4s var(--ease); }
+  /* страница концепта: клик по карточке лаборатории → большой экран, листание вперёд и назад (Figma «Лаборатория · N») */
+  #lab .concept-card{ cursor:pointer; -webkit-tap-highlight-color:transparent; } #lab .concept-card:focus-visible{ outline-offset:6px; }
+  .cx-bar{ display:flex; align-items:center; gap:12px; }
+  .cx-btn{ flex:none; display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:50%; background:var(--soft); color:var(--ink); transition:background .2s var(--ease), opacity .2s; }
+  .cx-btn:hover{ background:var(--line); } .cx-btn.go{ background:var(--ink); color:#fff; } .cx-btn.go:hover{ background:#2C2B26; }
+  .cx-btn svg{ width:22px; height:22px; display:block; }
+  .cx-prog{ position:relative; flex:1 1 auto; height:2px; border-radius:1px; background:var(--line); overflow:hidden; }
+  .cx-prog i{ position:absolute; left:0; top:0; bottom:0; width:0; background:var(--ink); transition:width .35s var(--ease); }
+  .cx-slide{ display:flex; flex-direction:column; min-width:0; }
+  .cx-slide.to-next .concept-card{ animation:cxNext .38s var(--ease); } .cx-slide.to-prev .concept-card{ animation:cxPrev .38s var(--ease); }
+  @keyframes cxNext{ from{ opacity:0; translate:36px 0; } to{ opacity:1; translate:0 0; } }
+  @keyframes cxPrev{ from{ opacity:0; translate:-36px 0; } to{ opacity:1; translate:0 0; } }
+  @media (prefers-reduced-motion:reduce){ .cx-slide .concept-card{ animation:none !important; } }
+  .cx{ position:fixed; inset:0; z-index:40; display:none; align-items:center; justify-content:center; padding:24px 32px; background:rgba(255,255,255,.9); -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px); }
+  .cx.open{ display:flex; animation:cxFade .3s var(--ease); } @keyframes cxFade{ from{ opacity:0; } to{ opacity:1; } }
+  .cx-panel{ display:flex; flex-direction:column; gap:20px; width:680px; max-width:100%; }
+  .cx-top{ display:flex; align-items:center; justify-content:space-between; gap:16px; } .cx-label{ font:600 24px/32px var(--sans); }
+  .cx .cx-btn{ width:44px; height:44px; } .cx .concept-card{ gap:16px; cursor:default; } .cx .concept-card .title{ font:500 24px/32px var(--sans); }
+  .m-concept{ display:none; }
+  .m-app[data-view="concept"] .hero, .m-app[data-view="concept"] #m-sec-projects, .m-app[data-view="concept"] #p-lab, .m-app[data-view="concept"] .m-sh-lab, .m-app[data-view="concept"] .m-about{ display:none; }
+  .m-app[data-view="concept"] .m-head-lab{ display:flex; }
+  .m-app[data-view="concept"] .m-concept{ display:flex; flex-direction:column; gap:20px; }
+  .m-app .m-concept .concept-card{ gap:12px; cursor:default; } .m-app .m-concept .concept-card .cover{ aspect-ratio:1/1 !important; border-radius:16px; } .m-app .m-concept .ls{ border-radius:16px; }
+  .m-app .m-concept .concept-card .title{ font:500 16px/24px var(--sans); } .m-app .m-concept .concept-card .desc{ font:400 14px/21px var(--sans); }
   .m-grab{ display:block; width:36px; height:5px; margin:0 auto 8px; border-radius:3px; background:rgba(20,19,15,.18); }
   .m-sheet-head{ display:flex; align-items:center; justify-content:space-between; } .m-sheet-head h3{ margin:0; font:600 20px/26px var(--sans); }
   .m-ic{ display:grid; place-items:center; width:44px; height:44px; border-radius:22px; background:var(--soft); }
@@ -1160,6 +1184,66 @@
       <div class="card-info"><div class="title-row"><h3 class="title">${T.t}</h3><span class="year">2026</span></div><p class="desc">${T.d}</p></div></article>`; }).join('')}</div>`).join('');
   $$('#lab .concept-card').forEach(card => camScene(card.querySelector('.cover'), { id:card.dataset.id, ...LAB[card.dataset.id] }));
 
+  /* ---------- страница концепта: клик по карточке → большой экран с листанием (как «Лаборатория · N» в Figma) ----------
+     порядок — как в сетке и в макете; на краях кнопки «назад» и «вперёд» возвращают к сетке, как в прототипе */
+  const LAB_ORDER = LAB_COLS.flat();
+  const IC = (d, extra = '') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}${extra}</svg>`;
+  const CX_IC = { list:IC('<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>'), prev:IC('<path d="M19 12H5m6-6-6 6 6 6"/>'), next:IC('<path d="M5 12h14m-6-6 6 6-6 6"/>'), x:IC('<path d="M18 6 6 18M6 6l12 12"/>') };
+  const CX_TXT = { ru:{ list:'Все концепты', prev:'Предыдущий концепт', next:'Следующий концепт', close:'Закрыть', lab:'Лаборатория' }, en:{ list:'All concepts', prev:'Previous concept', next:'Next concept', close:'Close', lab:'Lab' } };
+  let cxRefresh = () => {};
+  let openConcept = id => {};   // назначают десктопное окно и мобильный вид ниже
+  const cxSlide = (host, id, dir) => { const c = LAB[id], T = conceptText(id, curLang);
+    host.innerHTML = `<article class="concept-card" data-id="${id}"><div class="cover" style="aspect-ratio:410.67/${c.h}" role="img" aria-label="${c.a}"></div><div class="card-info"><div class="title-row"><h3 class="title">${T.t}</h3></div><p class="desc">${T.d}</p></div></article>`;
+    typo(host, curLang);
+    host.classList.remove('to-next', 'to-prev'); void host.offsetWidth; if (dir && !reduced) host.classList.add(dir > 0 ? 'to-next' : 'to-prev');
+    camScene($('.cover', host), { id, ...c }); };
+  const cxCtl = (slideHost, barHost, { onList, onMoved }) => {
+    let idx = -1;
+    barHost.innerHTML = `<button type="button" class="cx-btn" data-act="list">${CX_IC.list}</button><button type="button" class="cx-btn" data-act="prev">${CX_IC.prev}</button><span class="cx-prog"><i></i></span><button type="button" class="cx-btn go" data-act="next">${CX_IC.next}</button>`;
+    const prog = $('.cx-prog i', barHost);
+    const labels = () => { const L = CX_TXT[curLang]; ['list', 'prev', 'next'].forEach(a => $(`[data-act="${a}"]`, barHost).setAttribute('aria-label', L[a])); };
+    const show = (i, dir = 0) => { idx = i; labels(); cxSlide(slideHost, LAB_ORDER[i], dir); prog.style.width = ((i + 1) / LAB_ORDER.length * 100) + '%'; };
+    const move = d => { const n = idx + d; if (n < 0 || n >= LAB_ORDER.length) { onList(); return; } show(n, d); onMoved(LAB_ORDER[n]); };
+    barHost.addEventListener('click', e => { const b = e.target.closest('[data-act]'); if (!b) return; const a = b.dataset.act; if (a === 'list') onList(); else move(a === 'next' ? 1 : -1); });
+    let x0 = null, y0 = 0;
+    slideHost.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive:true });
+    slideHost.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) move(dx < 0 ? 1 : -1); }, { passive:true });
+    const refresh = () => { if (idx < 0) return; labels(); const T = conceptText(LAB_ORDER[idx], curLang);
+      const ti = $('.title', slideHost), de = $('.desc', slideHost); if (ti) ti.textContent = T.t; if (de) de.textContent = T.d; typo(slideHost, curLang); };
+    return { show, move, refresh, get idx() { return idx; } };
+  };
+  $('#lab').addEventListener('click', e => { const card = e.target.closest('.concept-card'); if (card) openConcept(card.dataset.id); });
+  $$('#lab .concept-card').forEach(c => { c.tabIndex = 0; c.setAttribute('role', 'button');
+    c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openConcept(c.dataset.id); } }); });
+
+  /* десктоп: окно поверх страницы; Esc закрывает, ← и → листают, кнопка «назад» в браузере закрывает */
+  if (!MOB) {
+    const cx = document.createElement('div'); cx.className = 'cx'; cx.setAttribute('role', 'dialog'); cx.setAttribute('aria-modal', 'true'); cx.setAttribute('aria-hidden', 'true');
+    cx.innerHTML = `<div class="cx-panel"><div class="cx-top"><span class="cx-label"></span><button type="button" class="cx-btn cx-x">${CX_IC.x}</button></div><div class="cx-slide"></div><div class="cx-bar"></div></div>`;
+    document.body.append(cx);
+    const panel = $('.cx-panel', cx), xBtn = $('.cx-x', cx), lbl = $('.cx-label', cx);
+    let isOpen = false, lastFocus = null;
+    const url = id => location.pathname + location.search + '#lab/' + id;
+    const fit = () => { if (ctl.idx < 0) return; const c = LAB[LAB_ORDER[ctl.idx]];
+      panel.style.width = Math.max(280, Math.min(680, innerWidth - 64, (innerHeight - 250) * 410.67 / c.h)) + 'px'; };
+    const texts = () => { const L = CX_TXT[curLang]; lbl.textContent = L.lab; xBtn.setAttribute('aria-label', L.close); cx.setAttribute('aria-label', L.lab); };
+    const hide = () => { if (!isOpen) return; isOpen = false; cx.classList.remove('open'); cx.setAttribute('aria-hidden', 'true'); document.documentElement.style.overflow = '';
+      $('.cx-slide', cx).innerHTML = ''; if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll:true }); };
+    const ctl = cxCtl($('.cx-slide', cx), $('.cx-bar', cx), {
+      onList: () => { if (history.state && history.state.cx) history.back(); else hide(); },
+      onMoved: id => { history.replaceState({ cx:id }, '', url(id)); fit(); } });
+    openConcept = id => { const i = LAB_ORDER.indexOf(id); if (i < 0) return;
+      lastFocus = document.activeElement; texts(); isOpen = true; cx.classList.add('open'); cx.setAttribute('aria-hidden', 'false'); document.documentElement.style.overflow = 'hidden';
+      ctl.show(i); fit(); history.pushState({ cx:id }, '', url(id)); xBtn.focus({ preventScroll:true }); };
+    xBtn.addEventListener('click', () => { if (history.state && history.state.cx) history.back(); else hide(); });
+    cx.addEventListener('click', e => { if (e.target === cx) { if (history.state && history.state.cx) history.back(); else hide(); } });
+    addEventListener('popstate', () => { if (isOpen && !(history.state && history.state.cx)) hide(); });
+    addEventListener('keydown', e => { if (!isOpen) return; if (e.key === 'Escape') { if (history.state && history.state.cx) history.back(); else hide(); } else if (e.key === 'ArrowRight') ctl.move(1); else if (e.key === 'ArrowLeft') ctl.move(-1); });
+    addEventListener('resize', fit);
+    cxRefresh = () => { texts(); ctl.refresh(); };
+  }
+
   /* ---------- прокрутка: параллакс картинки в обложке (колонки стоят ровно, как в Figma) ---------- */
   if (!reduced) {
     const covers = $$('#lab .cover');
@@ -1284,6 +1368,7 @@
       row.querySelector('.btn-project').textContent = l === 'en' ? 'View project' : 'Смотреть проект'; const mb = row.querySelector('.m-read'); if (mb) mb.firstChild.textContent = l === 'en' ? 'View project' : 'Смотреть проект'; });
     $$('#lab .concept-card').forEach(card => { const T = conceptText(card.dataset.id, l);
       card.querySelector('.title').textContent = T.t; card.querySelector('.desc').textContent = T.d; });
+    cxRefresh();
     lastCoords = ''; renderCoords(); renderDateTxt(); typo(document.body, l);
     try { localStorage.setItem('lang', l); } catch (e) {} };
   /* печать заголовка: курсор мигает → печать с живым ритмом (разброс по времени, паузы после знаков и в конце строк),
@@ -1399,12 +1484,24 @@
     [['home', 'grid', 'Проекты', 'mob.t1'], ['lab', 'flask', 'Лаборатория', 'mob.t2'], ['about', 'user', 'Обо мне', 'mob.t3'], ['contact', 'msg', 'Связаться', 'mob.t4']].forEach(([v, ic, t, k]) => {
       const b = el('button', '', `${ICO(P[ic])}<span data-i18n="${k}" data-ru="${t}">${t}</span>`); b.type = 'button'; b.dataset.v = v; tabs.append(b); });
     document.body.append(tabs);
-    const setView = (v, push = true) => { if (v === 'contact') { openSheet(); return; }
-      root.dataset.view = v; $$('button', tabs).forEach(b => b.classList.toggle('on', b.dataset.v === v)); scrollTo(0, 0);
-      if (push) history.pushState({ v }, '', v === 'home' ? location.pathname + location.search : '#' + v); };
+    // страница концепта (Figma «Лаборатория · N»): шапка и заголовок «Лаборатория» остаются, ниже — большая карточка и управление
+    const cxPage = el('section', 'm-concept'); cxPage.setAttribute('aria-label', 'Концепт');
+    const cxHost = el('div', 'cx-slide'), cxBarEl = el('div', 'cx-bar'); cxPage.append(cxHost, cxBarEl); $('.content').append(cxPage);
+    const cxUrl = id => '#lab/' + id;
+    let cxFrom = 'home';   // откуда открыли: из сетки «Лаборатория» кнопка «список» просто возвращается назад по истории
+    const mctl = cxCtl(cxHost, cxBarEl, {
+      onList: () => { if (cxFrom === 'lab') history.back(); else { setView('lab', false); history.replaceState({ v:'lab' }, '', '#lab'); } },
+      onMoved: id => history.replaceState({ v:'concept', id }, '', cxUrl(id)) });
+    cxRefresh = () => mctl.refresh();
+    openConcept = id => { if (LAB_ORDER.includes(id)) { cxFrom = root.dataset.view === 'lab' ? 'lab' : 'home'; setView('concept', true, id); } };
+    const setView = (v, push = true, id) => { if (v === 'contact') { openSheet(); return; }
+      if (v === 'concept' && !LAB_ORDER.includes(id)) v = 'lab';
+      root.dataset.view = v; $$('button', tabs).forEach(b => b.classList.toggle('on', b.dataset.v === (v === 'concept' ? 'lab' : v))); scrollTo(0, 0);
+      if (v === 'concept') mctl.show(LAB_ORDER.indexOf(id));
+      if (push) history.pushState(v === 'concept' ? { v, id } : { v }, '', v === 'home' ? location.pathname + location.search : v === 'concept' ? cxUrl(id) : '#' + v); };
     tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (b) setView(b.dataset.v); });
     all.addEventListener('click', () => setView('lab'));
-    addEventListener('popstate', e => setView(e.state && e.state.v || viewFromHash(), false));
+    addEventListener('popstate', e => setView(e.state && e.state.v || viewFromHash(), false, e.state && e.state.id));
     const viewFromHash = () => location.hash === '#lab' ? 'lab' : location.hash === '#about' ? 'about' : 'home';
     const v0 = viewFromHash(); setView(v0, false); history.replaceState({ v:v0 }, '', location.href);
     if (location.hash === '#projects') addEventListener('load', () => wrapP.scrollIntoView());
