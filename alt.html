@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%2314130F%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-family=%27monospace%27 font-size=%2716%27 font-weight=%27700%27 fill=%27%23E7E3D9%27 text-anchor=%27middle%27%3EMG%3C/text%3E%3C/svg%3E">
+<title>Максим Гриднев — AI-native продуктовый дизайнер (alt)</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Максим Гриднев — AI-native продуктовый дизайнер. Создаю цифровые продукты от идеи до работающего прототипа, используя AI и код.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500&family=JetBrains+Mono:wght@400;800&family=Silkscreen:wght@700&display=swap" rel="stylesheet">
+<style>
+  /* значения сняты с макета Figma: «Projects — Desktop 1512» (контент 1248, поля 132) */
+  :root{
+    --ink:#14130F; --mute:#8A877F; --line:#E8E6E1; --card:#EFEFEF; --cover:#8D8D8D; --soft:#F5F5F5; --paper:#FFFFFF; --name:#E7E3D9;
+    --ease:cubic-bezier(.2,.8,.2,1);
+    --sans:"Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+    --side:max(20px, calc((100% - 1248px) / 2));
+  }
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font:400 16px/24px var(--sans); -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; }
+  button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; text-align:left; }
+  :focus-visible{ outline:2px solid var(--ink); outline-offset:3px; border-radius:4px; }
+  .content{ max-width:1512px; margin:0 auto; padding:0 var(--side); }
+  .u{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  .u:hover{ text-decoration-thickness:2px; }
+
+  /* Header: 32 / 0 / 32 / 0 */
+  .header{ display:flex; justify-content:space-between; align-items:center; padding:32px 0; }
+  .logo{ font:700 18px/24px "Silkscreen", var(--mono); text-decoration:none; }
+  .lang{ font-size:16px; line-height:24px; text-decoration:underline; text-underline-offset:3px; }
+
+  /* Hero: 420 высота, имя 166/125 JetBrains Mono ExtraBold, арка 200×340 */
+  .hero{ position:relative; height:clamp(240px, 27.78vw, 420px); display:flex; align-items:center; justify-content:center; }
+  .name{ margin:0; display:flex; flex-direction:column; align-items:center; gap:3px; font:800 clamp(52px, 10.98vw, 166px)/0.753 var(--mono); letter-spacing:0; color:var(--name); text-transform:uppercase; user-select:none; -webkit-user-select:none; padding:.1em .15em; }
+  .name span{ display:block; }
+  .arch{ position:absolute; left:50%; top:50%; width:clamp(64px, 13.23vw, 200px); aspect-ratio:200/340; translate:-50% -50%; border-radius:999px; overflow:hidden; background:#cfcac0; cursor:pointer; transition:scale .22s var(--ease); will-change:scale; z-index:2; }
+  .arch img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; transition:opacity .12s linear; }
+  .arch .px{ opacity:0; image-rendering:pixelated; }
+  .arch.on{ scale:1.07; }
+  .arch.on .px{ opacity:1; }
+  .arch .px-blink, .arch .px-wink{ opacity:0; image-rendering:pixelated; transition:none; }
+  .arch.on.blink .px-blink, .arch.on.wink .px-wink{ opacity:1; }
+
+  /* About: 24 / 0 / 48 / 0, gap 16, линия сверху */
+  .about{ border-top:1px solid var(--line); padding:24px 0 48px; display:flex; flex-direction:column; gap:16px; }
+  .label{ font-size:14px; line-height:21px; color:var(--mute); }
+  .statement{ margin:0; font:500 36px/44px var(--sans); }
+  .more{ align-self:flex-start; display:inline-flex; gap:8px; font:500 36px/44px var(--sans); color:var(--mute); transition:color .2s var(--ease); }
+  .more:hover{ color:var(--ink); }
+  .more i{ font-style:normal; transition:translate .25s var(--ease); }
+  .more:hover i{ translate:6px 0; }
+
+  /* Meta: space-between, 0 / 0 / 48 / 0, колонки gap 8, ссылки 16/24 без переноса */
+  .meta{ display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:48px; gap:24px; }
+  .meta .col{ display:flex; flex-direction:column; gap:8px; }
+  .meta h2{ margin:0; font-weight:400; font-size:14px; line-height:21px; color:var(--mute); }
+  .meta .links{ display:flex; flex-direction:column; gap:8px; }
+  .meta .pair{ display:flex; gap:16px; }
+  .meta a, .meta button{ font-size:16px; line-height:24px; white-space:nowrap; }
+  .coords{ font:400 14px/21px var(--mono); white-space:nowrap; }
+
+  /* Tabs row: 16 / 0 / 16 / 0, линия сверху, табы gap 24, счётчик 12/18 */
+  .tabs-row{ display:flex; align-items:center; padding:16px 0; border-top:1px solid var(--line); }
+  .tabs{ display:flex; gap:24px; }
+  .tab{ display:inline-flex; gap:4px; align-items:flex-start; font-size:16px; line-height:24px; color:var(--mute); transition:color .2s var(--ease); }
+  .tab sup{ font:400 12px/18px var(--mono); color:var(--mute); vertical-align:baseline; }
+  .tab[aria-selected="true"]{ color:var(--ink); font-weight:500; }
+  .tab:hover{ color:var(--ink); }
+  .panel[hidden]{ display:none; }
+  .panel{ animation:fade .35s var(--ease); }
+  @keyframes fade{ from{ opacity:0; translate:0 8px; } to{ opacity:1; translate:0 0; } }
+
+  /* Projects list: 24 / 0 / 64 / 0, строки gap 16; строка: текст 379 + обложка, gap 24 */
+  .rows{ display:flex; flex-direction:column; gap:16px; padding:24px 0 64px; }
+  .row{ display:grid; grid-template-columns:var(--textw, 379px) 1fr; gap:24px; align-items:start; }
+  .row .text{ display:flex; flex-direction:column; gap:6px; }
+  .row .title{ margin:0; font:500 20px/30px var(--sans); }
+  .row .role{ margin:0; font-size:15px; line-height:24px; }
+  .row .desc{ margin:0; color:var(--mute); }
+  .row .cover{ aspect-ratio:845/581; background:var(--cover); border-radius:12px; }
+  .btn-wrap{ padding-top:14px; }
+  .btn{ display:inline-flex; justify-content:center; align-items:center; min-width:186px; min-height:50px; padding:12px 24px; border-radius:12px; border:0; background:#000; color:#fff; font:inherit; font-weight:500; text-decoration:none; cursor:pointer; transition:translate .25s var(--ease), background .2s; }
+  .btn:hover{ background:#1c1c1c; translate:0 -2px; }
+  .tags{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .tag{ font:500 14px/21px var(--sans); padding:2px 8px; border-radius:6px; }
+  .tag[data-t="Web"],.tag[data-t="UI"]{ background:#DCEBFF; color:#2B5CA8; }
+  .tag[data-t="ИИ"],.tag[data-t="Концепт"]{ background:#E8E0FB; color:#5A3DB0; }
+  .tag[data-t="Mobile"]{ background:#FFE3D3; color:#B2552A; }
+  .tag[data-t="Вайб-кодинг"]{ background:#FADBF1; color:#9E2E84; }
+  .tag[data-t="Стартап"]{ background:#E4F1CB; color:#587A1A; }
+  .tag[data-t="Дизайн-система"]{ background:#D9F0E4; color:#1F7A52; }
+  .year{ font-size:14px; line-height:21px; color:var(--mute); }
+
+  /* Lab masonry: 24 / 0 / 64 / 0, колонки gap 16, карточки gap 32 */
+  .masonry{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:start; padding:24px 0 64px; }
+  .masonry .col{ display:flex; flex-direction:column; gap:32px; }
+  .card{ display:flex; flex-direction:column; gap:16px; }
+  .card .cover{ background:var(--card); border-radius:12px; }
+  .card .info{ display:flex; flex-direction:column; gap:8px; }
+  .card .title{ margin:0; font:500 20px/28px var(--sans); }
+  .card .desc{ margin:0; color:var(--mute); }
+
+  /* Footer: 32 / 0 / 32 / 0, 14/21 */
+  .footer{ display:flex; justify-content:space-between; align-items:center; padding:32px 0; font-size:14px; line-height:21px; color:var(--mute); }
+  .footer a{ text-decoration:none; } .footer a:hover{ color:var(--ink); }
+  .halftone{ display:block; width:100%; height:auto; aspect-ratio:1512/140; }
+
+  /* Панель «Обо мне» */
+  .scrim{ position:fixed; inset:0; background:rgba(20,19,15,.28); opacity:0; pointer-events:none; transition:opacity .3s var(--ease); z-index:20; }
+  .drawer{ position:fixed; top:0; right:0; bottom:0; width:min(600px,100%); background:var(--paper); border-left:1px solid var(--line); z-index:21; overflow-y:auto; translate:100% 0; visibility:hidden; transition:translate .4s var(--ease), visibility 0s .4s; padding:32px; display:flex; flex-direction:column; gap:24px; }
+  body.open-about .scrim, body.open-cv .scrim, body.open-case .scrim{ opacity:1; pointer-events:auto; }
+  body.open-about .drawer{ translate:0 0; visibility:visible; transition:translate .4s var(--ease); }
+  body.open-about, body.open-cv, body.open-case{ overflow:hidden; }
+  .drawer header{ display:flex; justify-content:space-between; align-items:center; font-size:14px; line-height:21px; }
+  .drawer .intro{ margin:0; }
+  .exp div{ display:flex; gap:16px; align-items:center; padding:12px 0; border-top:1px solid var(--line); }
+  .exp b{ width:110px; font-weight:500; flex:none; }
+  .exp span{ flex:1; color:var(--mute); }
+  .exp time{ font:400 14px/21px var(--mono); color:var(--mute); }
+  .hl{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px; }
+  .hl li{ display:flex; gap:12px; }
+  .hl li::before{ content:"–"; font-family:var(--mono); color:var(--mute); }
+  .portrait{ width:100%; height:459px; object-fit:cover; border-radius:12px; display:block; }
+
+  /* Окно CV */
+  .modal{ position:fixed; inset:0; z-index:30; display:grid; place-items:center; padding:16px; visibility:hidden; opacity:0; transition:opacity .3s var(--ease), visibility 0s .3s; }
+  body.open-cv #cv, body.open-case #case{ visibility:visible; opacity:1; transition:opacity .3s var(--ease); }
+  .sheet{ width:min(1100px,100%); height:min(90vh,920px); background:var(--paper); border-radius:6px; display:flex; flex-direction:column; box-shadow:0 20px 80px rgba(0,0,0,.25); overflow:hidden; }
+  .sheet header, .sheet footer{ display:flex; justify-content:space-between; align-items:center; padding:24px 32px; gap:16px; flex-wrap:wrap; }
+  .sheet header{ border-bottom:1px solid #F0EEE9; }
+  .sheet .fn{ font:400 16px/24px var(--mono); color:var(--mute); }
+  .sheet footer{ border-top:1px solid #F0EEE9; font-size:14px; color:var(--mute); }
+  .sheet footer nav{ display:flex; gap:32px; font-size:16px; }
+  .sheet footer a{ color:var(--ink); text-decoration:none; display:inline-flex; gap:8px; align-items:center; }
+  .sheet footer a:hover{ text-decoration:underline; }
+  .viewer{ flex:1; overflow:auto; background:#F5F5F5; padding:32px 16px; }
+  .viewer img{ display:block; width:min(760px,100%); height:auto; margin:0 auto; background:#fff; box-shadow:0 4px 24px rgba(0,0,0,.06); }
+
+  /* Окно кейса: структура контейнеров кейсов из Figma (720, отступ 16, блоки r16), цвета сайта */
+  .case-sheet{ width:min(720px,100%); height:min(92vh,1200px); border-radius:16px; }
+  .case-sheet header{ padding:16px 24px; }
+  .case-body{ flex:1; overflow-y:auto; overscroll-behavior:contain; padding:16px; display:flex; flex-direction:column; gap:16px; outline:none; }
+  .case-body > *{ flex:none; }
+  .cs-hero{ display:flex; flex-direction:column; align-items:center; gap:32px; padding:clamp(48px,10vw,112px) 0; text-align:center; }
+  .cs-head{ display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .cs-name{ display:flex; align-items:center; gap:16px; margin:0; font:600 clamp(36px,8vw,62px)/1 var(--sans); letter-spacing:-.02em; }
+  .cs-name img{ width:62px; height:62px; border-radius:18px; flex:none; }
+  .cs-sub{ margin:0; max-width:560px; color:var(--mute); }
+  .cs-go{ min-width:200px; min-height:64px; border-radius:16px; gap:8px; }
+  .cs-box{ background:var(--soft); border-radius:16px; padding:16px; }
+  .cs-meta{ display:grid; grid-template-columns:repeat(4,auto); justify-content:space-between; gap:16px 24px; margin:0; }
+  .cs-meta div, .cs-txt{ display:flex; flex-direction:column; gap:4px; }
+  .cs-meta dt{ font-size:14px; line-height:16px; color:var(--mute); }
+  .cs-meta dd{ margin:0; font-size:16px; line-height:20px; }
+  .cs-two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .cs-h{ margin:0; font:500 16px/20px var(--sans); }
+  .cs-p{ margin:0; font-size:14px; line-height:21px; color:var(--mute); }
+  .cs-sec{ padding:32px 16px; }
+  .cs-res{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px 24px; margin:12px 0 0; }
+  .cs-res dd{ margin:0; }
+  .cs-res b{ display:block; font:500 32px/36px var(--sans); }
+  .cs-res span{ font-size:14px; line-height:16px; color:var(--mute); }
+  .cs-shot{ margin:0; border-radius:16px; overflow:hidden; background:var(--card); aspect-ratio:1376/766; }
+  .cs-shot img{ display:block; width:100%; height:100%; object-fit:cover; }
+  .cs-phones{ display:grid; grid-template-columns:repeat(3,minmax(0,var(--pw,188px))); justify-content:center; gap:24px 20px; padding:38px 16px; background:var(--soft); border-radius:16px; }
+  .cs-phones img{ display:block; width:100%; height:auto; border-radius:12px; background:var(--card); }
+
+  @media (max-width:1240px){ .meta{ flex-wrap:wrap; row-gap:32px; } .statement,.more{ font-size:30px; line-height:38px; } }
+  @media (max-width:900px){ .row{ grid-template-columns:1fr; } .row .cover{ order:-1; } .masonry{ grid-template-columns:repeat(2,1fr); } .masonry .col{ display:contents; } .masonry .card{ margin-bottom:16px; } }
+  @media (max-width:640px){
+    .header{ padding:16px 0; }
+    .statement,.more{ font-size:24px; line-height:32px; }
+    .meta{ display:grid; grid-template-columns:1fr 1fr; gap:24px 16px; }
+    .meta .coords-col, .meta .lab-col{ grid-column:1 / -1; }
+    .meta .pair{ flex-direction:column; gap:8px; }
+    .masonry{ grid-template-columns:1fr; }
+    .footer{ flex-wrap:wrap; gap:8px 16px; }
+    .drawer{ padding:24px 16px; }
+    .sheet header, .sheet footer{ padding:16px; }
+    .case-body{ padding:8px; gap:8px; }
+    .cs-name{ flex-direction:column; gap:12px; } .cs-name img{ width:44px; height:44px; border-radius:13px; }
+    .cs-meta{ grid-template-columns:1fr 1fr; justify-content:stretch; }
+    .cs-two{ grid-template-columns:1fr; gap:24px; }
+    .cs-res{ grid-template-columns:1fr 1fr; gap:16px 24px; }
+    .cs-sec{ padding:24px 16px; }
+    .cs-shot, .cs-phones{ border-radius:12px; }
+    .cs-phones{ gap:12px 8px; padding:24px 8px; }
+  }
+  @media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } }
+
+
+  /* ---------- Лаборатория · концепт 1: криптокошелёк, сценарий в одном телефоне (как запись прототипа) ---------- */
+  .wf{ position:absolute; inset:0; overflow:hidden; background:#F1EFEA; border-radius:12px; }
+  .cover:has(.wf){ position:relative; overflow:hidden; }
+  .wf-cap{ position:absolute; left:24px; top:20px; z-index:30; }
+  .wf-t{ display:inline-block; padding:6px 12px; border-radius:8px; background:#fff; color:#14130F; font:500 14px/20px var(--sans); white-space:nowrap; transition:opacity .35s var(--ease); }
+  .wf-t.out{ opacity:0; }
+  .wf-tap{ position:absolute; z-index:29; width:44px; height:44px; margin:-22px 0 0 -22px; border-radius:50%; background:rgba(255,255,255,.7); box-shadow:0 0 0 1px rgba(255,255,255,.9), 0 8px 20px rgba(0,0,0,.3); opacity:0; pointer-events:none; transition:left .7s cubic-bezier(.3,.7,.1,1), top .7s cubic-bezier(.3,.7,.1,1), opacity .3s, scale .15s; }
+  .wf-tap.press{ scale:.8; }
+  .wf-ring{ position:absolute; z-index:28; width:44px; height:44px; margin:-22px 0 0 -22px; border-radius:50%; border:2px solid #43D67A; opacity:0; pointer-events:none; }
+  .wf-ring.on{ animation:cf-ring .9s cubic-bezier(.2,.8,.2,1); }
+  .wf-stage{ position:absolute; left:0; top:0; width:600px; height:711px; transform-origin:0 0; transform:scale(var(--k,1)); font-family:var(--sans); -webkit-font-smoothing:antialiased; color:#111; font-variant-numeric:tabular-nums; }
+  .wf-phone{ position:absolute; left:164px; top:66px; width:272px; height:578px; border-radius:48px; background:#1C1C1E; padding:7px; box-shadow:0 0 0 1.5px #3A3A3C inset, 0 34px 70px rgba(30,25,15,.16), 0 8px 18px rgba(30,25,15,.08); }
+  .wf-screen{ position:relative; width:100%; height:100%; border-radius:41px; overflow:hidden; background:#0E0E11; }
+  .wf-island{ position:absolute; left:50%; top:10px; width:78px; height:23px; translate:-50% 0; background:#000; border-radius:12px; z-index:30; }
+  .wf-sb{ position:absolute; left:0; right:0; top:13px; display:flex; justify-content:space-between; padding:0 26px 0 30px; font-size:11px; font-weight:500; color:#fff; z-index:29; }
+  .wf-sb i{ display:flex; gap:3px; align-items:center; } .wf-sb i b{ display:block; width:3px; background:#fff; border-radius:1px; }
+  .wf-sb i u{ display:block; width:18px; height:8px; border:1.2px solid #fff; border-radius:3px; margin-left:4px; position:relative; } .wf-sb i u::after{ content:""; position:absolute; inset:1px 4px 1px 1px; background:#fff; border-radius:1px; }
+  .wf-home{ position:absolute; left:50%; bottom:7px; width:90px; height:4px; border-radius:2px; background:#111; translate:-50% 0; z-index:31; }
+  .wf-coin{ display:grid; place-items:center; border-radius:50%; color:#fff; font-weight:500; flex:none; }
+  .wf-in{ transition:opacity .5s cubic-bezier(.2,.8,.2,1), translate .5s cubic-bezier(.2,.8,.2,1); }
+  .wf-off .wf-in{ opacity:0; translate:0 8px; }
+
+  /* главный экран */
+  .wf-a{ position:absolute; inset:0; transition:translate .5s cubic-bezier(.3,.7,.1,1), filter .5s; }
+  .wf-a.away{ translate:-28% 0; filter:brightness(.7); }
+  .wf-top{ position:absolute; left:0; right:0; top:0; height:280px; background:radial-gradient(110% 70% at 10% 0%, #2F3340 0%, transparent 60%), radial-gradient(80% 60% at 100% 35%, #1F2E2A 0%, transparent 65%), #0F1013; }
+  .wf-me{ position:absolute; left:16px; right:16px; top:46px; display:flex; align-items:center; gap:9px; font-size:11.5px; color:#fff; }
+  .wf-me .wf-coin{ width:28px; height:28px; font-size:10px; background:linear-gradient(135deg,#6E7BFF,#3C9BFF); }
+  .wf-me small{ display:block; font-size:9px; color:#9A9AA2; }
+  .wf-me svg{ margin-left:auto; }
+  .wf-total{ position:absolute; left:16px; right:16px; top:88px; color:#fff; }
+  .wf-total small{ font-size:9.5px; color:#9A9AA2; }
+  .wf-total strong{ display:block; font-size:30px; line-height:36px; font-weight:500; letter-spacing:-.02em; margin-top:2px; }
+  .wf-total strong em{ font-style:normal; color:#7C7C85; font-size:20px; }
+  .wf-chg{ display:inline-flex; gap:4px; align-items:center; margin-top:4px; font-size:9.5px; padding:3px 8px; border-radius:999px; background:rgba(52,199,89,.14); color:#43D67A; }
+  .wf-spark{ position:absolute; left:0; right:0; top:160px; height:42px; }
+  .wf-spark path.l{ fill:none; stroke:#43D67A; stroke-width:1.6; stroke-linecap:round; stroke-dasharray:420; stroke-dashoffset:420; transition:stroke-dashoffset 1.4s cubic-bezier(.3,.7,.1,1); }
+  .wf-spark path.f{ fill:url(#wfg); opacity:0; transition:opacity .8s .6s; }
+  .wf-spark.on path.l{ stroke-dashoffset:0; } .wf-spark.on path.f{ opacity:1; }
+  .wf-acts{ position:absolute; left:14px; right:14px; top:214px; display:grid; grid-template-columns:repeat(4,1fr); }
+  .wf-act{ display:flex; flex-direction:column; align-items:center; gap:5px; font-size:8.5px; color:#D6D6DC; }
+  .wf-act i{ width:36px; height:36px; border-radius:50%; background:#22242B; display:grid; place-items:center; transition:scale .15s, background .2s; }
+  .wf-act.main i{ background:#43D67A; }
+  .wf-act.press i{ scale:.86; }
+  .wf-sheet{ position:absolute; left:0; right:0; top:276px; bottom:0; background:#fff; border-radius:22px 22px 0 0; padding:12px 14px 0; }
+  .wf-sh{ display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:500; margin-bottom:4px; }
+  .wf-sh span{ font-size:9.5px; color:#8E8E93; font-weight:400; }
+  .wf-row{ position:relative; height:46px; display:flex; align-items:center; gap:10px; margin:0 -6px; padding:0 6px; border-radius:12px; transition:background .5s; }
+  .wf-row.flash{ background:#EEF9F2; }
+  .wf-row .wf-coin{ width:32px; height:32px; font-size:10px; }
+  .wf-row b{ display:block; font-size:11.5px; font-weight:500; line-height:15px; }
+  .wf-row span{ display:block; font-size:9.5px; color:#8E8E93; line-height:13px; }
+  .wf-val{ margin-left:auto; text-align:right; }
+  .wf-val b{ font-size:11px; } .wf-val span.up{ color:#21A05A; } .wf-val span.dn{ color:#E5484D; }
+  .wf-nav{ position:absolute; left:0; right:0; bottom:0; height:62px; background:#fff; border-top:1px solid #EFEFF2; display:flex; justify-content:space-around; padding-top:8px; font-size:8px; color:#9A9AA0; z-index:3; }
+  .wf-nav div{ display:flex; flex-direction:column; align-items:center; gap:3px; } .wf-nav .on{ color:#111; }
+
+  /* экран обмена */
+  .wf-b{ position:absolute; inset:0; translate:100% 0; transition:translate .5s cubic-bezier(.3,.7,.1,1); box-shadow:-12px 0 30px rgba(0,0,0,.18); z-index:5; background:#0F1013; }
+  .wf-b.in{ translate:0 0; }
+  .wf-bh{ position:absolute; left:14px; right:14px; top:48px; display:flex; align-items:center; gap:10px; color:#fff; }
+  .wf-bh b{ display:block; font-size:13px; font-weight:500; } .wf-bh small{ font-size:9px; color:#9A9AA2; }
+  .wf-bh .back{ width:26px; height:26px; border-radius:50%; background:#22242B; display:grid; place-items:center; }
+  .wf-body{ position:absolute; left:0; right:0; top:96px; bottom:0; background:#F6F6F8; border-radius:22px 22px 0 0; padding:14px 12px; }
+  .wf-card{ background:#fff; border-radius:16px; padding:11px 12px; }
+  .wf-card small{ font-size:9px; color:#8E8E93; }
+  .wf-line{ display:flex; align-items:center; justify-content:space-between; margin-top:6px; }
+  .wf-pick{ display:flex; align-items:center; gap:6px; padding:4px 8px 4px 4px; border-radius:999px; background:#F2F2F5; font-size:10.5px; font-weight:500; }
+  .wf-pick .wf-coin{ width:20px; height:20px; font-size:7.5px; }
+  .wf-amt{ font-size:24px; font-weight:500; letter-spacing:-.02em; min-width:30px; text-align:right; }
+  .wf-amt.ph{ color:#C7C7CC; }
+  .wf-caret{ display:inline-block; width:1.5px; height:20px; background:#2F9BFF; margin-left:2px; vertical-align:-3px; animation:wf-caret 1s steps(1) infinite; }
+  .wf-swapbtn{ width:30px; height:30px; margin:-9px auto; position:relative; z-index:2; border-radius:50%; background:#111; border:3px solid #F6F6F8; display:grid; place-items:center; transition:rotate .4s cubic-bezier(.3,.7,.1,1); }
+  .wf-swapbtn.turn{ rotate:180deg; }
+  .wf-rate{ display:flex; justify-content:space-between; font-size:9.5px; color:#8E8E93; margin:12px 4px 0; }
+  .wf-rate b{ color:#111; font-weight:500; }
+  .wf-go{ position:absolute; left:12px; right:12px; bottom:28px; height:42px; border-radius:14px; background:#111; color:#fff; font-size:11.5px; font-weight:500; display:flex; align-items:center; justify-content:center; gap:8px; transition:scale .15s, background .3s, opacity .3s; }
+  .wf-go.dis{ opacity:.35; } .wf-go.press{ scale:.97; }
+  .wf-spin{ width:12px; height:12px; border-radius:50%; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; animation:wf-spin .8s linear infinite; display:none; }
+  .wf-go.busy .wf-spin{ display:block; }
+  .wf-done{ position:absolute; left:0; right:0; bottom:0; height:250px; background:#fff; border-radius:24px 24px 0 0; box-shadow:0 -10px 30px rgba(0,0,0,.12); translate:0 110%; transition:translate .5s cubic-bezier(.3,.7,.1,1); z-index:6; text-align:center; padding-top:26px; }
+  .wf-done.up{ translate:0 0; }
+  .wf-shade{ position:absolute; inset:0; background:rgba(0,0,0,.35); opacity:0; transition:opacity .4s; z-index:6; pointer-events:none; }
+  .wf-shade.on{ opacity:1; }
+  .wf-check{ width:46px; height:46px; margin:0 auto 10px; border-radius:50%; background:#43D67A; display:grid; place-items:center; scale:.6; transition:scale .45s cubic-bezier(.3,1.6,.5,1) .15s; }
+  .wf-done.up .wf-check{ scale:1; }
+  .wf-done b{ display:block; font-size:14px; font-weight:500; }
+  .wf-done p{ margin:6px 0 0; font-size:10px; color:#8E8E93; }
+  .wf-done .wf-go{ position:absolute; bottom:28px; }
+  @keyframes wf-caret{ 50%{ opacity:0; } }
+  @keyframes wf-spin{ to{ rotate:360deg; } }
+  /* ---------- Лаборатория · мобильное криптоприложение: ролик в стиле «записи экрана» ---------- */
+  .cover:has(.cf){ position:relative; overflow:hidden; }
+  .cf{ position:absolute; inset:0; overflow:hidden; border-radius:12px; color:#14130F; font-family:var(--sans); background:#F1EFEA; }
+  .cf-stage{ position:absolute; left:0; top:0; width:405px; height:480px; transform-origin:0 0; transform:scale(var(--k,1)); }
+  .cf-cap{ position:absolute; left:24px; top:20px; z-index:6; }
+  .cf-t{ display:inline-block; padding:6px 12px; border-radius:8px; background:#fff; color:#14130F; font:500 14px/20px var(--sans); white-space:nowrap; transition:opacity .35s var(--ease); }
+  .cf-t.out{ opacity:0; }
+  .cf-phone{ position:absolute; left:103px; top:66px; width:198px; padding:6px; border-radius:38px; background:#151313; box-shadow:0 40px 90px rgba(0,0,0,.6), 0 0 0 1.5px #3A3634 inset; transition:translate .9s cubic-bezier(.2,.8,.2,1); }
+  .cf-phone.tilt{ translate:0 -6px; }
+  .cf-screen{ position:relative; width:186px; height:400px; border-radius:32px; overflow:hidden; background:#0C0A09; }
+  .cf-shot{ position:absolute; inset:0; margin:0; opacity:0; scale:1.04; filter:blur(8px); transition:opacity .7s var(--ease), scale 1s cubic-bezier(.2,.8,.2,1), filter .7s var(--ease); }
+  .cf-shot.on{ opacity:1; scale:1; filter:none; }
+  .cf-shot img{ display:block; width:100%; height:auto; transition:transform 1.6s cubic-bezier(.65,0,.35,1); }
+  .cf-tap{ position:absolute; z-index:5; width:26px; height:26px; margin:-13px 0 0 -13px; border-radius:50%; background:rgba(255,255,255,.7); box-shadow:0 0 0 1px rgba(255,255,255,.9), 0 6px 16px rgba(0,0,0,.25); opacity:0; pointer-events:none; transition:left .7s cubic-bezier(.3,.7,.1,1), top .7s cubic-bezier(.3,.7,.1,1), opacity .3s, scale .15s; }
+  .cf-tap.press{ scale:.82; }
+  .cf-ring{ position:absolute; z-index:4; width:26px; height:26px; margin:-13px 0 0 -13px; border-radius:50%; border:2px solid #43D67A; opacity:0; pointer-events:none; }
+  .cf-ring.on{ animation:cf-ring .9s cubic-bezier(.2,.8,.2,1); }
+  .cf-pulse{ position:absolute; z-index:4; border-radius:999px; pointer-events:none; }
+  .cf-pulse.on{ animation:cf-pulse 1.1s ease-out 2; }
+  .cf-dots{ position:absolute; left:24px; bottom:24px; z-index:6; display:flex; gap:6px; }
+  .cf-dots i{ display:block; width:14px; height:3px; border-radius:2px; background:rgba(20,19,15,.25); transition:width .5s var(--ease), background .4s; }
+  .cf-dots i.on{ width:30px; background:#14130F; }
+  @keyframes cf-ring{ 0%{ opacity:0; transform:scale(.6); } 25%{ opacity:1; } 100%{ opacity:0; transform:scale(2.2); } }
+  @keyframes cf-pulse{ 0%{ box-shadow:0 0 0 0 rgba(67,214,122,.6); } 100%{ box-shadow:0 0 0 14px rgba(67,214,122,0); } }
+
+  /* ---------- Проекты: промо-ролики живых сайтов на обложках ---------- */
+  .cover:has(.pv){ position:relative; overflow:hidden; background:#0B0B0E; }
+  .pv{ position:absolute; inset:0; overflow:hidden; border-radius:12px; }
+  .pv-stage{ position:absolute; left:0; top:0; width:845px; height:581px; transform-origin:0 0; transform:scale(var(--k,1)); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  .pv--respawn{ --acc:#E4321A; background:radial-gradient(55% 70% at 18% 8%, rgba(228,50,26,.38), transparent 62%), radial-gradient(45% 60% at 92% 92%, rgba(120,70,210,.28), transparent 62%), #0B0B0E; }
+  .pv--prowrap{ --acc:#FFD426; background:radial-gradient(55% 65% at 15% 10%, rgba(255,212,38,.30), transparent 62%), radial-gradient(40% 50% at 95% 95%, rgba(255,212,38,.12), transparent 60%), #121214; }
+  .pv--queen{ --acc:#80FF00; background:radial-gradient(55% 70% at 18% 10%, rgba(128,255,0,.24), transparent 62%), radial-gradient(45% 55% at 92% 90%, rgba(40,180,90,.22), transparent 62%), #07080A; }
+  .pv-win{ position:absolute; left:44px; top:52px; width:600px; border-radius:12px; overflow:hidden; background:#1A1A1D; box-shadow:0 34px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.08); transition:translate .5s cubic-bezier(.2,.8,.2,1); }
+  .pv-bar{ position:relative; height:30px; display:flex; align-items:center; gap:6px; padding:0 12px; background:#222226; }
+  .pv-bar i{ width:9px; height:9px; border-radius:50%; background:#FF5F57; } .pv-bar i:nth-child(2){ background:#FEBC2E; } .pv-bar i:nth-child(3){ background:#28C840; }
+  .pv-url{ position:absolute; left:50%; translate:-50% 0; display:flex; gap:6px; align-items:center; font-size:11px; color:#C9C9CE; background:#2D2D32; padding:3px 12px; border-radius:6px; letter-spacing:.01em; }
+  .pv-view{ position:relative; height:375px; overflow:hidden; background:#000; }
+  .pv-track{ position:absolute; left:0; top:0; width:100%; will-change:transform; transition:transform 1s cubic-bezier(.65,0,.35,1); }
+  .pv-track img{ display:block; width:100%; height:375px; object-fit:cover; object-position:top; }
+  .pv-phone{ position:absolute; left:610px; bottom:30px; width:190px; padding:7px; border-radius:34px; background:#111113; box-shadow:0 30px 70px rgba(0,0,0,.55), 0 0 0 1.5px #34343A inset; transition:translate .5s cubic-bezier(.2,.8,.2,1); }
+  .pv-pscreen{ position:relative; width:176px; border-radius:27px; overflow:hidden; background:#000; }
+  .pv-psb{ position:absolute; left:0; right:0; top:0; z-index:3; height:30px; display:flex; text-shadow:0 1px 2px rgba(0,0,0,.45); background:linear-gradient(180deg, rgba(10,10,12,.62), rgba(10,10,12,.28)); -webkit-backdrop-filter:blur(8px) saturate(140%); backdrop-filter:blur(8px) saturate(140%); align-items:center; justify-content:space-between; padding:2px 20px 0 22px; font-size:9px; font-weight:600; color:#fff; }
+  .pv-psb i{ display:flex; gap:2px; align-items:flex-end; } .pv-psb i b{ display:block; width:2.5px; background:#fff; border-radius:1px; }
+  .pv-psb i u{ display:block; width:15px; height:7px; border:1px solid #fff; border-radius:2px; margin-left:3px; position:relative; } .pv-psb i u::after{ content:""; position:absolute; inset:1px 3px 1px 1px; background:#fff; border-radius:1px; }
+  .pv-pview{ position:relative; overflow:hidden; background:#000; }
+  .pv-phome{ position:absolute; left:0; right:0; bottom:0; z-index:3; height:14px; display:grid; place-items:center; } .pv-phome::after{ content:""; width:58px; height:3.5px; border-radius:2px; background:rgba(255,255,255,.85); }
+  .pv-pscreen::after{ content:""; position:absolute; left:50%; top:7px; width:52px; height:15px; translate:-50% 0; border-radius:9px; background:#000; z-index:4; }
+  .pv-ptrack{ position:absolute; left:0; top:0; width:100%; will-change:transform; transition:transform .9s cubic-bezier(.65,0,.35,1); }
+  .pv-ptrack img{ display:block; width:176px; height:var(--pv-v); object-fit:cover; object-position:top; }
+  .pv-cursor{ position:absolute; left:0; top:0; width:22px; height:22px; z-index:5; opacity:0; pointer-events:none; transition:transform 1s cubic-bezier(.3,.7,.1,1), opacity .35s; filter:drop-shadow(0 2px 4px rgba(0,0,0,.4)); }
+  .pv-cursor.click{ scale:.86; transition:transform 1s cubic-bezier(.3,.7,.1,1), opacity .35s, scale .12s; }
+  .pv-ring{ position:absolute; z-index:4; border:2px solid var(--acc); border-radius:8px; opacity:0; pointer-events:none; }
+  .pv-ring.on{ animation:pv-ring .9s cubic-bezier(.2,.8,.2,1); }
+  .pv-ripple{ position:absolute; z-index:4; width:16px; height:16px; margin:-8px 0 0 -8px; border-radius:50%; background:var(--acc); opacity:0; pointer-events:none; }
+  .pv-ripple.on{ animation:pv-ripple .7s cubic-bezier(.2,.8,.2,1); }
+  .pv-tap{ position:absolute; z-index:4; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%; background:rgba(255,255,255,.55); box-shadow:0 0 0 1px rgba(255,255,255,.7); opacity:0; pointer-events:none; }
+  .pv-tap.on{ animation:pv-tap .6s cubic-bezier(.2,.8,.2,1); }
+  @keyframes pv-ring{ 0%{ opacity:0; transform:scale(1.15); } 30%{ opacity:1; transform:scale(1); } 100%{ opacity:0; transform:scale(1.05); } }
+  @keyframes pv-ripple{ 0%{ opacity:.55; transform:scale(.4); } 100%{ opacity:0; transform:scale(4.5); } }
+  @keyframes pv-tap{ 0%{ opacity:0; transform:scale(.6); } 25%{ opacity:1; transform:scale(1); } 100%{ opacity:0; transform:scale(1.4); } }
+
+  /* ===== alt: иерархия текста, карточки без лишнего, зум ===== */
+  .about{ border-top:0; padding-top:32px; gap:20px; }
+  .statement b{ font-weight:700; }
+  .statement.sub{ font:400 22px/32px var(--sans); color:var(--mute); max-width:760px; margin-top:-4px; }
+  .statement.sub b{ color:var(--ink); font-weight:600; }
+  .more{ font:500 18px/24px var(--sans); color:#fff; background:var(--ink); padding:14px 22px; border-radius:12px; margin-top:8px; }
+  .more:hover{ color:#fff; background:#2A2926; }
+  .more i{ font-style:normal; display:inline-block; } .more:hover i{ translate:4px 0; }
+  .tabs-row{ border-top:0; }
+  .row .title{ font:500 24px/32px var(--sans); }
+  .row .role{ font-size:14px; line-height:21px; color:var(--mute); }
+  .row .what{ margin:12px 0 0; font:400 18px/28px var(--sans); }
+  .row .res{ margin:4px 0 0; font:400 16px/24px var(--sans); color:var(--mute); }
+  .row .res b, .hl b{ color:var(--ink); font-weight:600; }
+  .row .stack{ margin:12px 0 0; font-size:14px; line-height:21px; color:var(--mute); }
+  .hl li{ display:block; position:relative; padding-left:20px; color:var(--mute); }
+  .hl li::before{ position:absolute; left:0; top:0; }
+  .drawer .use{ margin:8px 0 -8px; font:500 16px/24px var(--sans); }
+  .pv-cam{ position:absolute; inset:0; transition:transform 1.2s cubic-bezier(.65,0,.35,1); }
+  .wf-cap, .cf-cap{ position:absolute; left:20px; top:18px; z-index:40; }
+  .wf-t{ padding:6px 12px; border-radius:8px; background:#fff; color:#14130F; font:500 13px/18px var(--sans); }
+  .wf-dots{ position:absolute; left:20px; bottom:20px; z-index:40; display:flex; gap:6px; }
+  .wf-dots i{ display:block; width:14px; height:3px; border-radius:2px; background:rgba(20,19,15,.25); transition:width .5s var(--ease), background .4s; }
+  .wf-dots i.on{ width:30px; background:#14130F; }
+  .wf-zoom{ position:absolute; inset:0; transition:transform .95s cubic-bezier(.65,0,.35,1); }
+  .cf-shot img{ min-height:100%; object-fit:cover; object-position:top; }
+  .wf-ring{ border-color:#43D67A; }
+  /* подписи шагов и точки убраны; экран телефона строго обрезается по скруглению */
+  .wf-cap, .wf-dots{ display:none; }
+  .wf-screen{ clip-path:inset(0 round 41px); }
+  .pv-pscreen{ clip-path:inset(0 round 27px); }
+  @media (max-width:640px){ .statement.sub{ font-size:18px; line-height:28px; } .row .title{ font-size:22px; line-height:30px; } .more{ font-size:16px; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="morph" x="-10%" y="-20%" width="120%" height="140%" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feFlood flood-color="rgb(128,128,128)" result="neutral"/>
+    <feImage id="spot" result="spot" preserveAspectRatio="none" x="-999" y="-999" width="260" height="260"/>
+    <feComposite in="spot" in2="neutral" operator="over" result="map"/>
+    <feDisplacementMap id="disp" in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<div class="content" id="top">
+  <header class="header">
+    <a class="logo" href="#top">Griiiidii.MAX</a>
+    <a class="lang" href="#" aria-disabled="true" onclick="return false">eng</a>
+  </header>
+
+  <section class="hero" aria-label="Максим Гриднев">
+    <h1 class="name" id="name" aria-label="Максим Гриднев"><span aria-hidden="true">MAKSIM</span><span aria-hidden="true">GRIDNEV</span></h1>
+    <div class="arch" id="arch" role="img" aria-label="Фото: Максим Гриднев" tabindex="0">
+      <img class="ph" src="assets/alt/ph.jpg" alt="" width="400" height="680">
+      <img class="px" src="assets/alt/px.png" alt="" width="400" height="680">
+      <img class="px-blink" src="assets/alt/px-blink.png" alt="" width="400" height="680">
+      <img class="px-wink" src="assets/alt/px-wink.png" alt="" width="400" height="680">
+    </div>
+  </section>
+
+  <section class="about">
+    <span class="label">Обо мне</span>
+    <p class="statement">Я Максим Гриднев, <b>AI-native продуктовый дизайнер</b>. Создаю цифровые продукты <b>от идеи до работающего прототипа</b>, используя AI и код.</p>
+    <p class="statement sub">Проектировал киберспортивные платформы, платёжные решения и внутренние инструменты для бизнеса. С помощью AI быстрее проверяю идеи и превращаю их в работающие интерфейсы.</p>
+    <button class="more js-about" type="button">Подробнее обо мне <i aria-hidden="true">→</i></button>
+  </section>
+
+  <section class="meta" aria-label="Контакты и разделы">
+    <div class="col coords-col"><div class="coords" id="coords">55.74131° N · 37.53096° E · МСК --:--</div></div>
+    <div class="col">
+      <h2>Где работал</h2>
+      <div class="links">
+        <button class="u" type="button" data-go="projects">Respawn Esports</button>
+        <button class="u" type="button" data-go="projects">Queen Interactive Games</button>
+        <button class="u" type="button" data-go="projects">Pro Wrap</button>
+      </div>
+    </div>
+    <div class="col lab-col">
+      <h2>Лаборатория</h2>
+      <div class="pair">
+        <div class="links"><button class="u" type="button" data-go="lab">Краткое название проекта</button><button class="u" type="button" data-go="lab">Краткое название проекта</button><button class="u" type="button" data-go="lab">Краткое название проекта</button></div>
+        <div class="links"><button class="u" type="button" data-go="lab">Краткое название проекта</button><button class="u" type="button" data-go="lab">Краткое название проекта</button><button class="u" type="button" data-go="lab">Краткое название проекта</button></div>
+      </div>
+    </div>
+    <div class="col">
+      <h2>Написать</h2>
+      <div class="links"><a class="u" href="https://t.me/grid1max" target="_blank" rel="noopener">Telegram</a><a class="u" href="mailto:gridnevmm48@gmail.com">Email</a></div>
+    </div>
+    <div class="col">
+      <h2>Другое</h2>
+      <div class="links"><button class="u js-cv" type="button">CV</button><a class="u" href="https://www.linkedin.com/in/gridnevmm" target="_blank" rel="noopener">LinkedIn</a></div>
+    </div>
+  </section>
+
+  <div class="tabs-row" id="tabs">
+    <div class="tabs" role="tablist" aria-label="Раздел">
+      <button class="tab" role="tab" id="t-projects" aria-controls="p-projects" aria-selected="true" type="button">Проекты <sup>3</sup></button>
+      <button class="tab" role="tab" id="t-lab" aria-controls="p-lab" aria-selected="false" type="button">Лаборатория <sup>6</sup></button>
+    </div>
+  </div>
+
+  <main>
+    <section class="panel" id="p-projects" role="tabpanel" aria-labelledby="t-projects"><div class="rows" id="rows"></div></section>
+    <section class="panel" id="p-lab" role="tabpanel" aria-labelledby="t-lab" hidden><div class="masonry" id="masonry"></div></section>
+  </main>
+
+  <footer class="footer">
+    <span id="date">Среда, 21 октября 2026 (GMT +03)</span>
+    <a href="#top" id="totop">Наверх ↑</a>
+    <span>© 2026 Максим Гриднев</span>
+  </footer>
+</div>
+<img class="halftone" src="assets/halftone.png" alt="" aria-hidden="true">
+
+<div class="scrim" id="scrim"></div>
+
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Обо мне" tabindex="-1">
+  <header><span class="label">Обо мне</span><button type="button" class="js-close">(Закрыть)</button></header>
+  <p class="intro">Пришёл в дизайн из продаж: смотрю на продукт глазами и пользователя, и бизнеса. Проектирую сайты, платформы и внутренние сервисы, а прототипы довожу до работающих с помощью AI: Claude Code, Figma Make, Cursor.</p>
+  <div class="exp">
+    <div><b>Respawn</b><span>AI-native продуктовый дизайнер</span><time>2026</time></div>
+    <div><b>Queen</b><span>Продуктовый дизайнер</span><time>2025—2026</time></div>
+    <div><b>Продажи</b><span>Руководитель отдела продаж</span><time>2023—2025</time></div>
+  </div>
+  <ul class="hl">
+    <li><b>Respawn Esports.</b> Пересобрал сайт клуба и сделал админ-консоль бронирований: <b>+15%</b> бронирований, <b>+18%</b> выручки, <b>+25%</b> повторных посещений, оценка <b>5</b>, меньше однотипных вопросов в часы пик.</li>
+    <li><b>Queen Interactive Games.</b> Спроектировал сценарии платежей, бонусов и лояльности: <b>+10%</b> удержания, <b>+8%</b> к среднему чеку, <b>+5%</b> новых пользователей. Проверка пользователя в админке — <b>4 минуты вместо 7</b>.</li>
+    <li><b>Дизайн-система.</b> Свёл дизайн и разработку к единой системе компонентов и токенов, отдавал компоненты со спецификациями.</li>
+    <li><b>AI в работе.</b> Claude Code, Figma Make, Cursor и генеративные инструменты для исследований, концептов и быстрых прототипов.</li>
+    <li><b>Продажи.</b> Руководил отделом продаж (7–10 человек): до <b>130%</b> KPI. Понимаю цели бизнеса и клиента.</li>
+  </ul>
+  <h3 class="use">Чем могу быть полезен</h3>
+  <ul class="hl">
+    <li>Пересобрать сайт или продукт вокруг пути пользователя до брони, заявки или оплаты.</li>
+    <li>Спроектировать админку и внутренние сервисы для команды.</li>
+    <li>Собрать дизайн-систему и передать её в разработку со спецификациями.</li>
+    <li>Быстро проверить идею: от концепта до рабочего прототипа с AI.</li>
+  </ul>
+  <img class="portrait" src="assets/portrait.jpg" alt="Максим Гриднев" width="900" height="900" loading="lazy">
+</aside>
+
+<div class="modal" id="cv" role="dialog" aria-modal="true" aria-label="Резюме" aria-hidden="true">
+  <div class="sheet">
+    <header><span class="fn">cv.pdf</span><button type="button" class="js-close">(Закрыть)</button></header>
+    <div class="viewer" tabindex="-1"><img src="assets/cv-ru.jpg" alt="Резюме Максима Гриднева: AI-Native Product Designer" width="1600" height="2524" loading="lazy"></div>
+    <footer>
+      <span>Обновлено 30 августа 2026 · 980 КБ</span>
+      <nav>
+        <a href="assets/Maksim-Gridnev-CV-ru.pdf" target="_blank" rel="noopener">Открыть <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="assets/Maksim-Gridnev-CV-ru.pdf" download="Maksim-Gridnev-CV-ru.pdf">Скачать <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </nav>
+    </footer>
+  </div>
+</div>
+
+<template id="wf-tpl">
+<div class="wf" role="img" aria-label="Концепт криптокошелька: баланс, активы и обмен ETH на USDT">
+ <div class="wf-cap"><span class="wf-t">1. Смотрю баланс</span></div><div class="wf-dots"><i class="on"></i><i></i><i></i><i></i><i></i></div><div class="wf-zoom"><div class="wf-stage" aria-hidden="true"><span class="wf-tap"></span><span class="wf-ring"></span><div class="wf-phone"><div class="wf-screen wf-off">
+  <div class="wf-island"></div>
+  <div class="wf-sb"><span>9:41</span><i><b style="height:4px"></b><b style="height:6px"></b><b style="height:8px"></b><u></u></i></div>
+
+  <!-- главный экран -->
+  <div class="wf-a">
+   <div class="wf-top"></div>
+   <div class="wf-me wf-in"><div class="wf-coin">МГ</div><div><small>Привет,</small>Максим</div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"><path d="M6 9.5a6 6 0 0 1 12 0v4l1.5 2.5h-15L6 13.5z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></div>
+   <div class="wf-total wf-in"><small>Общий баланс</small><strong data-total>$0<em>.00</em></strong><span class="wf-chg">▲ 2,4% за 24 ч</span></div>
+   <svg class="wf-spark" viewBox="0 0 258 42" preserveAspectRatio="none"><defs><linearGradient id="wfg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#43D67A" stop-opacity=".28"/><stop offset="1" stop-color="#43D67A" stop-opacity="0"/></linearGradient></defs>
+    <path class="f" d="M0 34 C20 32 30 26 46 28 S78 36 96 27 S126 12 146 18 S180 30 198 17 S232 6 258 9 L258 42 L0 42 Z"/>
+    <path class="l" d="M0 34 C20 32 30 26 46 28 S78 36 96 27 S126 12 146 18 S180 30 198 17 S232 6 258 9"/></svg>
+   <div class="wf-acts wf-in">
+    <div class="wf-act"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></i>Пополнить</div>
+    <div class="wf-act"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg></i>Отправить</div>
+    <div class="wf-act main" data-swap><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0F1013" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L4 7l3 3M4 7h13M17 20l3-3-3-3M20 17H7"/></svg></i>Обменять</div>
+    <div class="wf-act"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></i>Ещё</div>
+   </div>
+   <div class="wf-sheet">
+    <div class="wf-sh wf-in">Активы <span>Все</span></div>
+    <div class="wf-row wf-in" data-c="btc"><div class="wf-coin" style="background:#F59E2E">₿</div><div><b>Bitcoin</b><span data-q>0.0821 BTC</span></div><div class="wf-val"><b data-v>$5 512.10</b><span class="up">+1,8%</span></div></div>
+    <div class="wf-row wf-in" data-c="eth"><div class="wf-coin" style="background:#6B7CF6">Ξ</div><div><b>Ethereum</b><span data-q>1.2400 ETH</span></div><div class="wf-val"><b data-v>$4 030.00</b><span class="up">+3,1%</span></div></div>
+    <div class="wf-row wf-in" data-c="usdt"><div class="wf-coin" style="background:#26A17B">₮</div><div><b>Tether</b><span data-q>1 880.25 USDT</span></div><div class="wf-val"><b data-v>$1 880.25</b><span>0,0%</span></div></div>
+    <div class="wf-row wf-in" data-c="ton"><div class="wf-coin" style="background:#2F9BFF">T</div><div><b>Toncoin</b><span data-q>412.00 TON</span></div><div class="wf-val"><b data-v>$1 058.00</b><span class="dn">−0,6%</span></div></div>
+   </div>
+   <div class="wf-nav">
+    <div class="on"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4 10.5L12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z"/></svg>Главная</div>
+    <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19l5-6 4 3 7-9"/></svg>Рынок</div>
+    <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L4 7l3 3M4 7h13M17 20l3-3-3-3M20 17H7"/></svg>Обмен</div>
+    <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"/></svg>Профиль</div>
+   </div>
+  </div>
+
+  <!-- экран обмена -->
+  <div class="wf-b">
+   <div class="wf-bh"><span class="back"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></span><div><b>Обмен</b><small>Комиссия 0,1%</small></div></div>
+   <div class="wf-body">
+    <div class="wf-card"><small>Отдаю</small><div class="wf-line"><span class="wf-pick"><span class="wf-coin" style="background:#6B7CF6">Ξ</span>ETH ▾</span><span class="wf-amt ph" data-from>0<span class="wf-caret"></span></span></div><small>Доступно: 1.2400 ETH</small></div>
+    <div class="wf-swapbtn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg></div>
+    <div class="wf-card"><small>Получаю</small><div class="wf-line"><span class="wf-pick"><span class="wf-coin" style="background:#26A17B">₮</span>USDT ▾</span><span class="wf-amt ph" data-to>0</span></div><small>≈ без учёта комиссии сети</small></div>
+    <div class="wf-rate"><span>Курс</span><b>1 ETH = 3 250.00 USDT</b></div>
+    <div class="wf-go dis" data-exec><span class="wf-spin"></span><span data-golabel>Обменять</span></div>
+   </div>
+   <div class="wf-shade"></div>
+   <div class="wf-done"><div class="wf-check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <b>Обмен выполнен</b><p>0.25 ETH → 811.69 USDT</p><div class="wf-go" data-ok>Готово</div></div>
+  </div>
+  <div class="wf-home"></div>
+ </div></div></div></div>
+</div>
+</template>
+
+<div class="modal" id="case" role="dialog" aria-modal="true" aria-labelledby="case-title" aria-hidden="true">
+  <div class="sheet case-sheet">
+    <header><span class="fn" id="case-fn"></span><button type="button" class="js-close">(Закрыть)</button></header>
+    <div class="case-body" id="case-body" tabindex="-1"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* ---------- проекты (тексты: роли и теги из Figma, цифры из резюме) ---------- */
+
+  /* ---------- промо-ролики проектов: живые сайты в окне браузера и телефоне ---------- */
+  const PROMO = {
+    respawn: { url:'https://respawnesports.xyz/', host:'respawnesports.xyz', d:8, m:6, v:381, cta:{ x:48, y:736, w:190, h:52 } },
+    queen:   { url:'https://spinit.com/en/', host:'spinit.com', d:5, m:6, v:302, cta:{ x:304, y:298, w:260, h:56 } },
+    prowrap: { url:'https://prowrapcy.vercel.app/', host:'prowrapcy.vercel.app', d:8, m:6, v:381, cta:{ x:64, y:658, w:162, h:51 } },
+  };
+  const promoCover = (cover, key) => {
+    const P = PROMO[key], base = `assets/promo/${key}/`;
+    const imgs = (pre, n) => Array.from({ length:n }, (_, i) => `<img data-src="${base}${pre}${i}.jpg" alt="" decoding="async">`).join('');
+    cover.innerHTML = `<div class="pv pv--${key}" aria-hidden="true"><div class="pv-stage" style="--pv-v:${P.v}px"><div class="pv-cam">
+      <div class="pv-win"><div class="pv-bar"><i></i><i></i><i></i><span class="pv-url"><svg width="9" height="10" viewBox="0 0 24 24" fill="#C9C9CE"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V7a3 3 0 0 0-6 0z"/></svg>${P.host}</span></div>
+        <div class="pv-view"><div class="pv-track">${imgs('d', P.d)}</div></div></div>
+      <div class="pv-phone"><div class="pv-pscreen"><div class="pv-psb"><span>9:41</span><i><b style="height:3px"></b><b style="height:5px"></b><b style="height:7px"></b><u></u></i></div><div class="pv-pview" style="height:${P.v}px"><div class="pv-ptrack">${imgs('m', P.m)}</div><span class="pv-tap"></span></div><div class="pv-phome"></div></div></div>
+      <span class="pv-ring"></span><span class="pv-ripple"></span>
+      <svg class="pv-cursor" viewBox="0 0 24 24"><path d="M4 2.5l15 8.2-6.6 1.7L9 19.2z" fill="#fff" stroke="#111" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    </div></div></div>`;
+    const q = s => cover.querySelector(s);
+    const stage = q('.pv-stage'), win = q('.pv-win'), phone = q('.pv-phone'), track = q('.pv-track'), ptrack = q('.pv-ptrack');
+    const cursor = q('.pv-cursor'), ring = q('.pv-ring'), ripple = q('.pv-ripple'), tap = q('.pv-tap');
+    const cam = q('.pv-cam');
+    const zoom = (x, y, z) => { cam.style.transformOrigin = x + 'px ' + y + 'px'; cam.style.transform = z === 1 ? '' : `scale(${z})`; };
+    const fit = () => stage.style.setProperty('--k', cover.clientWidth / 845);
+    fit(); new ResizeObserver(fit).observe(cover);
+    // окно: x 44, y 52, бар 30, вид 600×375 (сайт снят в 1440×900)
+    const S = 600 / 1440, VX = 44, VY = 52 + 30;
+    const c = P.cta, cx = VX + (c.x + c.w / 2) * S, cy = VY + (c.y + c.h / 2) * S;
+    Object.assign(ring.style, { left:(VX + c.x * S - 3) + 'px', top:(VY + c.y * S - 3) + 'px', width:(c.w * S + 6) + 'px', height:(c.h * S + 6) + 'px' });
+    Object.assign(ripple.style, { left:cx + 'px', top:cy + 'px' });
+    const PH = P.v;
+    const loadImgs = () => cover.querySelectorAll('img[data-src]').forEach(i => { i.src = i.dataset.src; i.removeAttribute('data-src'); });
+    const replay = el => { el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); };
+    const moveCursor = (x, y) => { cursor.style.transform = `translate(${x - 4}px, ${y - 3}px)`; };
+    let gen = 0;
+    const sleep = (ms, g) => new Promise((res, rej) => setTimeout(() => g === gen ? res() : rej('stop'), ms));
+    const go = (el, i, h, ms) => { el.style.transitionDuration = ms + 'ms'; el.style.transform = `translateY(${-i * h}px)`; };
+    const cycle = async g => {
+      go(track, 0, 375, 0); go(ptrack, 0, PH, 0);
+      cursor.style.transition = 'none'; moveCursor(420, 300); cursor.style.opacity = 0; void cursor.offsetWidth; cursor.style.transition = '';
+      await sleep(700, g);
+      zoom(cx, cy, 1.5); cursor.style.opacity = 1; moveCursor(cx, cy); await sleep(1300, g);
+      cursor.classList.add('click'); replay(ripple); replay(ring); await sleep(140, g); cursor.classList.remove('click');
+      await sleep(650, g); cursor.style.opacity = 0; zoom(cx, cy, 1); await sleep(900, g);
+      const steps = Math.max(P.d, P.m);
+      for (let i = 1; i < steps; i++) {
+        if (i < P.d) go(track, i, 375, 1000);
+        await sleep(420, g);
+        if (i < P.m) { tap.style.left = '88px'; tap.style.top = (PH * .62) + 'px'; replay(tap); await sleep(160, g); go(ptrack, i, PH, 900); }
+        await sleep(1900, g);
+      }
+      await sleep(900, g);
+      go(track, 0, 375, 1400); go(ptrack, 0, PH, 1400); await sleep(1900, g);
+    };
+    const loop = async () => { const g = ++gen; try { while (g === gen) await cycle(g); } catch (e) {} };
+    // картинки грузим заранее, когда карточка подходит к экрану; ролик крутится только пока её видно
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) loadImgs(); }), { rootMargin:'600px' }).observe(cover);
+    if (reduced) { loadImgs(); return; }
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) loop(); else gen++; }), { threshold:.25 }).observe(cover);
+    // при наведении окно и телефон чуть смещаются за мышью
+    if (fine) {
+      cover.addEventListener('pointermove', e => { const r = cover.getBoundingClientRect(), dx = (e.clientX - r.left) / r.width - .5, dy = (e.clientY - r.top) / r.height - .5;
+        win.style.translate = `${-dx * 10}px ${-dy * 8}px`; phone.style.translate = `${dx * 14}px ${dy * 10}px`; });
+      cover.addEventListener('pointerleave', () => { win.style.translate = ''; phone.style.translate = ''; });
+    }
+  };
+
+  const bold = t => t.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  const PROJECTS = [
+    { key:'respawn', t:'Respawn Esports', r:'AI Native Product Designer · фев – авг 2026',
+      what:'Пересобрал сайт киберспортивного клуба и спроектировал админ-консоль бронирований.',
+      res:'**+15%** бронирований, **+18%** выручки, **+25%** повторных посещений, оценка **5**, меньше однотипных вопросов в часы пик.',
+      tags:['Web','ИИ','Вайб-кодинг','Стартап'] },
+    { key:'queen', t:'Queen Interactive Games', r:'Product Designer · июнь 2025 – янв 2026',
+      what:'Спроектировал сценарии платежей, бонусов и лояльности для iGaming-платформы и переделал админку.',
+      res:'**+10%** удержания, **+8%** к среднему чеку, **+5%** новых пользователей. Проверка пользователя: **7 → 4 минуты**.',
+      tags:['Web','Mobile','ИИ','Дизайн-система'] },
+    { key:'prowrap', t:'Pro Wrap', r:'AI Native Product Designer · 2026',
+      what:'Спроектировал и собрал сайт студии оклейки и детейлинга авто в Лимассоле.',
+      res:'Понятные услуги, прозрачные цены и короткий путь до записи.',
+      tags:['Web','Mobile','ИИ','Дизайн-система'] }
+  ];
+  // кейсы — тексты и порядок блоков из контейнеров кейсов в Figma (457:71, 457:138, 457:216)
+  const CASES = {
+    respawn: { t:'Respawn Esports', sub:'Киберспортивная организация и цифровая платформа: игры, комьюнити и ивенты',
+      meta:[['Период', 'фев 2026 – авг 2026'], ['Роль', 'AI Native Product Designer'], ['Тип проекта', 'Сайт и админ-консоль'], ['Платформа', 'Web']],
+      problem:'Сайту нужен был современный премиальный опыт, который проще приводит гостей к брони.',
+      did:'Переработал сайт и ключевые сценарии, создал админ-консоль для бронирований и пользователей, свёл всё в единую систему компонентов.',
+      res:[['5', 'Рейтинг пользователей'], ['+15%', 'Всего бронирований'], ['+18%', 'Рост выручки'], ['+25%', 'Повторные визиты']],
+      blocks:[ { shots:['s28', 's22', 's23', 's25'] },
+        { h:'Прежний сайт', p:'Прежний сайт не отражал премиальность клуба: в центре были зоны, железо и цены, а вопросы гостей перед визитом оставались без ответа.', shots:['s26', 's27'] } ] },
+    queen: { t:'Queen Games', sub:'B2B-платформа для индустрии iGaming: платежи, бонусы, удержание и привлечение пользователей',
+      meta:[['Период', 'июнь 2025 – янв 2026'], ['Роль', 'Product Designer'], ['Тип проекта', 'B2B-платформа и админ-панель'], ['Платформа', 'Web-App']],
+      problem:'Нужно было упростить привлечение и лояльность для игроков и сделать внутренние процессы эффективнее.',
+      did:'Спроектировал пути привлечения, бонусов и VIP, кэшбэк и email-кампании, улучшил KYC и управление пользователями, участвовал в запуске мобильного криптоприложения.',
+      res:[['+10%', 'Удержание пользователей'], ['+8%', 'Средний чек'], ['+5%', 'Привлечение новых пользователей'], ['−43%', 'Время верификации']],
+      blocks:[ { shots:['s29', 's33', 's32'] }, { phones:['m5', 'm9', 'm10', 'm8', 'm7', 'm6'] },
+        { h:'Дизайн-система и процессы', p:'Собрал и поддерживал дизайн-систему из переиспользуемых компонентов и выстроил структуру файлов в Figma: новые сценарии проектируются быстрее и выглядят единообразно.', shots:['s31', 's30'] } ] },
+    prowrap: { t:'ProWrap', sub:'Премиальная студия оклейки, защиты и детейлинга автомобилей в Лимассоле, Кипр',
+      meta:[['Период', '2026'], ['Роль', 'AI Native Product Designer'], ['Тип проекта', 'Редизайн сайта'], ['Платформа', 'Web']],
+      problem:'Сайт не отражал премиальность студии, а клиентам было сложно разобраться в услугах, ценах и записи.',
+      did:'Перестроил сайт вокруг пути клиента: понятные услуги, прозрачные цены, короткий путь до записи.',
+      blocks:[ { shots:['s36', 's37', 's40', 's38'] },
+        { h:'Прежний сайт', p:'Прежний сайт давал базовую информацию, но без чёткой иерархии и пути от знакомства с услугами к записи.', shots:['s41', 's42', 's43'] },
+        { h:'От дизайна к продукту', p:'Довёл дизайн до работающего сайта: итерации между макетом и реализацией на всём пути.', shots:['s34'] } ] },
+  };
+  const caseHtml = key => {
+    const c = CASES[key], src = n => `assets/cases/${key}/${n}.jpg`;
+    const shots = l => l.map((n, i) => `<figure class="cs-shot"><img src="${src(n)}" alt="${c.t}: экран ${i + 1}" width="1376" height="766" loading="lazy" decoding="async"></figure>`).join('');
+    const phones = (l, pw = 188) => `<div class="cs-phones" style="--pw:${pw}px">${l.map((n, i) => `<img src="${src(n)}" alt="${c.t}: мобильный экран ${i + 1}" width="${pw === 188 ? 376 : 322}" height="696" loading="lazy" decoding="async">`).join('')}</div>`;
+    const txt = (h, p) => `<div class="cs-txt"><h3 class="cs-h">${h}</h3>${p ? `<p class="cs-p">${p}</p>` : ''}</div>`;
+    return `<section class="cs-hero"><div class="cs-head"><h2 class="cs-name" id="case-title"><img src="assets/cases/${key}/logo.png" alt="" width="62" height="62">${c.t}</h2><p class="cs-sub">${c.sub}</p></div>
+        <a class="btn cs-go" href="${PROMO[key].url}" target="_blank" rel="noopener">Перейти на сайт <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></section>
+      <dl class="cs-box cs-meta">${c.meta.map(([l, v]) => `<div><dt>${l}</dt><dd>${v}</dd></div>`).join('')}</dl>
+      <div class="cs-box cs-two">${txt('Задача', c.problem)}${txt('Что я сделал', c.did)}</div>
+      ${c.res ? `<div class="cs-box"><h3 class="cs-h">Результаты</h3><dl class="cs-res">${c.res.map(([n, l]) => `<div><dt><b>${n}</b></dt><dd><span>${l}</span></dd></div>`).join('')}</dl></div>` : ''}
+      ${c.blocks.map(b => (b.h ? `<div class="cs-box cs-sec">${txt(b.h, b.p)}</div>` : '') + (b.shots ? shots(b.shots) : '') + (b.phones ? phones(b.phones, b.pw) : '')).join('')}`;
+  };
+  const tagsHtml = tags => tags.map(x => `<span class="tag" data-t="${x}">${x}</span>`).join('');
+  $('#rows').innerHTML = PROJECTS.map(p => `<article class="row">
+      <div class="text"><h3 class="title">${p.t}</h3><p class="role">${p.r}</p>
+        <p class="what">${bold(p.what)}</p><p class="res">${bold(p.res)}</p><p class="stack">${p.tags.join(' · ')}</p>
+        <div class="btn-wrap"><button type="button" class="btn js-case" data-case="${p.key}" aria-haspopup="dialog">Узнать подробнее</button></div></div>
+      <div class="cover" role="img" aria-label="Промо сайта ${p.t}: ${PROMO[p.key].host}" data-promo="${p.key}"></div></article>`).join('');
+  $$('[data-promo]').forEach(c => promoCover(c, c.dataset.promo));
+  // левый край обложек — по направляющей колонки «Где работал» (если блок контактов стоит в одну строку)
+  const alignToGuide = () => {
+    const rows = $('#rows'), cols = [...$('.meta').children];
+    const off = () => rows.style.removeProperty('--textw');
+    if (cols.length < 2 || innerWidth <= 900) return off();
+    const c0 = cols[0].getBoundingClientRect(), c1 = cols[1].getBoundingClientRect();
+    if (Math.abs(c1.top - c0.top) > 2) return off();
+    rows.style.setProperty('--textw', Math.round(c1.left - rows.getBoundingClientRect().left - 24) + 'px');
+  };
+  alignToGuide(); addEventListener('resize', alignToGuide); document.fonts && document.fonts.ready.then(alignToGuide);
+
+  /* ---------- концепт «Криптокошелёк»: сценарий как запись прототипа ---------- */
+  const walletFlow = (cover) => {
+    const q = s => cover.querySelector(s), qa = s => [...cover.querySelectorAll(s)];
+    const screen = q('.wf-screen'), A = q('.wf-a'), B = q('.wf-b'), spark = q('.wf-spark'), total = q('[data-total]');
+    const swapAct = q('[data-swap]'), from = q('[data-from]'), to = q('[data-to]'), go = q('[data-exec]'), goLabel = q('[data-golabel]');
+    const done = q('.wf-done'), shade = q('.wf-shade'), ok = q('[data-ok]'), swapBtn = q('.wf-swapbtn');
+    const row = c => q(`.wf-row[data-c="${c}"]`);
+    const START = { eth:['1.2400 ETH', 4030.00], usdt:['1 880.25 USDT', 1880.25] }, END = { eth:['0.9900 ETH', 3217.50], usdt:['2 691.94 USDT', 2691.94] };
+    const money = n => { const [i, d] = n.toFixed(2).split('.'); return '$' + i.replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + '.' + d; };
+    const setTotal = n => { const [i, d] = money(n).split('.'); total.innerHTML = `${i}<em>.${d}</em>`; };
+    const count = (fromV, toV, ms, set) => new Promise(res => { const t0 = performance.now(); const step = now => { const k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3); set(fromV + (toV - fromV) * e); k < 1 ? requestAnimationFrame(step) : res(); }; requestAnimationFrame(step); });
+    let gen = 0;
+    const sleep = (ms, g) => new Promise((res, rej) => setTimeout(() => g === gen ? res() : rej('stop'), ms));
+    const ins = qa('.wf-in');
+    const reveal = on => ins.forEach((el, i) => { el.style.transitionDelay = on ? (i * 70) + 'ms' : '0ms'; }) || screen.classList.toggle('wf-off', !on);
+    const reset = () => {
+      A.classList.remove('away'); B.classList.remove('in'); done.classList.remove('up'); shade.classList.remove('on'); spark.classList.remove('on');
+      swapBtn.classList.remove('turn'); tap.style.opacity = 0; go.classList.add('dis'); go.classList.remove('busy', 'press'); goLabel.textContent = 'Обменять';
+      from.className = 'wf-amt ph'; from.innerHTML = '0<span class="wf-caret"></span>'; to.className = 'wf-amt ph'; to.textContent = '0';
+      for (const c of ['eth', 'usdt']) { row(c).querySelector('[data-q]').textContent = START[c][0]; row(c).querySelector('[data-v]').textContent = money(START[c][1]); }
+      setTotal(0);
+    };
+    const final = () => { reveal(true); spark.classList.add('on'); for (const c of ['eth', 'usdt']) { row(c).querySelector('[data-q]').textContent = END[c][0]; row(c).querySelector('[data-v]').textContent = money(END[c][1]); } setTotal(12479.54); };
+    const cap = q('.wf-t'), tap = q('.wf-tap'), ring = q('.wf-ring'), stage = q('.wf-stage');
+    const replay = el => { el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); };
+    const point = el => { const k = cover.clientWidth / 600, st = stage.getBoundingClientRect(), r = el.getBoundingClientRect(); return { x: (r.left + r.width / 2 - st.left) / k, y: (r.top + r.height / 2 - st.top) / k }; };
+    // палец касается кнопки: точка подъезжает, кольцо, нажатие
+    const zoomEl = q('.wf-zoom'), dots = qa('.wf-dots i');
+    const zoomTo = (p, z) => { const k = cover.clientWidth / 600; zoomEl.style.transformOrigin = (p.x * k) + 'px ' + (p.y * k) + 'px'; zoomEl.style.transform = z === 1 ? '' : `scale(${z})`; };
+    const say = async (t, g) => { cap.classList.add('out'); await sleep(260, g); cap.textContent = t; const n = parseInt(t, 10) - 1; dots.forEach((d, i) => d.classList.toggle('on', i === n)); cap.classList.remove('out'); };
+    // палец касается кнопки: камера наезжает, кольцо, нажатие, камера возвращается
+    const hit = async (el, g) => { const p = point(el); tap.style.left = p.x + 'px'; tap.style.top = p.y + 'px'; tap.style.opacity = 1; zoomTo(p, 1.45); await sleep(1000, g); replay(ring); tap.classList.add('press'); await sleep(160, g); tap.classList.remove('press'); await sleep(250, g); tap.style.opacity = 0; zoomTo(p, 1); await sleep(900, g); };
+    const press = async (el, g) => { el.classList.add('press'); await sleep(170, g); el.classList.remove('press'); };
+    const cycle = async (g) => {
+      reset(); reveal(false); await sleep(450, g);
+      reveal(true); spark.classList.add('on'); count(0, 12480.35, 1100, setTotal);
+      await sleep(2400, g);
+      await say('2. Выбираю обмен', g); await hit(swapAct, g); A.classList.add('away'); B.classList.add('in'); await sleep(800, g);
+      await say('3. Ввожу сумму', g);
+      const typed = ['0', '0.', '0.2', '0.25'], vals = [0, 0, 649.35, 811.69]; let shown = 0;
+      for (let i = 0; i < typed.length; i++) {
+        from.className = 'wf-amt'; from.innerHTML = typed[i] + '<span class="wf-caret"></span>';
+        if (vals[i] !== shown) { to.className = 'wf-amt'; count(shown, vals[i], 260, v => { to.textContent = v.toFixed(2); }); shown = vals[i]; }
+        await sleep(190, g);
+      }
+      from.innerHTML = '0.25'; go.classList.remove('dis'); await sleep(650, g);
+      await say('4. Подтверждаю обмен', g); await hit(go, g); go.classList.add('busy'); goLabel.textContent = 'Обмен…'; swapBtn.classList.add('turn'); await sleep(1250, g);
+      shade.classList.add('on'); done.classList.add('up'); await say('5. Готово', g); await sleep(900, g);
+      await hit(ok, g); done.classList.remove('up'); shade.classList.remove('on'); await sleep(250, g);
+      B.classList.remove('in'); A.classList.remove('away'); await sleep(650, g);
+      for (const c of ['eth', 'usdt']) {
+        const r = row(c); r.classList.add('flash'); r.querySelector('[data-q]').textContent = END[c][0];
+        count(START[c][1], END[c][1], 700, v => { r.querySelector('[data-v]').textContent = money(v); });
+        setTimeout(() => r.classList.remove('flash'), 1200);
+      }
+      count(12480.35, 12479.54, 700, setTotal);
+      await sleep(3200, g); await say('1. Смотрю баланс', g); reveal(false); await sleep(700, g);
+    };
+    const loop = async () => { const g = ++gen; try { while (g === gen) await cycle(g); } catch (e) {} };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { final(); return; }
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) loop(); else gen++; }), { threshold:.2 }).observe(cover);
+  };
+
+  /* ---------- лаборатория: мобильное криптоприложение — тот же телефон, подписи и зум, что у кошелька ---------- */
+  // координаты тапов и зон — в пикселях кадра Figma (402 px по ширине)
+  const CF = [
+    { src:'onboarding', cap:'1. Открываю приложение', taps:[[200, 680]] },
+    { src:'home', cap:'2. Смотрю баланс и курсы', taps:[[199, 994]] },
+    { src:'swap', cap:'3. Меняю ETH на SUB', taps:[[200, 770]] },
+    { src:'tx', cap:'4. Проверяю транзакцию', pulse:[143, 316, 117, 30], taps:[[42, 108]] },
+    { src:'balance', cap:'5. Всё в одном месте', scroll:264 },
+  ];
+  const cryptoFlow = cover => {
+    const SC = 258 / 402, N = CF.length, OX = 164 + 7, OY = 66 + 7;   // экран телефона в координатах сцены 600×711
+    const pl = CF[3].pulse;
+    cover.innerHTML = `<div class="wf" aria-hidden="true">
+      <div class="wf-cap"><span class="wf-t">${CF[0].cap}</span></div>
+      <div class="wf-dots">${CF.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</div>
+      <div class="wf-zoom"><div class="wf-stage">
+        <span class="wf-tap"></span><span class="wf-ring"></span>
+        <div class="wf-phone"><div class="wf-screen"><div class="wf-island"></div>
+          ${CF.map(c => `<figure class="cf-shot"><img data-src="assets/crypto/${c.src}.jpg" alt="" decoding="async"></figure>`).join('')}
+          <span class="cf-pulse" style="left:${pl[0] * SC}px; top:${pl[1] * SC}px; width:${pl[2] * SC}px; height:${pl[3] * SC}px"></span></div></div>
+      </div></div></div>`;
+    const q = sel => cover.querySelector(sel), stage = q('.wf-stage'), cap = q('.wf-t'), zoomEl = q('.wf-zoom');
+    const shots = [...cover.querySelectorAll('.cf-shot')], imgs = shots.map(f => f.querySelector('img')), dots = [...cover.querySelectorAll('.wf-dots i')];
+    const tap = q('.wf-tap'), ring = q('.wf-ring'), pulse = q('.cf-pulse');
+    const fit = () => stage.style.setProperty('--k', cover.clientWidth / 600);
+    fit(); new ResizeObserver(fit).observe(cover);
+    const replay = el => { el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); };
+    const loadImgs = () => imgs.forEach(i => { if (i.dataset.src) { i.src = i.dataset.src; i.removeAttribute('data-src'); } });
+    const zoomTo = (p, z) => { const k = cover.clientWidth / 600; zoomEl.style.transformOrigin = (p.x * k) + 'px ' + (p.y * k) + 'px'; zoomEl.style.transform = z === 1 ? '' : `scale(${z})`; };
+    const toStage = (x, y) => ({ x: OX + x * SC, y: OY + y * SC });
+    let gen = 0;
+    const sleep = (ms, g) => new Promise((res, rej) => setTimeout(() => g === gen ? res() : rej('stop'), ms));
+    const say = (t, g) => { cap.classList.add('out'); return sleep(260, g).then(() => { cap.textContent = t; cap.classList.remove('out'); }); };
+    const cycle = async g => {
+      for (let i = 0; i < N; i++) {
+        const c = CF[i];
+        shots.forEach((f, j) => f.classList.toggle('on', j === i)); dots.forEach((d, j) => d.classList.toggle('on', j === i));
+        imgs[i].style.transform = '';
+        if (i > 0) await say(c.cap, g); else cap.textContent = c.cap;
+        await sleep(1100, g);
+        if (c.scroll) { imgs[i].style.transform = `translateY(${-c.scroll * SC}px)`; await sleep(1900, g); }
+        if (c.pulse) { const p = toStage(c.pulse[0] + c.pulse[2] / 2, c.pulse[1] + c.pulse[3] / 2); zoomTo(p, 1.5); await sleep(900, g); replay(pulse); await sleep(2300, g); zoomTo(p, 1); await sleep(900, g); }
+        for (const [x, y] of c.taps || []) {
+          const p = toStage(x, y); tap.style.left = p.x + 'px'; tap.style.top = p.y + 'px'; tap.style.opacity = 1; zoomTo(p, 1.45); await sleep(1000, g);
+          replay(ring); tap.classList.add('press'); await sleep(160, g); tap.classList.remove('press'); await sleep(250, g); tap.style.opacity = 0; zoomTo(p, 1); await sleep(900, g);
+        }
+        await sleep(c.taps || c.scroll || c.pulse ? 200 : 1200, g);
+      }
+    };
+    const loop = async () => { const g = ++gen; try { while (g === gen) await cycle(g); } catch (e) {} };
+    shots[0].classList.add('on');
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) loadImgs(); }), { rootMargin:'600px' }).observe(cover);
+    if (reduced) { loadImgs(); return; }
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) loop(); else gen++; }), { threshold:.2 }).observe(cover);
+  };
+
+  // лаборатория: сетка из 6 карточек как в макете; два концепта — кошелёк и криптоприложение
+  const LAB_COLS = [[480, 320], [320, 480], [480, 320]];
+  const CONCEPT = [
+    { t:'Криптокошелёк', d:'Обмен валюты в два касания: баланс, активы и подтверждение без лишних шагов', tags:['UI','Концепт','Mobile'], tpl:'wf-tpl' },
+    { t:'Мобильное криптоприложение', d:'Экраны криптоприложения из Queen Games: вход, баланс, обмен, транзакция и история', tags:['UI','Mobile'], flow:'crypto' },
+  ];
+  // оба концепта в первом ряду: кошелёк — первая колонка, криптоприложение — третья; высота обоих 480
+  const SLOT = [CONCEPT[0], null, null, null, CONCEPT[1], null];
+  let si = 0;
+  $('#masonry').innerHTML = LAB_COLS.map(col => `<div class="col">${col.map(h => { const c = SLOT[si++] || { t:'Название концепта', d:'Краткое описание концепта', tags:['UI','Концепт'] };
+    return `<article class="card">
+      <div class="cover" style="aspect-ratio:405/${h}" ${c.tpl ? `data-tpl="${c.tpl}"` : ''} ${c.flow ? `data-flow="${c.flow}" role="img" aria-label="${c.t}: ролик по шагам"` : ''}></div>
+      <div class="info"><h3 class="title">${c.t}</h3><p class="desc">${c.d}</p>
+        <div class="tags">${tagsHtml(c.tags)}<span class="year">2026</span></div></div></article>`; }).join('')}</div>`).join('');
+  $$('#masonry [data-tpl]').forEach(cover => {
+    cover.append(document.getElementById(cover.dataset.tpl).content.cloneNode(true));
+    const stage = cover.querySelector('.wf-stage');
+    const fit = () => stage.style.setProperty('--k', cover.clientWidth / 600);
+    fit(); new ResizeObserver(fit).observe(cover);
+    walletFlow(cover);
+  });
+  $$('#masonry [data-flow="crypto"]').forEach(cryptoFlow);
+  $$('[data-project]').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+
+  /* ---------- вкладки ---------- */
+  const tabs = { projects: [$('#t-projects'), $('#p-projects')], lab: [$('#t-lab'), $('#p-lab')] };
+  const show = key => { for (const [k, [tb, pn]] of Object.entries(tabs)) { const on = k === key; tb.setAttribute('aria-selected', on); pn.hidden = !on; } history.replaceState(null, '', key === 'lab' ? '#lab' : location.pathname); };
+  tabs.projects[0].addEventListener('click', () => show('projects'));
+  tabs.lab[0].addEventListener('click', () => show('lab'));
+  $$('[data-go]').forEach(b => b.addEventListener('click', () => { show(b.dataset.go); $('#tabs').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' }); }));
+  if (location.hash === '#lab') show('lab');
+
+  /* ---------- «Обо мне» и CV ---------- */
+  const drawer = $('#drawer'), cv = $('#cv'), cs = $('#case'), csBody = $('#case-body'); let last = null;
+  const open = (cls, el) => { last = document.activeElement; document.body.classList.add(cls); setTimeout(() => el.focus({ preventScroll:true }), 30); };
+  const closeAll = () => { document.body.classList.remove('open-about', 'open-cv', 'open-case'); cv.setAttribute('aria-hidden', 'true'); cs.setAttribute('aria-hidden', 'true'); if (last && last.focus) last.focus({ preventScroll:true }); };
+  $('#rows').addEventListener('click', e => { const b = e.target.closest('.js-case'); if (!b) return;
+    const key = b.dataset.case; csBody.innerHTML = caseHtml(key); csBody.scrollTop = 0; $('#case-fn').textContent = PROMO[key].host;
+    cs.setAttribute('aria-hidden', 'false'); open('open-case', csBody); });
+  cs.addEventListener('click', e => { if (e.target === cs) closeAll(); });
+  $$('.js-about').forEach(b => b.addEventListener('click', () => open('open-about', drawer)));
+  $$('.js-cv').forEach(b => b.addEventListener('click', e => { e.preventDefault(); cv.setAttribute('aria-hidden', 'false'); open('open-cv', $('.viewer')); }));
+  $$('.js-close').forEach(b => b.addEventListener('click', closeAll));
+  $('#scrim').addEventListener('click', closeAll);
+  cv.addEventListener('click', e => { if (e.target === cv) closeAll(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+  $('#totop').addEventListener('click', e => { e.preventDefault(); scrollTo({ top:0, behavior: reduced ? 'auto' : 'smooth' }); });
+
+  /* ---------- время и дата (как в Figma: МСК) ---------- */
+  const TZ = 'Europe/Moscow';
+  const clock = () => { const t = new Intl.DateTimeFormat('ru-RU', { timeZone:TZ, hour:'2-digit', minute:'2-digit', hour12:false }).format(new Date()); $('#coords').textContent = `55.74131° N · 37.53096° E · МСК ${t}`; };
+  clock(); setInterval(clock, 15000);
+  const d = new Date().toLocaleDateString('ru-RU', { weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:TZ }).replace(/\s?г\.?$/, '');
+  $('#date').textContent = d.charAt(0).toUpperCase() + d.slice(1) + ' (GMT +03)';
+
+  /* ---------- арка: в покое живое фото, при наведении — пиксель-арт (assets/alt/px.png) и лёгкое увеличение ---------- */
+  const arch = $('#arch');
+  ['px.png', 'px-blink.png', 'px-wink.png'].forEach(f => { new Image().src = 'assets/alt/' + f; });   // грузим кадры заранее, чтобы смена была мгновенной
+  // пиксельный портрет «живёт»: моргает, иногда подмигивает (как зацикленный ролик у референса)
+  let lifeTimer = 0;
+  const frame = (cls, ms, next) => { arch.classList.add(cls); lifeTimer = setTimeout(() => { arch.classList.remove(cls); next(); }, ms); };
+  const life = (first) => { lifeTimer = setTimeout(() => {
+      if (!arch.classList.contains('on')) return;
+      const wink = !first && Math.random() < .35;
+      frame(wink ? 'wink' : 'blink', wink ? 420 : 130, () => life(false));
+    }, first ? 700 : 2200 + Math.random() * 1800); };
+  const setPx = on => {
+    arch.classList.toggle('on', on); clearTimeout(lifeTimer); arch.classList.remove('blink', 'wink');
+    if (on && !reduced) life(true);
+  };
+  if (fine) { arch.addEventListener('pointerenter', () => setPx(true)); arch.addEventListener('pointerleave', () => setPx(false)); }
+  else arch.addEventListener('click', () => setPx(!arch.classList.contains('on')));
+  arch.addEventListener('focus', () => setPx(true)); arch.addEventListener('blur', () => setPx(false));
+
+  /* ---------- буквы: лёгкая «дрожь» контура у курсора, сильнее при движении ---------- */
+  const name = $('#name'), disp = $('#disp'), spot = $('#spot');
+  if (!reduced && fine) {
+    const S = 260, R = S / 2, c = document.createElement('canvas'); c.width = c.height = S;
+    const g = c.getContext('2d'), map = g.createImageData(S, S), G = 9;
+    const grid = () => Array.from({ length:(G + 1) * (G + 1) }, () => Math.random() * 2 - 1);
+    const nx = grid(), ny = grid();
+    const noise = (arr, u, v) => { const x = u * G, y = v * G, x0 = Math.floor(x), y0 = Math.floor(y), fx = x - x0, fy = y - y0, sx = fx * fx * (3 - 2 * fx), sy = fy * fy * (3 - 2 * fy), at = (i, j) => arr[Math.min(G, j) * (G + 1) + Math.min(G, i)];
+      return (at(x0, y0) * (1 - sx) + at(x0 + 1, y0) * sx) * (1 - sy) + (at(x0, y0 + 1) * (1 - sx) + at(x0 + 1, y0 + 1) * sx) * sy; };
+    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) { const dx = (x - R) / R, dy = (y - R) / R, dist = Math.hypot(dx, dy), i = (y * S + x) * 4;
+      if (dist < 1) { const f = Math.pow(1 - dist, 1.3); map.data[i] = 128 + 127 * f * noise(nx, x / S, y / S); map.data[i+1] = 128 + 127 * f * noise(ny, x / S, y / S); map.data[i+2] = 128; map.data[i+3] = 255; } }
+    g.putImageData(map, 0, 0);
+    const url = c.toDataURL('image/png'); spot.setAttribute('href', url); spot.setAttributeNS('http://www.w3.org/1999/xlink', 'href', url);
+    let tx = -999, ty = -999, sx = -999, sy = -999, energy = 0, raf = 0, lx = null, ly = null, lt = 0;
+    const tick = now => {
+      const dt = Math.min(.1, lt ? (now - lt) / 1000 : .016); lt = now;
+      const k = 1 - Math.pow(.78, dt * 60); sx += (tx - sx) * k; sy += (ty - sy) * k; energy *= Math.pow(.9, dt * 60);
+      const scale = Math.min(26, energy);
+      disp.setAttribute('scale', scale.toFixed(2)); spot.setAttribute('x', (sx - R).toFixed(1)); spot.setAttribute('y', (sy - R).toFixed(1));
+      name.style.filter = scale > .4 ? 'url(#morph)' : 'none';
+      raf = scale > .2 ? requestAnimationFrame(tick) : (lt = 0, 0);
+    };
+    $('.hero').addEventListener('pointermove', e => {
+      const r = name.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top;
+      if (sx < -900) { sx = tx; sy = ty; }
+      if (lx !== null) energy = Math.min(40, energy + Math.hypot(e.clientX - lx, e.clientY - ly) * .9);
+      lx = e.clientX; ly = e.clientY; if (!raf) raf = requestAnimationFrame(tick);
+    });
+    $('.hero').addEventListener('pointerleave', () => { lx = ly = null; });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Максим Гриднев — резюме</title>
+<meta name="description" content="Резюме Максима Гриднева, AI-Native Product Designer">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%2314130F%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-family=%27monospace%27 font-size=%2716%27 font-weight=%27700%27 fill=%27%23E7E3D9%27 text-anchor=%27middle%27%3EMG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  /* Резюме: текст из PDF от 30.08.2026 с правками 28.10. Две версии — RU и EN, видна та, что в html[lang].
+     ?lang=en — английская, ?embed=1 — без верхней панели (так страница стоит в окне CV на главной). */
+  :root{
+    --ink:#14130F; --mute:#8A877F; --line:#E8E6E1; --soft:#F5F5F5; --paper:#FFFFFF;
+    --sans:"Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+  *{ box-sizing:border-box; }
+  html{ background:var(--soft); }
+  body{ margin:0; color:var(--ink); font:400 14px/21px var(--sans); -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; }
+  html[lang="ru"] [lang="en"], html[lang="en"] [lang="ru"]{ display:none; }
+
+  .bar{ max-width:880px; margin:0 auto; padding:20px 16px; display:flex; justify-content:space-between; align-items:center; gap:16px; font:400 14px/21px var(--mono); color:var(--mute); }
+  .bar nav{ display:flex; gap:24px; }
+  .bar a, .bar button{ font:inherit; color:var(--ink); background:none; border:0; padding:0; cursor:pointer; text-decoration:none; }
+  .bar a:hover, .bar button:hover{ text-decoration:underline; }
+  .embed .bar{ display:none; }
+
+  .page{ max-width:880px; margin:0 auto 48px; background:var(--paper); padding:48px; display:grid; grid-template-columns:260px minmax(0,1fr); column-gap:48px; box-shadow:0 4px 24px rgba(0,0,0,.06); }
+  .embed body{ padding:32px 16px; }
+  .embed .page{ margin:0 auto; }
+
+  .side{ display:flex; flex-direction:column; gap:32px; }
+  .photo{ width:72px; height:72px; border-radius:16px; object-fit:cover; display:block; }
+  .name{ margin:20px 0 0; font:400 52px/50px var(--sans); letter-spacing:-1.5px; text-transform:uppercase; }
+  .intro p{ margin:0 0 14px; font-size:15px; line-height:22px; }
+  .intro p:last-child{ margin:0; }
+  .contacts{ display:flex; flex-direction:column; gap:10px; margin:0; }
+  .contacts dt{ color:var(--mute); font-size:13px; line-height:18px; }
+  .contacts dd{ margin:0; }
+  .contacts a{ text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px; }
+  .contacts a:hover{ text-decoration-color:var(--ink); }
+  .block h2{ margin:0 0 12px; font:500 16px/22px var(--sans); text-transform:uppercase; letter-spacing:.2px; }
+  .block p{ margin:0 0 10px; }
+  .block p:last-child{ margin:0; }
+  b{ font-weight:600; }
+
+  .jobs{ position:relative; display:flex; flex-direction:column; gap:32px; padding-left:24px; }
+  .jobs::before{ content:""; position:absolute; left:3px; top:8px; bottom:8px; width:1px; background:var(--line); }
+  .job{ position:relative; }
+  .job::before{ content:""; position:absolute; left:-24px; top:6px; width:7px; height:7px; border-radius:50%; background:var(--ink); }
+  .when{ font:400 12px/18px var(--mono); color:var(--mute); }
+  .job h3{ margin:4px 0 0; font:500 18px/24px var(--sans); }
+  .about{ margin:6px 0 14px; color:var(--mute); }
+  .job p{ margin:0 0 10px; }
+  .job p:last-child{ margin:0; }
+
+  @media screen and (max-width:760px){
+    .page{ grid-template-columns:1fr; padding:24px 16px 32px; row-gap:40px; box-shadow:none; margin-bottom:0; }
+    .name{ font-size:40px; line-height:40px; }
+    .bar{ padding:16px; }
+    .embed body{ padding:0; }
+  }
+  /* PDF — один лист шириной 880, высоту подставляет скрипт по высоте резюме */
+  @page{ margin:0; }
+  /* .measure — та же раскладка, что в PDF, на миг для замера высоты (на узком экране страница в одну колонку) */
+  html.measure .page{ width:880px; max-width:none; grid-template-columns:260px minmax(0,1fr); padding:48px; row-gap:0; }
+  html.measure .name{ font-size:52px; line-height:50px; }
+  @media print{
+    html{ background:#fff; }
+    .bar{ display:none; }
+    .page{ box-shadow:none; margin:0; max-width:none; width:880px; }
+  }
+</style>
+</head>
+<body>
+<div class="bar">
+  <span>cv · <span lang="ru">Обновлено 28 октября 2026</span><span lang="en">Updated 28 October 2026</span></span>
+  <nav>
+    <button type="button" id="lang"><span lang="ru">eng</span><span lang="en">rus</span></button>
+    <a id="pdf" href="assets/Maksim-Gridnev-CV-ru.pdf" download><span lang="ru">Скачать PDF</span><span lang="en">Download PDF</span></a>
+    <a href="./"><span lang="ru">На сайт</span><span lang="en">To the site</span></a>
+  </nav>
+</div>
+
+<main class="page">
+  <aside class="side">
+    <div>
+      <img class="photo" src="assets/portrait.jpg" width="72" height="72" alt="">
+      <h1 class="name"><span lang="ru">Максим<br>Гриднев</span><span lang="en">Maksim<br>Gridnev</span></h1>
+    </div>
+
+    <div class="intro" lang="ru">
+      <p>AI-Native Product Designer: создаю и&nbsp;улучшаю цифровые продукты и&nbsp;интерфейсы</p>
+      <p>Проектирую UX/UI, пользовательские сценарии и&nbsp;структуру продуктов, используя AI на&nbsp;разных этапах работы</p>
+      <p>Объединяю UX, UI и&nbsp;AI-assisted development, чтобы быстрее проверять идеи и&nbsp;превращать их в&nbsp;работающие цифровые продукты</p>
+    </div>
+    <div class="intro" lang="en">
+      <p>AI-Native Product Designer: I create and improve digital products and interfaces</p>
+      <p>I design UX/UI, user flows and product structure, using AI at different stages of the work</p>
+      <p>I combine UX, UI and AI-assisted development to test ideas faster and turn them into working digital products</p>
+    </div>
+
+    <dl class="contacts">
+      <div><dt><span lang="ru">Портфолио</span><span lang="en">Portfolio</span></dt><dd><a href="https://www.gridnevdesign.com" target="_blank" rel="noopener">gridnevdesign.com</a></dd></div>
+      <div><dt>Telegram</dt><dd><a href="https://t.me/grid1max" target="_blank" rel="noopener">t.me/grid1max</a></dd></div>
+      <div><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/gridnevmm" target="_blank" rel="noopener">linkedin.com/in/gridnevmm</a></dd></div>
+      <div><dt>Email</dt><dd><a href="mailto:gridnevmm48@gmail.com">gridnevmm48@gmail.com</a></dd></div>
+    </dl>
+
+    <section class="block" lang="ru">
+      <h2>О себе</h2>
+      <p><b>Образование в&nbsp;дизайне:</b> UpRock Design School, Google UI/UX Design</p>
+      <p><b>Опыт в&nbsp;создании продуктов:</b> проектировал цифровые продукты, сайты и&nbsp;внутренние инструменты</p>
+      <p>Работаю с&nbsp;продуктовой структурой, UX/UI, пользовательскими сценариями, прототипами и&nbsp;дизайн-системами, учитывая задачи бизнеса и&nbsp;потребности пользователей</p>
+      <p><b>Бизнес-опыт:</b> продажи, управление командами, исследования клиентов, SPIN Selling и&nbsp;решения на&nbsp;основе KPI</p>
+    </section>
+    <section class="block" lang="en">
+      <h2>About</h2>
+      <p><b>Design education:</b> UpRock Design School, Google UI/UX Design</p>
+      <p><b>Product experience:</b> designed digital products, websites and internal tools</p>
+      <p>I work with product structure, UX/UI, user flows, prototypes and design systems, balancing business goals and user needs</p>
+      <p><b>Business background:</b> sales, team management, customer research, SPIN Selling and KPI-driven decisions</p>
+    </section>
+
+    <section class="block">
+      <h2><span lang="ru">Ключевые навыки</span><span lang="en">Key skills</span></h2>
+      <p><b><span lang="ru">Продукт и&nbsp;UX:</span><span lang="en">Product and UX:</span></b> Product Design, UI/UX Design, UX Research, User Flows, Information Architecture, Web Design, Design Systems, User-Centered Design</p>
+      <p><b>AI:</b> Claude Code, Cursor, Figma Make, Vercel, Kimi, Midjourney, Nano Banana, Fidgetal+, Kling, Google Flow</p>
+      <p><b><span lang="ru">Инструменты:</span><span lang="en">Tools:</span></b> Figma, Miro, Notion, Jira, Adobe Creative Suite</p>
+    </section>
+
+    <section class="block">
+      <h2><span lang="ru">Языки</span><span lang="en">Languages</span></h2>
+      <p lang="ru">Английский — Pre-Intermediate<br>Русский — родной</p>
+      <p lang="en">English — Pre-Intermediate<br>Russian — native</p>
+    </section>
+  </aside>
+
+  <div class="jobs">
+    <article class="job" lang="ru">
+      <div class="when">Февраль 2026 — август 2026</div>
+      <h3>AI-Native Product Designer · Respawn Esports</h3>
+      <p class="about">Киберспортивная организация и&nbsp;цифровая платформа: игры, сообщество и&nbsp;мероприятия</p>
+      <p><b>Продуктовые фичи:</b> полностью переработал сайт с&nbsp;нуля: создал более премиальный образ бренда и&nbsp;упростил взаимодействие пользователей с&nbsp;организацией. Спроектировал административную консоль для управления бронированиями и&nbsp;пользователями, чтобы команде было проще работать с&nbsp;бронированиями</p>
+      <p><b>Метрики:</b> оценка пользователей&nbsp;— <b>5</b>, количество бронирований <b>+15%</b>, рост выручки <b>+18%</b> и&nbsp;повторные посещения <b>+25%</b> за&nbsp;счёт редизайна сайта, улучшения интеграции рекламы и&nbsp;новых партнёрств по&nbsp;доставке еды и&nbsp;кальянам. Также сократил количество повторяющихся вопросов от&nbsp;клиентов в&nbsp;часы пик</p>
+      <p><b>Дизайн-система:</b> привёл дизайн и&nbsp;разработку к&nbsp;единой системе компонентов и&nbsp;токенов, убрал устаревшие стили и&nbsp;создал новые компоненты с&nbsp;подробными спецификациями для разработки</p>
+      <p><b>AI:</b> встроил AI в&nbsp;дизайн-процесс для поиска визуальных решений, разработки концепций и&nbsp;быстрого создания новых вариантов. Использовал <b>Claude Code, Figma Make и&nbsp;AI-инструменты</b> для генерации изображений и&nbsp;видео</p>
+    </article>
+    <article class="job" lang="en">
+      <div class="when">February 2026 — August 2026</div>
+      <h3>AI-Native Product Designer · Respawn Esports</h3>
+      <p class="about">An esports organisation and digital platform focused on games, community and events</p>
+      <p><b>Product features:</b> rebuilt the website from scratch, creating a more premium brand image and making it easier for users to interact with the organisation. Designed an admin console for managing bookings and users, so the team could handle bookings more efficiently</p>
+      <p><b>Metrics:</b> user rating of <b>5</b>, bookings <b>+15%</b>, revenue <b>+18%</b> and repeat visits <b>+25%</b> thanks to the website redesign, better advertising integrations and new food and hookah delivery partnerships. Also reduced repeated customer questions at peak hours</p>
+      <p><b>Design system:</b> brought design and development to a single system of components and tokens, removed outdated styles and created new components with detailed specs for development</p>
+      <p><b>AI:</b> built AI into the design process to explore visual directions, develop concepts and quickly produce new variations, using <b>Claude Code, Figma Make and AI tools</b> to generate images and video</p>
+    </article>
+
+    <article class="job" lang="ru">
+      <div class="when">Июнь 2025 — январь 2026</div>
+      <h3>Product Designer · Queen Interactive Games</h3>
+      <p class="about">B2B-платформа для iGaming-индустрии: платежи, бонусные программы, удержание и&nbsp;привлечение пользователей</p>
+      <p><b>Продуктовые фичи:</b> проектировал пользовательские сценарии и&nbsp;продуктовые решения для платежей, бонусных программ, email-кампаний и&nbsp;механик лояльности, улучшая ключевые сценарии удержания и&nbsp;привлечения пользователей</p>
+      <p><b>Метрики:</b> увеличил удержание пользователей на&nbsp;<b>+10%</b>, средний чек на&nbsp;<b>+8%</b> и&nbsp;привлечение новых пользователей на&nbsp;<b>+5%</b> за&nbsp;счёт улучшения бонусных механик, программ лояльности и&nbsp;пользовательских сценариев. Переработал внутреннюю административную панель и&nbsp;сократил время проверки пользователя <b>с&nbsp;7 до&nbsp;4&nbsp;минут</b></p>
+      <p><b>Дизайн-система:</b> проектировал и&nbsp;поддерживал переиспользуемые UI-компоненты, повышая консистентность интерфейса и&nbsp;упрощая масштабирование дизайн-системы</p>
+      <p><b>AI:</b> встроил AI-инструменты в&nbsp;дизайн-процесс для исследований, генерации идей, поиска визуальных решений и&nbsp;быстрого прототипирования</p>
+    </article>
+    <article class="job" lang="en">
+      <div class="when">June 2025 — January 2026</div>
+      <h3>Product Designer · Queen Interactive Games</h3>
+      <p class="about">A B2B platform for the iGaming industry specialising in payments, bonus programmes, user retention and acquisition</p>
+      <p><b>Product features:</b> designed user flows and product solutions for payments, bonus programmes, email campaigns and loyalty mechanics, improving the key retention and acquisition flows</p>
+      <p><b>Metrics:</b> increased user retention by <b>10%</b>, average order value by <b>8%</b> and new user acquisition by <b>5%</b> by improving bonus mechanics, loyalty programmes and user flows. Reworked the internal admin panel and cut user verification time <b>from 7 to 4 minutes</b></p>
+      <p><b>Design system:</b> designed and maintained reusable UI components, improving interface consistency and making the design system easier to scale</p>
+      <p><b>AI:</b> built AI tools into the design process for research, ideation, exploring visual directions and rapid prototyping</p>
+    </article>
+
+    <article class="job" lang="ru">
+      <div class="when">Октябрь 2023 — апрель 2025 · Москва, Россия</div>
+      <h3>Руководитель отдела продаж</h3>
+      <p class="about">Дополнительный опыт работы: образовательная платформа, специализирующаяся на&nbsp;профессиональном развитии и&nbsp;онлайн-обучении</p>
+      <p>Руководил командой из&nbsp;<b>5–7 менеджеров</b> по&nbsp;продажам, контролировал выполнение KPI, распределял зоны ответственности и&nbsp;отслеживал результаты на&nbsp;всех этапах воронки продаж</p>
+      <p>Перестроил базу знаний со&nbsp;скриптами продаж и&nbsp;информацией о&nbsp;продуктах, структурировал материалы для адаптации новых сотрудников и&nbsp;улучшил внутренние рабочие процессы для действующих и&nbsp;новых менеджеров</p>
+      <p>Проводил адаптацию и&nbsp;регулярное обучение менеджеров по&nbsp;продажам, включая <b>SPIN Selling, выявление потребностей и&nbsp;работу с&nbsp;возражениями</b>, помогая команде улучшать подход к&nbsp;продажам</p>
+      <p>Стабильно перевыполнял план продаж, достигая до&nbsp;<b>130% от&nbsp;KPI</b>, лично проводил сложные переговоры с&nbsp;клиентами и&nbsp;закрывал наиболее сложные сделки по&nbsp;образовательным продуктам</p>
+    </article>
+    <article class="job" lang="en">
+      <div class="when">October 2023 — April 2025 · Moscow, Russia</div>
+      <h3>Head of Sales</h3>
+      <p class="about">Additional experience: an education platform specialising in professional development and online learning</p>
+      <p>Led a team of <b>5–7 sales managers</b>, monitored KPIs, assigned areas of responsibility and tracked results at every stage of the sales funnel</p>
+      <p>Rebuilt the knowledge base with sales scripts and product information, structured onboarding materials for new hires and improved internal workflows for current and new managers</p>
+      <p>Ran onboarding and regular training for sales managers, including <b>SPIN Selling, needs discovery and objection handling</b>, helping the team improve its sales approach</p>
+      <p>Consistently exceeded the sales plan, reaching up to <b>130% of KPI</b>; personally led difficult negotiations and closed the most complex deals for education products</p>
+    </article>
+  </div>
+</main>
+
+<script>
+  const q = new URLSearchParams(location.search);
+  if (q.get('embed') === '1') document.documentElement.classList.add('embed');
+  let lang = q.get('lang'); if (!lang) { try { lang = localStorage.getItem('lang'); } catch (e) {} }
+  const sheet = document.head.appendChild(document.createElement('style'));
+  const fitPage = () => { const html = document.documentElement; html.classList.add('measure');
+    const h = Math.ceil(document.querySelector('.page').offsetHeight) + 2; html.classList.remove('measure');
+    sheet.textContent = `@page{ size:880px ${h}px; }`; };
+  document.fonts.ready.then(fitPage);
+  const setLang = l => {
+    l = l === 'en' ? 'en' : 'ru'; document.documentElement.lang = l;
+    document.title = l === 'en' ? 'Maksim Gridnev — CV' : 'Максим Гриднев — резюме';
+    document.querySelector('.photo').alt = l === 'en' ? 'Maksim Gridnev' : 'Максим Гриднев';
+    fitPage();
+    const pdf = document.getElementById('pdf'); pdf.href = `assets/Maksim-Gridnev-CV-${l}.pdf`; pdf.setAttribute('download', `Maksim-Gridnev-CV-${l}.pdf`);
+  };
+  setLang(lang);
+  document.getElementById('lang').addEventListener('click', () => {
+    const l = document.documentElement.lang === 'en' ? 'ru' : 'en'; setLang(l);
+    try { localStorage.setItem('lang', l); } catch (e) {}
+    q.set('lang', l); history.replaceState(null, '', '?' + q);
+  });
+  // главная меняет язык окна CV сообщением, без перезагрузки
+  addEventListener('message', e => { if (e.origin === location.origin && e.data && e.data.cvLang) setLang(e.data.cvLang); });
+</script>
+</body>
+</html>

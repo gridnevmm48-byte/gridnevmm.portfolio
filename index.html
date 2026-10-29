@@ -1,79 +1,1421 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Maksim Gridnev, AI-Native Product Designer</title>
-    <meta
-      name="description"
-      content="Portfolio of Maksim Gridnev. Designing product interfaces and digital experiences with AI"
-    />
-    <meta name="author" content="Maksim Gridnev" />
-    <link rel="canonical" href="https://gridnevdesign.com/" />
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%2314130F%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-family=%27monospace%27 font-size=%2716%27 font-weight=%27700%27 fill=%27%23E7E3D9%27 text-anchor=%27middle%27%3EMG%3C/text%3E%3C/svg%3E">
+<title>Максим Гриднев — AI-native продуктовый дизайнер</title>
+<meta name="description" content="Максим Гриднев — AI-native продуктовый дизайнер. Проектирую цифровые сервисы для B2B и B2C, с помощью AI автоматизирую процессы.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  /* Эталон: Figma «Home · Projects 1512» (node 531:2667). Контент 1272, поля 120.
+     Классы названы как слои макета: Header, Hero, Meta, Tabs row, Projects list, Lab masonry, Footer. */
+  :root{
+    --ink:#14130F; --mute:#8A877F; --grey:#767676; --line:#E8E6E1; --card:#EFEFEF; --cover:#8D8D8D; --soft:#F5F5F5; --paper:#FFFFFF;
+    --ease:cubic-bezier(.2,.8,.2,1);
+    --sans:"Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --sf:"SF Pro Display", "SF Pro", -apple-system, BlinkMacSystemFont, "Golos Text", sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+    --side:max(16px, calc((100% - 1272px) / 2));
+  }
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font:400 16px/24px var(--sans); -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; }
+  button{ font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; text-align:left; }
+  :focus-visible{ outline:2px solid var(--ink); outline-offset:3px; border-radius:4px; }
+  .content{ max-width:1512px; margin:0 auto; padding:0 var(--side); }
+  .u{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  .u:hover{ text-decoration-thickness:2px; }
 
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  /* Header — 32 / 0, Link Name: аватар 64 r12 + имя 20/28 */
+  .header{ display:flex; justify-content:space-between; align-items:center; padding:32px 0; }
+  .link-name{ display:inline-flex; align-items:center; gap:10px; text-decoration:none; font:500 20px/28px var(--sans); }
+  .avatar{ display:block; width:64px; height:64px; border-radius:12px; overflow:hidden; background:#CFCAC0; flex:none; }
+  .avatar img{ display:block; width:100%; height:100%; object-fit:cover; }
+  .lang{ font:400 16px/24px var(--sans); text-decoration:underline; text-underline-offset:3px; }
 
-    <!-- Open Graph / Social Media Meta -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://gridnevdesign.com/" />
-    <meta property="og:title" content="Maksim Gridnev, AI-Native Product Designer" />
-    <meta
-      property="og:description"
-      content="Designing product interfaces and digital experiences with AI"
-    />
-    <!-- Without this a shared link is a bare line of text; with it, chat apps
-         and LinkedIn render the hero as the preview card. -->
-    <meta property="og:image" content="https://gridnevdesign.com/og-image.jpg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://gridnevdesign.com/og-image.jpg" />
+  /* Hero — 64 / 0, Hero content gap 24 */
+  .hero{ padding:64px 0; }
+  .hero-content{ display:flex; flex-direction:column; gap:24px; align-items:flex-start; }
+  .hero-role{ margin:0; font:500 24px/40px var(--sans); letter-spacing:1px; color:var(--grey); }
+  .headline{ margin:0; font:600 56px/60px var(--sf); letter-spacing:.38px; color:#000; }
+  /* печать заголовка: буквы стоят на своих местах невидимыми (строки не перескакивают),
+     курсор нулевой ширины встаёт сразу за последней напечатанной буквой */
+  .headline .ch{ opacity:0; }
+  .headline .ch.on{ opacity:1; }
+  .caret{ display:inline-block; position:relative; width:0; height:.92em; vertical-align:-.1em; }
+  .caret::after{ content:""; position:absolute; left:.03em; top:0; width:.07em; height:100%; border-radius:1px; background:currentColor; }
+  .caret.idle::after{ animation:caret 1.06s steps(1,end) infinite; }
+  .caret.out::after{ opacity:0; transition:opacity .4s; }
+  @keyframes caret{ 50%{ opacity:0; } }
+  .more-link{ display:inline-flex; align-items:center; font:500 36px/40px var(--sans); letter-spacing:-.54px; color:var(--mute); transition:color .2s var(--ease); }
+  .more-link svg{ flex:none; width:32px; height:32px; transition:translate .25s var(--ease); }
+  .more-link:hover{ color:var(--ink); } .more-link:hover svg path{ stroke:var(--ink); } .more-link:hover svg{ translate:4px 0; }
+  .btn-write{ display:inline-flex; align-items:center; justify-content:center; width:303px; padding:14px 24px; border-radius:12px; background:#000; color:#fff; font:400 16px/24px var(--sans); text-decoration:none; transition:translate .25s var(--ease), background .2s; }
+  .btn-write:hover{ background:#2A2926; translate:0 -2px; }
 
-    <style>
-      /* min-height, not height: the page is one long scrolling column, and a
-         fixed 100% would cut the box off at the first viewport. */
-      html,
-      body {
-        min-height: 100%;
-        margin: 0;
-        background-color: #000000;
-        color: #ffffff;
-      }
-    </style>
-  </head>
+  /* Meta — линия сверху, 12 / 0 / 64; Координаты слева, Meta — Links 864 справа (по левому краю обложек) */
+    /* сетка главной — как в Figma: 12 колонок, промежуток 20 (колонки 1–4 и 5–12) */
+  .meta{ display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); column-gap:20px; align-items:start; padding:12px 0 64px; border-top:1px solid var(--line); }
+  .meta-coords{ grid-column:1 / 5; }
+  .meta-coords{ display:flex; gap:6px; font:400 14px/21px var(--mono); white-space:nowrap; }
+  .meta-links{ grid-column:5 / 13; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; align-items:start; }
+  .meta-col{ display:flex; flex-direction:column; gap:8px; align-items:flex-start; }
+  .meta-col h2{ margin:0; font:400 14px/21px var(--sans); color:var(--mute); }
+  .meta-col a, .meta-col button{ font-size:16px; line-height:24px; white-space:nowrap; }
 
-  <body>
-    <!-- Yandex.Metrika counter (112074666) -->
-    <script type="text/javascript">
-      (function (m, e, t, r, i, k, a) {
-        m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
-        m[i].l = 1 * new Date();
-        for (var j = 0; j < document.scripts.length; j++) {
-          if (document.scripts[j].src === r) { return; }
-        }
-        k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-      })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+  /* Tabs row — линия сверху, 12 / 0 / 32; табы gap 24, счётчик моно 12/18 */
+  .tabs-row{ display:flex; align-items:center; padding:12px 0 32px; border-top:1px solid var(--line); }
+  .tabs{ display:flex; gap:24px; }
+  .tab{ display:inline-flex; gap:4px; align-items:flex-start; font:400 16px/24px var(--sans); color:var(--mute); text-decoration:none; transition:color .2s var(--ease); }
+  .tab .count{ font:400 12px/18px var(--mono); color:var(--mute); }
+  .tab.on{ font-weight:500; color:var(--ink); }
+  .tab:not(.on):hover{ color:var(--ink); }
+  .panel{ scroll-margin-top:0; }
 
-      ym(112074666, "init", {
-        clickmap: true,
-        trackLinks: true,
-        accurateTrackBounce: true,
-        webvisor: true,
-      });
-    </script>
-    <noscript>
-      <div>
-        <img
-          src="https://mc.yandex.ru/watch/112074666"
-          style="position: absolute; left: -9999px"
-          alt=""
-        />
+  /* появление при прокрутке */
+  .reveal{ opacity:0; translate:0 40px; transition:opacity .8s var(--ease), translate .8s var(--ease); }
+  .reveal.in{ opacity:1; translate:0 0; }
+  @media (prefers-reduced-motion:reduce){ .reveal{ opacity:1; translate:0 0; transition:none; } }
+
+  /* Projects list — 32 / 0, проекты gap 32; Project: Project text (376) + Cover (864×600), gap 32 */
+  .projects{ display:flex; flex-direction:column; gap:32px; padding:32px 0; }
+  .project{ display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); column-gap:20px; align-items:start; } .project-text{ grid-column:1 / 5; } .project .cover{ grid-column:5 / 13; }
+  .project-text{ display:flex; flex-direction:column; gap:24px; align-items:flex-start; }
+  .title-group{ display:flex; flex-direction:column; gap:8px; }
+  .project .title{ margin:0; font:600 24px/30px var(--sans); }
+  .project .role{ margin:0; font-size:16px; line-height:24px; }
+  .project .desc{ margin:0; color:var(--mute); }
+  .project .desc b{ font-weight:500; color:var(--ink); }
+  .project .cover{ aspect-ratio:864/600; background:var(--cover); border-radius:12px; }
+  .btn-project{ display:inline-flex; justify-content:center; align-items:center; width:303px; padding:12px 24px; border-radius:12px; background:#ECECEC; color:var(--ink); font:400 16px/24px var(--sans); text-decoration:none; transition:translate .25s var(--ease), background .2s; }
+  .btn-project:hover{ background:#E0E0E0; translate:0 -2px; }
+  .tags{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .tag{ font:500 14px/21px var(--sans); padding:2px 8px; border-radius:6px; }
+  .tag[data-t="Web"]{ background:#DCEBFF; color:#2B5CA8; }
+  .tag[data-t="ИИ"]{ background:#E8E0FB; color:#5A3DB0; }
+  .tag[data-t="Mobile"]{ background:#FFE3D3; color:#B2552A; }
+  .tag[data-t="Вайб-кодинг"]{ background:#FADBF1; color:#9E2E84; }
+  .tag[data-t="Стартап"]{ background:#E4F1CB; color:#587A1A; }
+  .tag[data-t="Дизайн-система"]{ background:#D9F0E4; color:#1F7A52; }
+
+  /* Lab masonry — 0 / 0 / 64, колонки gap 20, карточки gap 32; Concept card: Cover + Card info gap 16 */
+  .lab-masonry{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; align-items:start; padding:0 0 64px; }
+  .lab-col{ display:flex; flex-direction:column; gap:32px; }
+  .concept-card{ display:flex; flex-direction:column; gap:16px; }
+  .concept-card .cover{ position:relative; overflow:hidden; background:var(--card); border-radius:12px; }
+  .card-info{ display:flex; flex-direction:column; gap:8px; }
+  .title-row{ display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  .concept-card .title{ margin:0; font:500 20px/28px var(--sans); }
+  .concept-card .year{ font-size:14px; line-height:21px; color:var(--mute); flex:none; }
+  .concept-card .desc{ margin:0; color:var(--mute); }
+
+  /* Концепты: «камера по картинке» — картинка целая, камера наезжает на кадры, палец нажимает точки (JS camScene) */
+  .ls{ position:absolute; inset:0; overflow:hidden; border-radius:12px; }
+  .cam{ position:absolute; inset:0; transform-origin:0 0; will-change:transform; }
+  .ls-img{ position:absolute; }
+  .ls-img > img{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .ls-img{ transform:translateY(calc(var(--sp, 0) * 8px)) scale(1.04); }
+  .cam-cur, .cam-tap{ position:absolute; left:0; top:0; border-radius:50%; opacity:0; pointer-events:none; z-index:3; }
+  .cam-cur{ width:22px; height:22px; margin:-11px 0 0 -11px; background:rgba(255,255,255,.6); border:1.5px solid rgba(17,17,17,.28); box-shadow:0 2px 8px rgba(0,0,0,.25); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); }
+  .cam-tap{ width:38px; height:38px; margin:-19px 0 0 -19px; border:2px solid rgba(255,255,255,.95); background:rgba(255,255,255,.18); z-index:2; }
+  /* живой концепт (lab/<id>.html) поверх постера; проявляется, когда загрузился */
+  .ls .live{ position:absolute; inset:0; width:100%; height:100%; border:0; display:block; opacity:0; pointer-events:none; transition:opacity .6s var(--ease); z-index:1; }
+  .cover.is-live .live{ opacity:1; }
+  /* появление концептов: обложка раскрывается снизу вверх, картинка «отъезжает» из зума; колонки по очереди */
+  .concept-card.reveal{ transition-delay:calc(var(--i, 0) * 90ms); }
+  .concept-card .cover{ transition:clip-path 1.1s var(--ease) calc(var(--i, 0) * 90ms); }
+  .concept-card .ls{ transition:scale 1.4s var(--ease) calc(var(--i, 0) * 90ms); }
+  .concept-card.reveal:not(.in) .cover{ clip-path:inset(18% 0 0 0 round 12px); }
+  .concept-card.reveal:not(.in) .ls{ scale:1.15; }
+  .lab-col{ will-change:transform; }
+  @media (prefers-reduced-motion:reduce){ .ls-img{ transform:none; } .concept-card .cover{ clip-path:none !important; } }
+
+  /* Footer — 32 / 0; Наверх 20/28 bold */
+  .footer{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; padding:32px 0; font-size:14px; line-height:21px; color:var(--mute); } .footer > :last-child{ text-align:right; }
+  .footer .to-top{ font:500 20px/28px var(--sans); color:var(--ink); text-decoration:none; }
+  .footer .to-top:hover{ text-decoration:underline; text-underline-offset:4px; }
+  .halftone{ display:block; width:100%; height:auto; aspect-ratio:1512/140; }
+
+  /* ---------- адаптив (мобильного макета нет: собрано из десктопа по той же сетке) ---------- */
+  @media (max-width:1240px){
+    .headline{ font-size:44px; line-height:50px; }
+    .meta{ row-gap:24px; } .meta-coords, .meta-links{ grid-column:1 / -1; }
+  }
+  @media (max-width:900px){
+    .project{ grid-template-columns:1fr; gap:24px; } .project-text, .project .cover{ grid-column:1 / -1; } .project .cover{ order:-1; }
+    .lab-masonry{ grid-template-columns:repeat(2,minmax(0,1fr)); } .lab-col{ display:contents; } .lab-masonry{ row-gap:32px; }
+    .more-link{ font-size:28px; line-height:36px; } .more-link svg{ width:28px; height:28px; }
+  }
+  @media (max-width:640px){
+    .header{ padding:16px 0; } .avatar{ width:48px; height:48px; }
+    .link-name{ font-size:18px; line-height:24px; }
+    .hero{ padding:32px 0 48px; } .hero-content{ gap:16px; }
+    .hero-role{ font-size:18px; line-height:28px; letter-spacing:.5px; }
+    .headline{ font-size:30px; line-height:36px; letter-spacing:0; } .headline br{ display:none; } .headline br:first-of-type{ display:inline; }
+    .more-link{ font-size:24px; line-height:32px; } .more-link svg{ width:24px; height:24px; }
+    .btn-write, .btn-project{ width:100%; }
+    .meta{ padding-bottom:40px; }
+    .meta-links{ display:grid; grid-template-columns:1fr 1fr; gap:24px 16px; }
+    .projects{ padding:24px 0 40px; gap:48px; } .tabs-row{ padding-bottom:24px; }
+    .lab-masonry{ grid-template-columns:1fr; padding-bottom:40px; }
+    .footer{ display:flex; flex-wrap:wrap; gap:8px 16px; justify-content:space-between; } .footer .to-top{ order:-1; width:100%; }
+  }
+  @media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } }
+  /* скругления iOS: в Figma corner smoothing 60 %, здесь — суперэллипс там, где браузер умеет */
+  @supports (corner-shape: superellipse(1.5)){
+    .avatar, .btn-write, .btn-project, .project .cover, .tag, .concept-card .cover, .ls, .portrait{ corner-shape:superellipse(1.5); }
+  }
+
+  /* Панель «Обо мне» */
+  .scrim{ position:fixed; inset:0; background:rgba(20,19,15,.28); opacity:0; pointer-events:none; transition:opacity .3s var(--ease); z-index:20; }
+  .drawer{ position:fixed; top:0; right:0; bottom:0; width:min(600px,100%); background:var(--paper); border-left:1px solid var(--line); z-index:21; overflow-y:auto; translate:100% 0; visibility:hidden; transition:translate .4s var(--ease), visibility 0s .4s; padding:32px; display:flex; flex-direction:column; gap:24px; }
+  body.open-about .scrim, body.open-cv .scrim{ opacity:1; pointer-events:auto; }
+  body.open-about .drawer{ translate:0 0; visibility:visible; transition:translate .4s var(--ease); }
+  body.open-about, body.open-cv{ overflow:hidden; }
+  .drawer header{ display:flex; justify-content:space-between; align-items:center; font-size:14px; line-height:21px; }
+  .drawer header .label{ font:500 16px/20px var(--sans); color:var(--mute); }
+  .drawer .intro{ margin:0; }
+  /* About section — Heading 24/28 Medium + тело gap 12 (Figma 531:2910) */
+  .about-sec{ display:flex; flex-direction:column; gap:12px; }
+  .about-sec h2{ margin:0; font:500 24px/28px var(--sans); color:var(--ink); }
+  .about-sec p{ margin:0; font-size:16px; line-height:24px; color:var(--ink); }
+  .about-body{ display:flex; flex-direction:column; gap:12px; }
+  .about-body ol{ margin:0; padding:0 0 0 24px; display:flex; flex-direction:column; gap:6px; }
+  .about-body li{ font-size:16px; line-height:24px; }
+  .about-steps{ display:flex; flex-direction:column; gap:16px; }
+  .about-steps > div + div{ border-top:1px solid var(--line); }
+  .about-steps h3{ margin:0; padding:8px 0; font:500 16px/24px var(--sans); }
+  .about-sec .tools-title{ font:600 18px/24px var(--sans); }
+  .about-sec .tools{ font-weight:500; }
+  .exp div{ display:flex; gap:16px; align-items:center; padding:12px 0; border-top:1px solid var(--line); }
+  .exp b{ width:110px; font-weight:500; flex:none; }
+  .exp span{ flex:1; color:var(--mute); }
+  .exp time{ font:400 14px/21px var(--mono); color:var(--mute); }
+  .hl{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px; }
+  .hl li{ display:flex; gap:12px; }
+  .hl li::before{ content:"–"; font-family:var(--mono); color:var(--mute); }
+  .portrait{ width:100%; height:459px; object-fit:cover; border-radius:12px; display:block; flex:none; }
+
+  /* Окно CV */
+  .modal{ position:fixed; inset:0; z-index:30; display:grid; place-items:center; padding:16px; visibility:hidden; opacity:0; transition:opacity .3s var(--ease), visibility 0s .3s; }
+  body.open-cv #cv{ visibility:visible; opacity:1; transition:opacity .3s var(--ease); }
+  .sheet{ width:min(1100px,100%); height:min(90vh,920px); background:var(--paper); border-radius:6px; display:flex; flex-direction:column; box-shadow:0 20px 80px rgba(0,0,0,.25); overflow:hidden; }
+  .sheet header, .sheet footer{ display:flex; justify-content:space-between; align-items:center; padding:24px 32px; gap:16px; flex-wrap:wrap; }
+  .sheet header{ border-bottom:1px solid #F0EEE9; }
+  .sheet .fn{ font:400 16px/24px var(--mono); color:var(--mute); }
+  .sheet footer{ border-top:1px solid #F0EEE9; font-size:14px; color:var(--mute); }
+  .sheet footer nav{ display:flex; gap:32px; font-size:16px; }
+  .sheet footer a{ color:var(--ink); text-decoration:none; display:inline-flex; gap:8px; align-items:center; }
+  .sheet footer a:hover{ text-decoration:underline; }
+  .viewer{ flex:1; overflow:auto; background:#F5F5F5; padding:32px 16px; }
+  .viewer{ padding:0; overflow:hidden; display:flex; }
+  .viewer iframe{ flex:1; width:100%; height:100%; border:0; display:block; background:#F5F5F5; }
+
+  /* Окно кейса: структура контейнеров кейсов из Figma (720, отступ 16, блоки r16), цвета сайта */
+  .case-sheet{ width:min(720px,100%); height:min(92vh,1200px); border-radius:16px; }
+  .case-sheet header{ padding:16px 24px; }
+  .case-body{ flex:1; overflow-y:auto; overscroll-behavior:contain; padding:16px; display:flex; flex-direction:column; gap:16px; outline:none; }
+  .case-body > *{ flex:none; }
+  .cs-hero{ display:flex; flex-direction:column; align-items:center; gap:32px; padding:clamp(48px,10vw,112px) 0; text-align:center; }
+  .cs-head{ display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .cs-name{ display:flex; align-items:center; gap:16px; margin:0; font:600 clamp(36px,8vw,62px)/1 var(--sans); letter-spacing:-.02em; }
+  .cs-name img{ width:62px; height:62px; border-radius:18px; flex:none; }
+  .cs-sub{ margin:0; max-width:560px; color:var(--mute); }
+  .cs-go{ min-width:200px; min-height:64px; border-radius:16px; gap:8px; }
+  .cs-box{ background:var(--soft); border-radius:16px; padding:16px; }
+  .cs-meta{ display:grid; grid-template-columns:repeat(4,auto); justify-content:space-between; gap:16px 24px; margin:0; }
+  .cs-meta div, .cs-txt{ display:flex; flex-direction:column; gap:4px; }
+  .cs-meta dt{ font-size:14px; line-height:16px; color:var(--mute); }
+  .cs-meta dd{ margin:0; font-size:16px; line-height:20px; }
+  .cs-two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .cs-h{ margin:0; font:500 16px/20px var(--sans); }
+  .cs-p{ margin:0; font-size:14px; line-height:21px; color:var(--mute); }
+  .cs-sec{ padding:32px 16px; }
+  .cs-res{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px 24px; margin:12px 0 0; }
+  .cs-res dd{ margin:0; }
+  .cs-res b{ display:block; font:500 32px/36px var(--sans); }
+  .cs-res span{ font-size:14px; line-height:16px; color:var(--mute); }
+  .cs-shot{ margin:0; border-radius:16px; overflow:hidden; background:var(--card); aspect-ratio:1376/766; }
+  .cs-shot img{ display:block; width:100%; height:100%; object-fit:cover; }
+  .cs-phones{ display:grid; grid-template-columns:repeat(3,minmax(0,var(--pw,188px))); justify-content:center; gap:24px 20px; padding:38px 16px; background:var(--soft); border-radius:16px; }
+  .cs-phones img{ display:block; width:100%; height:auto; border-radius:12px; background:var(--card); }
+
+
+
+
+  /* ---------- Лаборатория · концепт 1: криптокошелёк, сценарий в одном телефоне (как запись прототипа) ---------- */
+  .wf{ position:absolute; inset:0; overflow:hidden; background:#F1EFEA; border-radius:12px; }
+  .cover:has(.wf){ position:relative; overflow:hidden; }
+  .wf-cap{ position:absolute; left:24px; top:20px; z-index:30; }
+  .wf-t{ display:inline-block; padding:6px 12px; border-radius:8px; background:#fff; color:#14130F; font:500 14px/20px var(--sans); white-space:nowrap; transition:opacity .35s var(--ease); }
+  .wf-t.out{ opacity:0; }
+  .wf-tap{ position:absolute; z-index:29; width:44px; height:44px; margin:-22px 0 0 -22px; border-radius:50%; background:rgba(255,255,255,.7); box-shadow:0 0 0 1px rgba(255,255,255,.9), 0 8px 20px rgba(0,0,0,.3); opacity:0; pointer-events:none; transition:left .7s cubic-bezier(.3,.7,.1,1), top .7s cubic-bezier(.3,.7,.1,1), opacity .3s, scale .15s; }
+  .wf-tap.press{ scale:.8; }
+  .wf-ring{ position:absolute; z-index:28; width:44px; height:44px; margin:-22px 0 0 -22px; border-radius:50%; border:2px solid #43D67A; opacity:0; pointer-events:none; }
+  .wf-ring.on{ animation:cf-ring .9s cubic-bezier(.2,.8,.2,1); }
+  .wf-stage{ position:absolute; left:0; top:0; width:600px; height:711px; transform-origin:0 0; transform:scale(var(--k,1)); font-family:var(--sans); -webkit-font-smoothing:antialiased; color:#111; font-variant-numeric:tabular-nums; }
+  .wf-phone{ position:absolute; left:164px; top:66px; width:272px; height:578px; border-radius:48px; background:#1C1C1E; padding:7px; box-shadow:0 0 0 1.5px #3A3A3C inset, 0 34px 70px rgba(30,25,15,.16), 0 8px 18px rgba(30,25,15,.08); }
+  .wf-screen{ position:relative; width:100%; height:100%; border-radius:41px; overflow:hidden; background:#0E0E11; }
+  .wf-island{ position:absolute; left:50%; top:10px; width:78px; height:23px; translate:-50% 0; background:#000; border-radius:12px; z-index:30; }
+  .wf-sb{ position:absolute; left:0; right:0; top:13px; display:flex; justify-content:space-between; padding:0 26px 0 30px; font-size:11px; font-weight:500; color:#fff; z-index:29; }
+  .wf-sb i{ display:flex; gap:3px; align-items:center; } .wf-sb i b{ display:block; width:3px; background:#fff; border-radius:1px; }
+  .wf-sb i u{ display:block; width:18px; height:8px; border:1.2px solid #fff; border-radius:3px; margin-left:4px; position:relative; } .wf-sb i u::after{ content:""; position:absolute; inset:1px 4px 1px 1px; background:#fff; border-radius:1px; }
+  .wf-home{ position:absolute; left:50%; bottom:7px; width:90px; height:4px; border-radius:2px; background:#111; translate:-50% 0; z-index:31; }
+  .wf-coin{ display:grid; place-items:center; border-radius:50%; color:#fff; font-weight:500; flex:none; }
+  .wf-in{ transition:opacity .5s cubic-bezier(.2,.8,.2,1), translate .5s cubic-bezier(.2,.8,.2,1); }
+  .wf-off .wf-in{ opacity:0; translate:0 8px; }
+
+  /* главный экран */
+  .wf-a{ position:absolute; inset:0; transition:translate .5s cubic-bezier(.3,.7,.1,1), filter .5s; }
+  .wf-a.away{ translate:-28% 0; filter:brightness(.7); }
+  .wf-top{ position:absolute; left:0; right:0; top:0; height:280px; background:radial-gradient(110% 70% at 10% 0%, #2F3340 0%, transparent 60%), radial-gradient(80% 60% at 100% 35%, #1F2E2A 0%, transparent 65%), #0F1013; }
+  .wf-me{ position:absolute; left:16px; right:16px; top:46px; display:flex; align-items:center; gap:9px; font-size:11.5px; color:#fff; }
+  .wf-me .wf-coin{ width:28px; height:28px; font-size:10px; background:linear-gradient(135deg,#6E7BFF,#3C9BFF); }
+  .wf-me small{ display:block; font-size:9px; color:#9A9AA2; }
+  .wf-me svg{ margin-left:auto; }
+  .wf-total{ position:absolute; left:16px; right:16px; top:88px; color:#fff; }
+  .wf-total small{ font-size:9.5px; color:#9A9AA2; }
+  .wf-total strong{ display:block; font-size:30px; line-height:36px; font-weight:500; letter-spacing:-.02em; margin-top:2px; }
+  .wf-total strong em{ font-style:normal; color:#7C7C85; font-size:20px; }
+  .wf-chg{ display:inline-flex; gap:4px; align-items:center; margin-top:4px; font-size:9.5px; padding:3px 8px; border-radius:999px; background:rgba(52,199,89,.14); color:#43D67A; }
+  .wf-spark{ position:absolute; left:0; right:0; top:160px; height:42px; }
+  .wf-spark path.l{ fill:none; stroke:#43D67A; stroke-width:1.6; stroke-linecap:round; stroke-dasharray:420; stroke-dashoffset:420; transition:stroke-dashoffset 1.4s cubic-bezier(.3,.7,.1,1); }
+  .wf-spark path.f{ fill:url(#wfg); opacity:0; transition:opacity .8s .6s; }
+  .wf-spark.on path.l{ stroke-dashoffset:0; } .wf-spark.on path.f{ opacity:1; }
+  .wf-acts{ position:absolute; left:14px; right:14px; top:214px; display:grid; grid-template-columns:repeat(4,1fr); }
+  .wf-act{ display:flex; flex-direction:column; align-items:center; gap:5px; font-size:8.5px; color:#D6D6DC; }
+  .wf-act i{ width:36px; height:36px; border-radius:50%; background:#22242B; display:grid; place-items:center; transition:scale .15s, background .2s; }
+  .wf-act.main i{ background:#43D67A; }
+  .wf-act.press i{ scale:.86; }
+  .wf-sheet{ position:absolute; left:0; right:0; top:276px; bottom:0; background:#fff; border-radius:22px 22px 0 0; padding:12px 14px 0; }
+  .wf-sh{ display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:500; margin-bottom:4px; }
+  .wf-sh span{ font-size:9.5px; color:#8E8E93; font-weight:400; }
+  .wf-row{ position:relative; height:46px; display:flex; align-items:center; gap:10px; margin:0 -6px; padding:0 6px; border-radius:12px; transition:background .5s; }
+  .wf-row.flash{ background:#EEF9F2; }
+  .wf-row .wf-coin{ width:32px; height:32px; font-size:10px; }
+  .wf-row b{ display:block; font-size:11.5px; font-weight:500; line-height:15px; }
+  .wf-row span{ display:block; font-size:9.5px; color:#8E8E93; line-height:13px; }
+  .wf-val{ margin-left:auto; text-align:right; }
+  .wf-val b{ font-size:11px; } .wf-val span.up{ color:#21A05A; } .wf-val span.dn{ color:#E5484D; }
+  .wf-nav{ position:absolute; left:0; right:0; bottom:0; height:62px; background:#fff; border-top:1px solid #EFEFF2; display:flex; justify-content:space-around; padding-top:8px; font-size:8px; color:#9A9AA0; z-index:3; }
+  .wf-nav div{ display:flex; flex-direction:column; align-items:center; gap:3px; } .wf-nav .on{ color:#111; }
+
+  /* экран обмена */
+  .wf-b{ position:absolute; inset:0; translate:100% 0; transition:translate .5s cubic-bezier(.3,.7,.1,1); box-shadow:-12px 0 30px rgba(0,0,0,.18); z-index:5; background:#0F1013; }
+  .wf-b.in{ translate:0 0; }
+  .wf-bh{ position:absolute; left:14px; right:14px; top:48px; display:flex; align-items:center; gap:10px; color:#fff; }
+  .wf-bh b{ display:block; font-size:13px; font-weight:500; } .wf-bh small{ font-size:9px; color:#9A9AA2; }
+  .wf-bh .back{ width:26px; height:26px; border-radius:50%; background:#22242B; display:grid; place-items:center; }
+  .wf-body{ position:absolute; left:0; right:0; top:96px; bottom:0; background:#F6F6F8; border-radius:22px 22px 0 0; padding:14px 12px; }
+  .wf-card{ background:#fff; border-radius:16px; padding:11px 12px; }
+  .wf-card small{ font-size:9px; color:#8E8E93; }
+  .wf-line{ display:flex; align-items:center; justify-content:space-between; margin-top:6px; }
+  .wf-pick{ display:flex; align-items:center; gap:6px; padding:4px 8px 4px 4px; border-radius:999px; background:#F2F2F5; font-size:10.5px; font-weight:500; }
+  .wf-pick .wf-coin{ width:20px; height:20px; font-size:7.5px; }
+  .wf-amt{ font-size:24px; font-weight:500; letter-spacing:-.02em; min-width:30px; text-align:right; }
+  .wf-amt.ph{ color:#C7C7CC; }
+  .wf-caret{ display:inline-block; width:1.5px; height:20px; background:#2F9BFF; margin-left:2px; vertical-align:-3px; animation:wf-caret 1s steps(1) infinite; }
+  .wf-swapbtn{ width:30px; height:30px; margin:-9px auto; position:relative; z-index:2; border-radius:50%; background:#111; border:3px solid #F6F6F8; display:grid; place-items:center; transition:rotate .4s cubic-bezier(.3,.7,.1,1); }
+  .wf-swapbtn.turn{ rotate:180deg; }
+  .wf-rate{ display:flex; justify-content:space-between; font-size:9.5px; color:#8E8E93; margin:12px 4px 0; }
+  .wf-rate b{ color:#111; font-weight:500; }
+  .wf-go{ position:absolute; left:12px; right:12px; bottom:28px; height:42px; border-radius:14px; background:#111; color:#fff; font-size:11.5px; font-weight:500; display:flex; align-items:center; justify-content:center; gap:8px; transition:scale .15s, background .3s, opacity .3s; }
+  .wf-go.dis{ opacity:.35; } .wf-go.press{ scale:.97; }
+  .wf-spin{ width:12px; height:12px; border-radius:50%; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; animation:wf-spin .8s linear infinite; display:none; }
+  .wf-go.busy .wf-spin{ display:block; }
+  .wf-done{ position:absolute; left:0; right:0; bottom:0; height:250px; background:#fff; border-radius:24px 24px 0 0; box-shadow:0 -10px 30px rgba(0,0,0,.12); translate:0 110%; transition:translate .5s cubic-bezier(.3,.7,.1,1); z-index:6; text-align:center; padding-top:26px; }
+  .wf-done.up{ translate:0 0; }
+  .wf-shade{ position:absolute; inset:0; background:rgba(0,0,0,.35); opacity:0; transition:opacity .4s; z-index:6; pointer-events:none; }
+  .wf-shade.on{ opacity:1; }
+  .wf-check{ width:46px; height:46px; margin:0 auto 10px; border-radius:50%; background:#43D67A; display:grid; place-items:center; scale:.6; transition:scale .45s cubic-bezier(.3,1.6,.5,1) .15s; }
+  .wf-done.up .wf-check{ scale:1; }
+  .wf-done b{ display:block; font-size:14px; font-weight:500; }
+  .wf-done p{ margin:6px 0 0; font-size:10px; color:#8E8E93; }
+  .wf-done .wf-go{ position:absolute; bottom:28px; }
+  @keyframes wf-caret{ 50%{ opacity:0; } }
+  @keyframes wf-spin{ to{ rotate:360deg; } }
+  /* ---------- Лаборатория · мобильное криптоприложение: ролик в стиле «записи экрана» ---------- */
+  .cover:has(.cf){ position:relative; overflow:hidden; }
+  .cf{ position:absolute; inset:0; overflow:hidden; border-radius:12px; color:#14130F; font-family:var(--sans); background:#F1EFEA; }
+  .cf-stage{ position:absolute; left:0; top:0; width:405px; height:480px; transform-origin:0 0; transform:scale(var(--k,1)); }
+  .cf-cap{ position:absolute; left:24px; top:20px; z-index:6; }
+  .cf-t{ display:inline-block; padding:6px 12px; border-radius:8px; background:#fff; color:#14130F; font:500 14px/20px var(--sans); white-space:nowrap; transition:opacity .35s var(--ease); }
+  .cf-t.out{ opacity:0; }
+  .cf-phone{ position:absolute; left:103px; top:66px; width:198px; padding:6px; border-radius:38px; background:#151313; box-shadow:0 40px 90px rgba(0,0,0,.6), 0 0 0 1.5px #3A3634 inset; transition:translate .9s cubic-bezier(.2,.8,.2,1); }
+  .cf-phone.tilt{ translate:0 -6px; }
+  .cf-screen{ position:relative; width:186px; height:400px; border-radius:32px; overflow:hidden; background:#0C0A09; }
+  .cf-shot{ position:absolute; inset:0; margin:0; opacity:0; scale:1.04; filter:blur(8px); transition:opacity .7s var(--ease), scale 1s cubic-bezier(.2,.8,.2,1), filter .7s var(--ease); }
+  .cf-shot.on{ opacity:1; scale:1; filter:none; }
+  .cf-shot img{ display:block; width:100%; height:auto; transition:transform 1.6s cubic-bezier(.65,0,.35,1); }
+  .cf-tap{ position:absolute; z-index:5; width:26px; height:26px; margin:-13px 0 0 -13px; border-radius:50%; background:rgba(255,255,255,.7); box-shadow:0 0 0 1px rgba(255,255,255,.9), 0 6px 16px rgba(0,0,0,.25); opacity:0; pointer-events:none; transition:left .7s cubic-bezier(.3,.7,.1,1), top .7s cubic-bezier(.3,.7,.1,1), opacity .3s, scale .15s; }
+  .cf-tap.press{ scale:.82; }
+  .cf-ring{ position:absolute; z-index:4; width:26px; height:26px; margin:-13px 0 0 -13px; border-radius:50%; border:2px solid #43D67A; opacity:0; pointer-events:none; }
+  .cf-ring.on{ animation:cf-ring .9s cubic-bezier(.2,.8,.2,1); }
+  .cf-pulse{ position:absolute; z-index:4; border-radius:999px; pointer-events:none; }
+  .cf-pulse.on{ animation:cf-pulse 1.1s ease-out 2; }
+  .cf-dots{ position:absolute; left:24px; bottom:24px; z-index:6; display:flex; gap:6px; }
+  .cf-dots i{ display:block; width:14px; height:3px; border-radius:2px; background:rgba(20,19,15,.25); transition:width .5s var(--ease), background .4s; }
+  .cf-dots i.on{ width:30px; background:#14130F; }
+  @keyframes cf-ring{ 0%{ opacity:0; transform:scale(.6); } 25%{ opacity:1; } 100%{ opacity:0; transform:scale(2.2); } }
+  @keyframes cf-pulse{ 0%{ box-shadow:0 0 0 0 rgba(67,214,122,.6); } 100%{ box-shadow:0 0 0 14px rgba(67,214,122,0); } }
+
+  /* ---------- Проекты: промо-ролики живых сайтов на обложках ---------- */
+  .cover:has(.pv){ position:relative; overflow:hidden; background:#0B0B0E; }
+  .pv{ position:absolute; inset:0; overflow:hidden; border-radius:12px; }
+  .pv-stage{ position:absolute; left:0; top:0; width:845px; height:581px; transform-origin:0 0; transform:scale(var(--k,1)); font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  .pv--respawn{ --acc:#E4321A; background:radial-gradient(55% 70% at 18% 8%, rgba(228,50,26,.38), transparent 62%), radial-gradient(45% 60% at 92% 92%, rgba(120,70,210,.28), transparent 62%), #0B0B0E; }
+  .pv--prowrap{ --acc:#FFD426; background:radial-gradient(55% 65% at 15% 10%, rgba(255,212,38,.30), transparent 62%), radial-gradient(40% 50% at 95% 95%, rgba(255,212,38,.12), transparent 60%), #121214; }
+  .pv--queen{ --acc:#80FF00; background:radial-gradient(55% 70% at 18% 10%, rgba(128,255,0,.24), transparent 62%), radial-gradient(45% 55% at 92% 90%, rgba(40,180,90,.22), transparent 62%), #07080A; }
+  .pv-win{ position:absolute; left:44px; top:52px; width:600px; border-radius:12px; overflow:hidden; background:#1A1A1D; box-shadow:0 34px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.08); transition:translate .5s cubic-bezier(.2,.8,.2,1); }
+  .pv-bar{ position:relative; height:30px; display:flex; align-items:center; gap:6px; padding:0 12px; background:#222226; }
+  .pv-bar i{ width:9px; height:9px; border-radius:50%; background:#FF5F57; } .pv-bar i:nth-child(2){ background:#FEBC2E; } .pv-bar i:nth-child(3){ background:#28C840; }
+  .pv-url{ position:absolute; left:50%; translate:-50% 0; display:flex; gap:6px; align-items:center; font-size:11px; color:#C9C9CE; background:#2D2D32; padding:3px 12px; border-radius:6px; letter-spacing:.01em; }
+  .pv-view{ position:relative; height:375px; overflow:hidden; background:#000; }
+  .pv-track{ position:absolute; left:0; top:0; width:100%; will-change:transform; transition:transform 1s cubic-bezier(.65,0,.35,1); }
+  .pv-track img{ display:block; width:100%; height:375px; object-fit:contain; background:#1A1A1D; }
+  .pv-phone{ position:absolute; left:610px; bottom:30px; width:190px; padding:7px; border-radius:34px; background:#111113; box-shadow:0 30px 70px rgba(0,0,0,.55), 0 0 0 1.5px #34343A inset; transition:translate .5s cubic-bezier(.2,.8,.2,1); }
+  .pv-pscreen{ position:relative; width:176px; border-radius:27px; overflow:hidden; background:#000; }
+  .pv-psb{ position:absolute; left:0; right:0; top:0; z-index:3; height:30px; display:flex; text-shadow:0 1px 2px rgba(0,0,0,.45); background:linear-gradient(180deg, rgba(10,10,12,.62), rgba(10,10,12,.28)); -webkit-backdrop-filter:blur(8px) saturate(140%); backdrop-filter:blur(8px) saturate(140%); align-items:center; justify-content:space-between; padding:2px 20px 0 22px; font-size:9px; font-weight:600; color:#fff; }
+  .pv-psb i{ display:flex; gap:2px; align-items:flex-end; } .pv-psb i b{ display:block; width:2.5px; background:#fff; border-radius:1px; }
+  .pv-psb i u{ display:block; width:15px; height:7px; border:1px solid #fff; border-radius:2px; margin-left:3px; position:relative; } .pv-psb i u::after{ content:""; position:absolute; inset:1px 3px 1px 1px; background:#fff; border-radius:1px; }
+  .pv-pview{ position:relative; overflow:hidden; background:#000; }
+  .pv-phome{ position:absolute; left:0; right:0; bottom:0; z-index:3; height:14px; display:grid; place-items:center; } .pv-phome::after{ content:""; width:58px; height:3.5px; border-radius:2px; background:rgba(255,255,255,.85); }
+  .pv-pscreen::after{ content:""; position:absolute; left:50%; top:7px; width:52px; height:15px; translate:-50% 0; border-radius:9px; background:#000; z-index:4; }
+  .pv-ptrack{ position:absolute; left:0; top:0; width:100%; will-change:transform; transition:transform .9s cubic-bezier(.65,0,.35,1); }
+  .pv-ptrack img{ display:block; width:176px; height:var(--pv-v); object-fit:contain; background:#000; }
+  .pv-cursor{ position:absolute; left:0; top:0; width:22px; height:22px; z-index:5; opacity:0; pointer-events:none; transition:transform 1s cubic-bezier(.3,.7,.1,1), opacity .35s; filter:drop-shadow(0 2px 4px rgba(0,0,0,.4)); }
+  .pv-cursor.click{ scale:.86; transition:transform 1s cubic-bezier(.3,.7,.1,1), opacity .35s, scale .12s; }
+  .pv-ring{ position:absolute; z-index:4; border:2px solid var(--acc); border-radius:8px; opacity:0; pointer-events:none; }
+  .pv-ring.on{ animation:pv-ring .9s cubic-bezier(.2,.8,.2,1); }
+  .pv-ripple{ position:absolute; z-index:4; width:16px; height:16px; margin:-8px 0 0 -8px; border-radius:50%; background:var(--acc); opacity:0; pointer-events:none; }
+  .pv-ripple.on{ animation:pv-ripple .7s cubic-bezier(.2,.8,.2,1); }
+  .pv-tap{ position:absolute; z-index:4; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%; background:rgba(255,255,255,.55); box-shadow:0 0 0 1px rgba(255,255,255,.7); opacity:0; pointer-events:none; }
+  .pv-tap.on{ animation:pv-tap .6s cubic-bezier(.2,.8,.2,1); }
+  @keyframes pv-ring{ 0%{ opacity:0; transform:scale(1.15); } 30%{ opacity:1; transform:scale(1); } 100%{ opacity:0; transform:scale(1.05); } }
+  @keyframes pv-ripple{ 0%{ opacity:.55; transform:scale(.4); } 100%{ opacity:0; transform:scale(4.5); } }
+  @keyframes pv-tap{ 0%{ opacity:0; transform:scale(.6); } 25%{ opacity:1; transform:scale(1); } 100%{ opacity:0; transform:scale(1.4); } }
+
+  /* поправки к сценам кошелька и криптоприложения: подписи шагов и точки убраны, экран обрезается по скруглению */
+  .hl li{ display:block; position:relative; padding-left:20px; color:var(--mute); }
+  .hl li::before{ position:absolute; left:0; top:0; }
+  .wf-zoom{ position:absolute; inset:0; transition:transform .95s cubic-bezier(.65,0,.35,1); }
+  .cf-shot img{ min-height:100%; object-fit:cover; object-position:top; }
+  .wf-cap, .wf-dots, .cf-cap{ display:none; }
+  .wf-screen{ clip-path:inset(0 round 41px); }
+  .pv-pscreen{ clip-path:inset(0 round 27px); }
+  @media (max-width:640px){
+    .drawer{ padding:24px 16px; }
+    .sheet header, .sheet footer{ padding:16px; }
+    .case-body{ padding:8px; gap:8px; }
+    .cs-name{ flex-direction:column; gap:12px; } .cs-name img{ width:44px; height:44px; border-radius:13px; }
+    .cs-meta{ grid-template-columns:1fr 1fr; justify-content:stretch; }
+    .cs-two{ grid-template-columns:1fr; gap:24px; }
+    .cs-res{ grid-template-columns:1fr 1fr; gap:16px 24px; }
+    .cs-sec{ padding:24px 16px; }
+    .cs-shot, .cs-phones{ border-radius:12px; }
+    .cs-phones{ gap:12px 8px; padding:24px 8px; }
+  }
+
+  /* Заставка при открытии: белое пятно меняет форму на чёрном (как на gridnevdesign.com),
+     потом разрастается на весь экран и растворяется в белой странице */
+  .boot{ position:fixed; inset:0; z-index:100; display:grid; place-items:center; background:#000; transition:opacity .35s ease .55s; }
+  .boot-blob{ width:70px; aspect-ratio:1; background:#fff; animation:boot-blob 2s infinite; transition:scale .8s cubic-bezier(.7,0,.2,1); }
+  @supports not (clip-path: shape(from 0% 0%, line to 100% 0%)){
+    .boot-blob{ border-radius:50%; animation:boot-pulse 1.2s ease-in-out infinite; }
+  }
+  @keyframes boot-pulse{ 50%{ scale:.72; } }
+  .boot.out{ opacity:0; pointer-events:none; }
+  .boot.out .boot-blob{ scale:48; }
+  html.booting{ overflow:hidden; }
+  @keyframes boot-blob {
+    0%, 100% {
+      clip-path: shape(
+        from 99.49% 44.97%,
+        curve to 99.49% 55.03% with 100.00% 50.00%,
+        curve to 97.46% 64.89% with 98.98% 60.06%,
+        curve to 93.49% 74.14% with 95.95% 69.72%,
+        curve to 87.74% 82.40% with 91.04% 78.56%,
+        curve to 80.45% 89.34% with 84.45% 86.24%,
+        curve to 71.91% 94.66% with 76.45% 92.43%,
+        curve to 62.47% 98.16% with 67.37% 96.89%,
+        curve to 52.52% 99.68% with 57.57% 99.42%,
+        curve to 42.47% 99.17% with 47.47% 99.94%,
+        curve to 32.72% 96.65% with 37.47% 98.40%,
+        curve to 23.69% 92.21% with 27.98% 94.89%,
+        curve to 15.73% 86.05% with 19.39% 89.54%,
+        curve to 9.17% 78.42% with 12.06% 82.57%,
+        curve to 4.29% 69.62% with 6.28% 74.27%,
+        curve to 1.27% 60.01% with 2.29% 64.97%,
+        curve to 0.26% 50.00% with 0.26% 55.06%,
+        curve to 1.27% 39.99% with 0.26% 44.94%,
+        curve to 4.29% 30.38% with 2.29% 35.03%,
+        curve to 9.17% 21.58% with 6.28% 25.73%,
+        curve to 15.73% 13.95% with 12.06% 17.43%,
+        curve to 23.69% 7.79% with 19.39% 10.46%,
+        curve to 32.72% 3.35% with 27.98% 5.11%,
+        curve to 42.47% 0.83% with 37.47% 1.60%,
+        curve to 52.52% 0.32% with 47.47% 0.06%,
+        curve to 62.47% 1.84% with 57.57% 0.58%,
+        curve to 71.91% 5.34% with 67.37% 3.11%,
+        curve to 80.45% 10.66% with 76.45% 7.57%,
+        curve to 87.74% 17.60% with 84.45% 13.76%,
+        curve to 93.49% 25.86% with 91.04% 21.44%,
+        curve to 97.46% 35.11% with 95.95% 30.28%,
+        curve to 99.49% 44.97% with 98.98% 39.94%
+      );
+      animation-timing-function: linear(
+        0, 0.015, 0.058 0.7%, 0.238 1.5%, 1.422 4.9%, 1.581 5.7%, 1.622, 1.638, 1.632,
+        1.606 7.2%, 1.491 8.1%, 0.727 11.5%, 0.629, 0.593 13.1%, 0.597, 0.613 13.8%,
+        0.685 14.6%, 1.174 18%, 1.237, 1.26 19.6%, 1.258, 1.247 20.4%, 1.201 21.2%,
+        0.888 24.6%, 0.849, 0.834 26.2%, 0.836, 0.842 26.9%, 0.872 27.7%, 1.071 31.2%,
+        1.096, 1.106, 1.101, 1.082 34.3%, 0.955 37.7%, 0.938, 0.932, 0.935,
+        0.948 40.9%, 1.029 44.3%, 1.039, 1.043, 1.041, 1.034 47.4%, 0.982 50.9%,
+        0.972, 0.977 53.8%, 1.01 57.2%, 1.018 59%, 1.015 60.3%, 0.994 63.7%,
+        0.989 65.5%, 0.991 66.9%, 1.004 70.3%, 1.007 72%, 0.995 78.6%, 1.003 85%,
+        0.998 91.6%, 1.001
+      );
+    }
+    30% {
+      clip-path: shape(
+        from 73.99% 47.36%,
+        curve to 79.87% 53.85% with 72.28% 50.00%,
+        curve to 88.83% 62.47% with 87.47% 57.70%,
+        curve to 79.89% 65.44% with 90.19% 67.25%,
+        curve to 71.86% 69.51% with 69.59% 63.63%,
+        curve to 71.30% 77.50% with 74.14% 75.39%,
+        curve to 64.93% 80.21% with 68.45% 79.61%,
+        curve to 58.77% 85.38% with 61.42% 80.82%,
+        curve to 52.40% 83.06% with 56.12% 89.93%,
+        curve to 44.62% 81.30% with 48.67% 76.18%,
+        curve to 39.82% 79.35% with 40.57% 86.43%,
+        curve to 34.42% 74.21% with 39.08% 72.26%,
+        curve to 21.83% 78.57% with 29.75% 76.16%,
+        curve to 16.56% 74.04% with 13.91% 80.98%,
+        curve to 24.21% 61.81% with 19.20% 67.09%,
+        curve to 14.76% 55.79% with 29.23% 56.52%,
+        curve to 5.19% 50.50% with 0.30% 55.05%,
+        curve to 15.10% 43.28% with 10.08% 45.94%,
+        curve to 25.35% 39.92% with 20.12% 40.63%,
+        curve to 21.89% 28.82% with 30.57% 39.22%,
+        curve to 21.55% 21.22% with 13.21% 18.41%,
+        curve to 33.36% 23.58% with 29.89% 24.02%,
+        curve to 38.67% 18.26% with 36.82% 23.14%,
+        curve to 44.18% 10.34% with 40.52% 13.39%,
+        curve to 50.54% 18.08% with 47.83% 7.29%,
+        curve to 56.70% 25.72% with 53.24% 28.87%,
+        curve to 65.38% 19.77% with 60.16% 22.56%,
+        curve to 76.19% 16.76% with 70.59% 16.97%,
+        curve to 82.03% 22.05% with 81.79% 16.55%,
+        curve to 81.63% 32.12% with 82.27% 27.54%,
+        curve to 78.35% 40.71% with 81.00% 36.70%,
+        curve to 73.99% 47.36% with 75.70% 44.72%
+      );
+    }
+  }
+
+  /* ---------- мобильная версия: Figma «Site · Mobile App 390», правила — MOBILE-DS.md ----------
+     таб-бар внизу (Проекты · Лаборатория · Обо мне · Связаться), карусели вместо колонок, контакты — в шторке */
+  .m-app body{ padding-bottom:calc(88px + env(safe-area-inset-bottom, 0px)); }
+  .m-app .content{ padding:0 16px; }
+  .m-app .header{ padding:6px 0; } .m-app .link-name{ font:500 17px/24px var(--sans); }
+  .m-app .avatar{ width:36px; height:36px; border-radius:18px; }
+  .m-app .lang{ min-width:44px; min-height:44px; padding:0 0 0 12px; font:500 14px/20px var(--sans); text-align:right; }
+  .m-app .hero{ padding:12px 0 20px; } .m-app .hero-content{ gap:8px; }
+  .m-app .hero-role{ font:500 16px/24px var(--sans); color:var(--grey); }
+  .m-app .headline{ font:600 24px/30px var(--sans); letter-spacing:0; } .m-app .headline br{ display:inline; }
+  .m-app .more-link, .m-app .btn-write, .m-app .meta, .m-app .tabs-row, .m-app .footer, .m-app .halftone{ display:none; }
+  .m-sh{ display:flex; align-items:center; justify-content:space-between; padding:0 0 12px; }
+  .m-sh h2{ margin:0; font:600 20px/26px var(--sans); }
+  .m-sh button{ display:inline-flex; align-items:center; gap:2px; min-height:44px; padding:0 0 0 8px; color:var(--mute); }
+  .m-sec{ padding-bottom:20px; }
+  .m-head{ display:flex; flex-direction:column; gap:8px; padding:12px 0 24px; } .m-head h1{ margin:0; font:600 32px/38px var(--sans); } .m-head p{ margin:0; font:400 15px/22px var(--sans); color:var(--mute); }
+  /* карусели */
+  .m-track{ display:flex; flex-direction:row; gap:12px; margin:0 -16px; padding:0 16px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding:0 16px; overscroll-behavior-x:contain; scrollbar-width:none; }
+  .m-track::-webkit-scrollbar{ display:none; } .m-track > *{ flex:0 0 var(--w, 300px); min-width:0; scroll-snap-align:start; }
+  .m-count{ display:flex; align-items:center; gap:10px; padding-top:12px; font:400 14px/21px var(--sans); color:var(--mute); }
+  .m-dots{ display:flex; gap:4px; } .m-dots i{ width:6px; height:6px; border-radius:3px; background:var(--line); transition:width .25s var(--ease), background .25s; } .m-dots i.on{ width:16px; background:var(--ink); }
+  /* Project card 300: обложка 300×210, название, роль, метрика */
+  .m-app .projects{ display:flex; flex-direction:row; gap:12px; padding:0 16px; }
+  .m-app .project{ --w:330px; display:flex; flex-direction:column; align-items:stretch; gap:14px; cursor:pointer; }
+  .m-app .project-text{ align-items:flex-start; }
+  .m-app .project .cover{ order:-1; aspect-ratio:300/210; border-radius:20px; }
+  .m-app .project-text{ gap:8px; } .m-app .title-group{ gap:4px; }
+  .m-app .project .title{ font:600 20px/26px var(--sans); } .m-app .project .role{ font:400 15px/22px var(--sans); color:var(--mute); }
+  .m-app .project .desc, .m-app .btn-project{ display:none; } .m-app .project .tags{ display:flex; order:0; } .m-app .project .m-read{ order:1; }
+  .m-metric, .m-read{ display:none; }
+  .m-app .m-read{ display:flex; align-items:center; justify-content:center; gap:8px; align-self:stretch; min-height:52px; margin-top:22px; padding:14px 24px; border-radius:14px; background:#ECECEC; color:var(--ink); font:500 17px/24px var(--sans); text-decoration:none; }
+  .m-app .project .cover{ height:210px; aspect-ratio:auto !important; }
+  /* Лаборатория: на главной — ряд карточек 150, во вкладке — сетка 2 колонки */
+  .m-app .lab-masonry{ padding:0; } .m-app .lab-col{ display:contents; }
+  .m-app .concept-card .cover{ aspect-ratio:1/1 !important; border-radius:16px; } .m-app .ls{ border-radius:16px; }
+  .m-app .concept-card .title{ font:500 14px/20px var(--sans); } .m-app .concept-card .year, .m-app .concept-card .desc{ font:400 13px/18px var(--sans); }
+  .m-app .card-info{ gap:2px; } .m-app .title-row{ display:block; }
+  .m-app .reveal{ opacity:1; translate:0 0; } .m-app .concept-card.reveal:not(.in) .cover{ clip-path:none; } .m-app .concept-card.reveal:not(.in) .ls{ scale:1; }
+  .m-app[data-view="home"] .lab-masonry{ display:flex; padding:0 16px; } .m-app[data-view="home"] .concept-card{ flex:0 0 150px; min-width:0; scroll-snap-align:start; gap:8px; } .m-app[data-view="home"] .concept-card .desc{ display:none; }
+  .m-app[data-view="lab"] .lab-masonry{ display:grid; grid-template-columns:1fr 1fr; gap:20px 16px; margin:0; padding:0; overflow:visible; }
+  .m-app[data-view="lab"] .concept-card{ gap:8px; } .m-app[data-view="lab"] .concept-card .year{ display:none; }
+  /* вкладки */
+  .m-app[data-view="lab"] .hero, .m-app[data-view="lab"] #m-sec-projects, .m-app[data-view="lab"] .m-sh-lab,
+  .m-app[data-view="about"] .hero, .m-app[data-view="about"] #m-sec-projects, .m-app[data-view="about"] #p-lab, .m-app[data-view="about"] .m-sh-lab,
+  .m-app:not([data-view="lab"]) .m-head-lab{ display:none; }
+  /* «Обо мне» — страница вкладки (Figma «Главная · Обо мне»); боковая панель на мобилке не используется */
+  .m-app .drawer, .m-app .scrim{ display:none; }
+  .m-about{ display:none; }
+  .m-app[data-view="about"] .m-about{ display:flex; flex-direction:column; gap:24px; padding:12px 0 24px; }
+  .m-about h2{ margin:0; font:600 20px/26px var(--sans); } .m-about .m-sub{ margin:0; font:400 15px/22px var(--sans); color:var(--mute); }
+  .m-about .m-portrait{ display:block; width:100%; height:300px; border-radius:16px; object-fit:cover; object-position:center; }
+  .m-about .m-lead{ margin:0; font:400 16px/24px var(--sans); }
+  .m-about .m-cells{ display:flex; flex-direction:column; margin-top:-8px; }
+  .m-about .m-cell{ cursor:default; }
+  .m-about .m-steps{ display:flex; flex-direction:column; gap:12px; }
+  .m-about .m-step{ display:flex; flex-direction:column; gap:8px; padding:20px; border-radius:20px; background:var(--soft); }
+  .m-about .m-step small{ font:500 14px/21px var(--sans); color:var(--mute); } .m-about .m-step b{ font:500 17px/24px var(--sans); } .m-about .m-step p{ margin:0; font:400 15px/22px var(--sans); color:var(--mute); }
+  .m-about .m-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:-8px; } .m-about .m-tags span{ padding:4px 10px; border-radius:8px; background:var(--soft); font:500 14px/20px var(--sans); }
+  .m-about .m-note{ display:flex; flex-direction:column; gap:6px; padding:16px; border-radius:16px; background:var(--soft); }
+  .m-about .m-note small{ font:500 14px/21px var(--sans); color:var(--ink); } .m-about .m-note p{ margin:0; font:400 13px/18px var(--sans); color:var(--mute); }
+  .m-btns{ display:flex; gap:10px; } .m-btns > *{ flex:1; }
+  .m-btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 18px; border-radius:14px; background:var(--soft); color:var(--ink); font:500 16px/24px var(--sans); text-decoration:none; text-align:center; }
+  .m-btn.primary{ background:var(--ink); color:#fff; }
+  .m-app .m-hero-btn{ align-self:stretch; min-height:52px; margin-top:8px; font-size:17px; background:var(--soft); color:var(--ink); }
+  /* Tab bar: плавающая панель 358 × 64, активный таб 80 × 48 */
+  .m-tabs{ display:none; }
+  .m-app .m-tabs{ position:fixed; left:16px; right:16px; bottom:calc(8px + env(safe-area-inset-bottom, 0px)); z-index:15; display:flex; gap:0; padding:8px 6px; border:1px solid var(--line); border-radius:32px; background:rgba(255,255,255,.94); -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); box-shadow:0 8px 32px rgba(20,19,15,.12); }
+  .m-tabs button{ display:flex; flex:1 1 0; min-width:0; flex-direction:column; align-items:center; justify-content:center; gap:2px; height:48px; padding:0 2px; border-radius:24px; color:var(--mute); font:500 11px/14px var(--sans); text-align:center; white-space:nowrap; }
+  .m-tabs button span{ display:block; max-width:100%; text-align:center; }
+  .m-tabs button.on{ background:var(--soft); color:var(--ink); }
+  /* шторка «Связаться» */
+  .m-scrim{ position:fixed; inset:0; z-index:30; background:rgba(20,19,15,.4); opacity:0; pointer-events:none; transition:opacity .3s var(--ease); }
+  .m-sheet{ visibility:hidden; transition:translate .4s var(--ease), visibility 0s .4s; position:fixed; left:0; right:0; bottom:0; z-index:31; padding:8px 16px calc(24px + env(safe-area-inset-bottom, 0px)); border-radius:28px 28px 0 0; background:var(--paper); translate:0 105%; transition:translate .4s var(--ease); }
+  .m-sheet-open .m-scrim{ opacity:1; pointer-events:auto; } .m-sheet-open .m-sheet{ translate:0 0; visibility:visible; transition:translate .4s var(--ease); }
+  .m-grab{ display:block; width:36px; height:5px; margin:0 auto 8px; border-radius:3px; background:rgba(20,19,15,.18); }
+  .m-sheet-head{ display:flex; align-items:center; justify-content:space-between; } .m-sheet-head h3{ margin:0; font:600 20px/26px var(--sans); }
+  .m-ic{ display:grid; place-items:center; width:44px; height:44px; border-radius:22px; background:var(--soft); }
+  .m-cell{ display:flex; align-items:center; gap:14px; width:100%; min-height:64px; padding:12px 4px 12px 0; text-align:left; text-decoration:none; color:inherit; }
+  .m-cell > i{ display:grid; place-items:center; flex:none; width:40px; height:40px; border-radius:20px; background:var(--soft); }
+  .m-cell > span{ flex:1; min-width:0; display:flex; flex-direction:column; } .m-cell b{ font:500 16px/24px var(--sans); } .m-cell em{ font:400 13px/18px var(--sans); font-style:normal; color:var(--mute); }
+  .m-cell > svg{ flex:none; color:var(--mute); }
+</style>
+<script>if (matchMedia('(max-width: 767px)').matches) { document.documentElement.classList.add('m-app'); document.documentElement.dataset.view = 'home'; }</script>
+</head>
+<body>
+<div class="boot" id="boot" aria-hidden="true"><div class="boot-blob"></div></div>
+<script>/* заставка — один раз за визит; при возврате из кейса и при «уменьшить движение» её нет */
+  (function () {
+    var boot = document.getElementById('boot'), html = document.documentElement, seen = false;
+    try { seen = sessionStorage.getItem('boot') === '1'; sessionStorage.setItem('boot', '1'); } catch (e) {}
+    if (seen || /\/cases\//.test(document.referrer) || matchMedia('(prefers-reduced-motion: reduce)').matches) { boot.remove(); window.bootDone = Promise.resolve(); return; }
+    html.classList.add('booting');
+    var t0 = Date.now();
+    window.bootDone = new Promise(function (done) {
+      var finish = function () {
+        if (finish.ran) return; finish.ran = true;
+        setTimeout(function () {
+          boot.classList.add('out'); html.classList.remove('booting');
+          setTimeout(done, 450); setTimeout(function () { boot.remove(); }, 1000);
+        }, Math.max(0, 1300 - (Date.now() - t0)));
+      };
+      (document.fonts ? document.fonts.ready : Promise.resolve()).then(finish, finish);
+      setTimeout(finish, 2600);
+    });
+  })();
+</script>
+
+<div class="content" id="top">
+  <!-- Header -->
+  <header class="header">
+    <a class="link-name" href="#top" aria-label="Maksim Gridnev">
+      <span class="avatar" aria-hidden="true"><img src="assets/avatar.jpg" alt="" width="64" height="64"></span>
+      <span>Maksim Gridnev</span>
+    </a>
+    <button class="lang" id="lang" type="button">eng</button>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" aria-label="Максим Гриднев">
+    <div class="hero-content">
+      <p class="hero-role">AI-Native Product Designer</p>
+      <h1 class="headline" data-i18n="h1">Проектирую цифровые сервисы для B2B и B2C. <br>С помощью AI автоматизирую процессы <br>и быстрее доставляю ценность для бизнеса</h1>
+      <script>/* печать заголовка: текст сразу раскладывается на буквы (невидимые), курсор стоит в начале — без вспышки полного текста */
+        window.typeBuild = function (h, html) {
+          var esc = function (c) { return c === '&' ? '&amp;' : c === '<' ? '&lt;' : c; };
+          h.innerHTML = '<span class="caret idle"></span>' + html.split(/<br\s*\/?>/i).map(function (l) {
+            var t = document.createElement('div'); t.innerHTML = l;
+            return Array.from(t.textContent).map(function (c) { return '<span class="ch">' + esc(c) + '</span>'; }).join('');
+          }).join('<br>');
+        };
+        (function (h) { h.dataset.ru = h.innerHTML; if (!matchMedia('(prefers-reduced-motion: reduce)').matches) window.typeBuild(h, h.innerHTML); })(document.currentScript.previousElementSibling);</script>
+      <button class="more-link js-about" type="button"><span data-i18n="more">Подробнее обо мне</span><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M11 12L19 20L11 28" stroke="#8A877F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <a class="btn-write" href="https://t.me/grid1max" target="_blank" rel="noopener" data-i18n="write">Написать</a>
+    </div>
+  </section>
+
+  <!-- Meta -->
+  <section class="meta" aria-label="Контакты и разделы">
+    <div class="meta-coords" id="coords" aria-label="Координаты и время"><span>МСК --:--</span><span>·</span><span>37.53096° E</span><span>·</span><span>55.74131° N</span></div>
+    <div class="meta-links">
+      <div class="meta-col">
+        <h2 data-i18n="m.projects">Проекты</h2>
+        <button class="u" type="button" data-go="respawn">Respawn Esports</button>
+        <button class="u" type="button" data-go="queen">Queen Interactive Games</button>
+        <button class="u" type="button" data-go="prowrap">Pro Wrap</button>
       </div>
-    </noscript>
-    <!-- /Yandex.Metrika counter -->
+      <div class="meta-col">
+        <h2 data-i18n="m.lab">Лаборатория</h2>
+        <button class="u" type="button" data-go="lab" data-i18n="lab.link">Концепты UI</button>
+      </div>
+      <div class="meta-col">
+        <h2 data-i18n="m.write">Написать</h2>
+        <a class="u" href="https://t.me/grid1max" target="_blank" rel="noopener">Telegram</a>
+        <a class="u" href="mailto:gridnevmm48@gmail.com">Email</a>
+      </div>
+      <div class="meta-col">
+        <h2 data-i18n="m.other">Другое</h2>
+        <button class="u js-cv" type="button">CV</button>
+        <a class="u" href="https://www.linkedin.com/in/gridnevmm" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
 
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <!-- Tabs row — Проекты -->
+  <nav class="tabs-row" id="tabs" aria-label="Раздел">
+    <div class="tabs">
+      <a class="tab on" href="#p-projects" aria-current="true"><span data-i18n="tab.projects">Проекты</span><span class="count">3</span></a>
+      <a class="tab" href="#p-lab"><span data-i18n="tab.lab">Лаборатория</span><span class="count">9</span></a>
+    </div>
+  </nav>
+
+  <!-- Projects list -->
+  <section class="panel" id="p-projects"><div class="projects" id="projects"></div></section>
+
+  <!-- Tabs row — Лаборатория -->
+  <nav class="tabs-row" aria-label="Раздел">
+    <div class="tabs">
+      <a class="tab" href="#p-projects"><span data-i18n="tab.projects">Проекты</span><span class="count">3</span></a>
+      <a class="tab on" href="#p-lab" aria-current="true"><span data-i18n="tab.lab">Лаборатория</span><span class="count">9</span></a>
+    </div>
+  </nav>
+
+  <!-- Lab masonry -->
+  <section class="panel" id="p-lab"><div class="lab-masonry" id="lab"></div></section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span>Designed by me. Built with AI</span>
+    <a class="to-top" href="#top" id="totop" data-i18n="top">Наверх ↑</a>
+    <span data-i18n="copy">© 2026 Максим Гриднев</span>
+  </footer>
+</div>
+<img class="halftone" src="assets/halftone.png" alt="" aria-hidden="true">
+
+<div class="scrim" id="scrim"></div>
+
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Обо мне" tabindex="-1">
+  <header><span class="label" data-i18n="ab_label">Обо мне</span><button type="button" class="js-close" data-i18n="ab_close">(Закрыть)</button></header>
+  <!-- текст и порядок блоков — Figma «About drawer 600» (531:2910), правки Максима 27.10 -->
+  <section class="about-sec">
+    <h2 data-i18n="ab_h1">От продаж к продуктовому дизайну</h2>
+    <div class="about-body">
+      <p data-i18n="ab_p1">В дизайн я пришёл после 5 лет в продажах, поэтому привык смотреть на задачи с двух сторон:</p>
+      <ol><li data-i18n="ab_li1">Что нужно пользователю ?</li><li data-i18n="ab_li2">Какой результат это принесёт бизнесу ?</li></ol>
+      <p data-i18n="ab_p2">Сейчас проектирую цифровые продукты, изучаю новые подходы и ищу способы делать свою работу лучше</p>
+      <p data-i18n="ab_p3">Мне интересно не просто создавать красивые интерфейсы,<br> а разбираться, какие задачи они решают и почему работают именно так</p>
+    </div>
+  </section>
+  <img class="portrait" src="assets/portrait-about.jpg" alt="Максим Гриднев" width="1050" height="1400" loading="lazy">
+  <section class="about-sec">
+    <h2 data-i18n="ab_h2">Как я подхожу к задачам</h2>
+    <div class="about-steps">
+      <div><h3 data-i18n="ab_s1">Разбираюсь в проблеме</h3><p data-i18n="ab_s1t">Изучаю продукт, аудиторию и существующие решения, чтобы понять, что действительно нужно изменить</p></div>
+      <div><h3 data-i18n="ab_s2">Продумываю сценарии</h3><p data-i18n="ab_s2t">Прорабатываю user flow, проверяю логику переходов и ищу места, где пользователь может столкнуться с трудностями</p></div>
+      <div><h3 data-i18n="ab_s3">Проверяю идеи на практике</h3><p data-i18n="ab_s3t">Собираю прототипы, оцениваю решения и дорабатываю их до понятного пользовательского сценария</p></div>
+    </div>
+  </section>
+  <section class="about-sec">
+    <h2 data-i18n="ab_h3">AI в моей работе</h2>
+    <div class="about-body">
+      <p data-i18n="ab_ai">Использую AI на разных этапах дизайна: от поиска идей и визуальных концепций до сборки интерактивных прототипов. Это помогает быстрее проверять гипотезы, экспериментировать и переходить от идеи к работающему решению.</p>
+      <p class="tools-title" data-i18n="ab_tools">Мой инструментарий:</p>
+      <p class="tools">Figma · Claude Code · Phygital+ · Figma Make · ChatGPT · Gemini · Seedance · Kling</p>
+    </div>
+  </section>
+  <section class="about-sec">
+    <h2 data-i18n="ab_h4">Немного обо мне</h2>
+    <div class="about-body">
+      <p data-i18n="ab_m1">В свободное время стараюсь развиваться не только в профессии. Читаю книги, например “Воруй как художник”, “Пиши, сокращай” и “Интерфейсы. Искусство мыть слона”. Занимаюсь боксом, а иногда просто собираюсь с друзьями за компьютером поиграть.</p>
+      <p data-i18n="ab_m2">Мне нравится пробовать новое, разбираться в незнакомых вещах и находить идеи там, где изначально не искал. Думаю, это помогает мне и в дизайне: смотреть на привычные задачи под другим углом и находить собственные решения.</p>
+    </div>
+  </section>
+  <div class="exp">
+    <div><b>Respawn</b><span data-i18n="ab_r1">AI-native продуктовый дизайнер</span><time>2026</time></div>
+    <div><b>Queen</b><span data-i18n="ab_r2">Продуктовый дизайнер</span><time>2025—2026</time></div>
+    <div><b data-i18n="ab_sales">Продажи</b><span data-i18n="ab_r3">Руководитель отдела продаж</span><time data-i18n="ab_t3">+ до 2023—2025</time></div>
+  </div>
+</aside>
+
+<div class="modal" id="cv" role="dialog" aria-modal="true" aria-label="Резюме" aria-hidden="true">
+  <div class="sheet">
+    <header><span class="fn">cv</span><button type="button" class="js-close" data-i18n="cv_close">(Закрыть)</button></header>
+    <div class="viewer" tabindex="-1"><iframe id="cv-frame" title="Резюме Максима Гриднева" data-src="cv.html?embed=1"></iframe></div>
+    <footer>
+      <span data-i18n="cv_upd">Обновлено 28 октября 2026</span>
+      <nav>
+        <a id="cv-open" href="cv.html" target="_blank" rel="noopener"><span data-i18n="cv_open">Открыть</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a id="cv-pdf" href="assets/Maksim-Gridnev-CV-ru.pdf" download="Maksim-Gridnev-CV-ru.pdf"><span data-i18n="cv_dl">Скачать PDF</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </nav>
+    </footer>
+  </div>
+</div>
+
+<template id="wf-tpl">
+<div class="wf" role="img" aria-label="Концепт криптокошелька: баланс, активы и обмен ETH на USDT">
+ <div class="wf-cap"><span class="wf-t">1. Смотрю баланс</span></div><div class="wf-dots"><i class="on"></i><i></i><i></i><i></i><i></i></div><div class="wf-zoom"><div class="wf-stage" aria-hidden="true"><span class="wf-tap"></span><span class="wf-ring"></span><div class="wf-phone"><div class="wf-screen wf-off">
+  <div class="wf-island"></div>
+  <div class="wf-sb"><span>9:41</span><i><b style="height:4px"></b><b style="height:6px"></b><b style="height:8px"></b><u></u></i></div>
+
+  <!-- главный экран -->
+  <div class="wf-a">
+   <div class="wf-top"></div>
+   <div class="wf-me wf-in"><div class="wf-coin">МГ</div><div><small>Привет,</small>Максим</div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"><path d="M6 9.5a6 6 0 0 1 12 0v4l1.5 2.5h-15L6 13.5z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></div>
+   <div class="wf-total wf-in"><small>Общий баланс</small><strong data-total>$0<em>.00</em></strong><span class="wf-chg">▲ 2,4% за 24 ч</span></div>
+   <svg class="wf-spark" viewBox="0 0 258 42" preserveAspectRatio="none"><defs><linearGradient id="wfg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#43D67A" stop-opacity=".28"/><stop offset="1" stop-color="#43D67A" stop-opacity="0"/></linearGradient></defs>
+    <path class="f" d="M0 34 C20 32 30 26 46 28 S78 36 96 27 S126 12 146 18 S180 30 198 17 S232 6 258 9 L258 42 L0 42 Z"/>
+    <path class="l" d="M0 34 C20 32 30 26 46 28 S78 36 96 27 S126 12 146 18 S180 30 198 17 S232 6 258 9"/></svg>
+   <div class="wf-acts wf-in">
+    <div class="wf-act"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></i>Пополнить</div>
+    <div class="wf-act"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg></i>Отправить</div>
+    <div class="wf-act main" data-swap><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0F1013" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L4 7l3 3M4 7h13M17 20l3-3-3-3M20 17H7"/></svg></i>Обменять</div>
+    <div class="wf-act"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></i>Ещё</div>
+   </div>
+   <div class="wf-sheet">
+    <div class="wf-sh wf-in">Активы <span>Все</span></div>
+    <div class="wf-row wf-in" data-c="btc"><div class="wf-coin" style="background:#F59E2E">₿</div><div><b>Bitcoin</b><span data-q>0.0821 BTC</span></div><div class="wf-val"><b data-v>$5 512.10</b><span class="up">+1,8%</span></div></div>
+    <div class="wf-row wf-in" data-c="eth"><div class="wf-coin" style="background:#6B7CF6">Ξ</div><div><b>Ethereum</b><span data-q>1.2400 ETH</span></div><div class="wf-val"><b data-v>$4 030.00</b><span class="up">+3,1%</span></div></div>
+    <div class="wf-row wf-in" data-c="usdt"><div class="wf-coin" style="background:#26A17B">₮</div><div><b>Tether</b><span data-q>1 880.25 USDT</span></div><div class="wf-val"><b data-v>$1 880.25</b><span>0,0%</span></div></div>
+    <div class="wf-row wf-in" data-c="ton"><div class="wf-coin" style="background:#2F9BFF">T</div><div><b>Toncoin</b><span data-q>412.00 TON</span></div><div class="wf-val"><b data-v>$1 058.00</b><span class="dn">−0,6%</span></div></div>
+   </div>
+   <div class="wf-nav">
+    <div class="on"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4 10.5L12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z"/></svg>Главная</div>
+    <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19l5-6 4 3 7-9"/></svg>Рынок</div>
+    <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L4 7l3 3M4 7h13M17 20l3-3-3-3M20 17H7"/></svg>Обмен</div>
+    <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"/></svg>Профиль</div>
+   </div>
+  </div>
+
+  <!-- экран обмена -->
+  <div class="wf-b">
+   <div class="wf-bh"><span class="back"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></span><div><b>Обмен</b><small>Комиссия 0,1%</small></div></div>
+   <div class="wf-body">
+    <div class="wf-card"><small>Отдаю</small><div class="wf-line"><span class="wf-pick"><span class="wf-coin" style="background:#6B7CF6">Ξ</span>ETH ▾</span><span class="wf-amt ph" data-from>0<span class="wf-caret"></span></span></div><small>Доступно: 1.2400 ETH</small></div>
+    <div class="wf-swapbtn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 4v16M6 14l6 6 6-6"/></svg></div>
+    <div class="wf-card"><small>Получаю</small><div class="wf-line"><span class="wf-pick"><span class="wf-coin" style="background:#26A17B">₮</span>USDT ▾</span><span class="wf-amt ph" data-to>0</span></div><small>≈ без учёта комиссии сети</small></div>
+    <div class="wf-rate"><span>Курс</span><b>1 ETH = 3 250.00 USDT</b></div>
+    <div class="wf-go dis" data-exec><span class="wf-spin"></span><span data-golabel>Обменять</span></div>
+   </div>
+   <div class="wf-shade"></div>
+   <div class="wf-done"><div class="wf-check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <b>Обмен выполнен</b><p>0.25 ETH → 811.69 USDT</p><div class="wf-go" data-ok>Готово</div></div>
+  </div>
+  <div class="wf-home"></div>
+ </div></div></div></div>
+</div>
+</template>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const MOB = document.documentElement.classList.contains('m-app'); // мобильная версия (≤ 767): вкладки и таб-бар
+
+  /* ---------- Projects list: обложки — промо-ролики живых сайтов (не трогать) ---------- */
+  const PROMO = {
+    respawn: { url:'https://respawnesports.xyz/', host:'respawnesports.xyz', d:8, m:6, v:381, cta:{ x:48, y:736, w:190, h:52 } },
+    queen:   { url:'https://spinit.com/en/', host:'spinit.com', d:8, m:6, v:381, cta:{ x:304, y:298, w:260, h:56 } },
+    prowrap: { url:'https://prowrapcy.vercel.app/', host:'prowrapcy.vercel.app', d:8, m:6, v:381, cta:{ x:64, y:658, w:162, h:51 } },
+  };
+  const promoCover = (cover, key) => {
+    const P = PROMO[key], base = `assets/promo/${key}/`;
+    const imgs = (pre, n) => Array.from({ length:n }, (_, i) => `<img data-src="${base}${pre}${i}.jpg" alt="" decoding="async">`).join('');
+    cover.innerHTML = `<div class="pv pv--${key}" aria-hidden="true"><div class="pv-stage" style="--pv-v:${P.v}px">
+      <div class="pv-win"><div class="pv-bar"><i></i><i></i><i></i><span class="pv-url"><svg width="9" height="10" viewBox="0 0 24 24" fill="#C9C9CE"><path d="M7 10V7a5 5 0 0 1 10 0v3h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V7a3 3 0 0 0-6 0z"/></svg>${P.host}</span></div>
+        <div class="pv-view"><div class="pv-track">${imgs('d', P.d)}</div></div></div>
+      <div class="pv-phone"><div class="pv-pscreen"><div class="pv-psb"><span>9:41</span><i><b style="height:3px"></b><b style="height:5px"></b><b style="height:7px"></b><u></u></i></div><div class="pv-pview" style="height:${P.v}px"><div class="pv-ptrack">${imgs('m', P.m)}</div><span class="pv-tap"></span></div><div class="pv-phome"></div></div></div>
+      <span class="pv-ring"></span><span class="pv-ripple"></span>
+      <svg class="pv-cursor" viewBox="0 0 24 24"><path d="M4 2.5l15 8.2-6.6 1.7L9 19.2z" fill="#fff" stroke="#111" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    </div></div>`;
+    const q = s => cover.querySelector(s);
+    const stage = q('.pv-stage'), win = q('.pv-win'), phone = q('.pv-phone'), track = q('.pv-track'), ptrack = q('.pv-ptrack');
+    const cursor = q('.pv-cursor'), ring = q('.pv-ring'), ripple = q('.pv-ripple'), tap = q('.pv-tap');
+    const fit = () => stage.style.setProperty('--k', cover.clientWidth / 845);
+    fit(); new ResizeObserver(fit).observe(cover);
+    // окно: x 44, y 52, бар 30, вид 600×375 (сайт снят в 1440×900)
+    const S = 600 / 1440, VX = 44, VY = 52 + 30;
+    const c = P.cta, cx = VX + (c.x + c.w / 2) * S, cy = VY + (c.y + c.h / 2) * S;
+    Object.assign(ring.style, { left:(VX + c.x * S - 3) + 'px', top:(VY + c.y * S - 3) + 'px', width:(c.w * S + 6) + 'px', height:(c.h * S + 6) + 'px' });
+    Object.assign(ripple.style, { left:cx + 'px', top:cy + 'px' });
+    const PH = P.v;
+    const loadImgs = () => cover.querySelectorAll('img[data-src]').forEach(i => { i.src = i.dataset.src; i.removeAttribute('data-src'); });
+    const replay = el => { el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); };
+    const moveCursor = (x, y) => { cursor.style.transform = `translate(${x - 4}px, ${y - 3}px)`; };
+    let gen = 0;
+    const sleep = (ms, g) => new Promise((res, rej) => setTimeout(() => g === gen ? res() : rej('stop'), ms));
+    const go = (el, i, h, ms) => { el.style.transitionDuration = ms + 'ms'; el.style.transform = `translateY(${-i * h}px)`; };
+    const cycle = async g => {
+      go(track, 0, 375, 0); go(ptrack, 0, PH, 0);
+      cursor.style.transition = 'none'; moveCursor(420, 300); cursor.style.opacity = 0; void cursor.offsetWidth; cursor.style.transition = '';
+      await sleep(700, g);
+      cursor.style.opacity = 1; moveCursor(cx, cy); await sleep(1100, g);
+      cursor.classList.add('click'); replay(ripple); replay(ring); await sleep(140, g); cursor.classList.remove('click');
+      await sleep(650, g); cursor.style.opacity = 0;
+      const steps = Math.max(P.d, P.m);
+      for (let i = 1; i < steps; i++) {
+        if (i < P.d) go(track, i, 375, 1000);
+        await sleep(420, g);
+        if (i < P.m) { tap.style.left = '88px'; tap.style.top = (PH * .62) + 'px'; replay(tap); await sleep(160, g); go(ptrack, i, PH, 900); }
+        await sleep(1900, g);
+      }
+      await sleep(900, g);
+      go(track, 0, 375, 1400); go(ptrack, 0, PH, 1400); await sleep(1900, g);
+    };
+    const loop = async () => { const g = ++gen; try { while (g === gen) await cycle(g); } catch (e) {} };
+    // картинки грузим заранее, когда карточка подходит к экрану; ролик крутится только пока её видно
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) loadImgs(); }), { rootMargin:'600px' }).observe(cover);
+    if (reduced) { loadImgs(); return; }
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) loop(); else gen++; }), { threshold:.25 }).observe(cover);
+    // при наведении окно и телефон чуть смещаются за мышью
+    if (fine) {
+      cover.addEventListener('pointermove', e => { const r = cover.getBoundingClientRect(), dx = (e.clientX - r.left) / r.width - .5, dy = (e.clientY - r.top) / r.height - .5;
+        win.style.translate = `${-dx * 10}px ${-dy * 8}px`; phone.style.translate = `${dx * 14}px ${dy * 10}px`; });
+      cover.addEventListener('pointerleave', () => { win.style.translate = ''; phone.style.translate = ''; });
+    }
+  };
+
+  /* ---------- Projects list: тексты из Figma (531:2721, 531:2739, 531:2759) ----------
+     у всех проектов заголовок 24 SemiBold и роль 16 — по Respawn (решение 26.10) */
+  const bold = t => t.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  const PROJECTS = [
+    { key:'respawn', t:'Respawn Esports',
+      r:'AI Native Product Designer<br>Февраль 2026 – Август 2026',
+      d:'Переделал сайт и сценарии бронирования, собрал админ-консоль: бронирования **+15%**, выручка **+18%**, повторные визиты **+25%**, оценка пользователей **5***',
+      m:'+15% бронирований', mr:'Сайт и консоль для клуба · 2026', tags:['Web','ИИ','Вайб-кодинг','Стартап'] },
+    { key:'queen', t:'Queen Interactive Games',
+      r:'Product Designer<br>Июнь 2025 – Январь 2026',
+      d:'Спроектировал сценарии привлечения, бонусов, VIP и кэшбэка, e-mail писем, переработал KYC консоль: удержание **+10%**, средний чек **+8%**, новые пользователи **+5%**, время верификации **с 7 до 4 минут**',
+      m:'+10% удержания', mr:'B2B-платформа для iGaming · 2025–2026', tags:['Web','ИИ','Mobile','Дизайн-система'] },
+    { key:'prowrap', t:'Pro Wrap',
+      r:'AI Native Product Designer<br>Апрель 2026',
+      d:'Спроектировал и собрал сайт с AI: понятные услуги, прозрачные цены и короткий путь до записи',
+      m:'Калькулятор стоимости', mr:'Редизайн сайта студии · 2026', tags:['Web','ИИ','Вайб-кодинг'] },
+  ];
+  const tagsHtml = tags => tags.map(x => `<span class="tag" data-t="${x}">${x}</span>`).join('');
+  $('#projects').innerHTML = PROJECTS.map(p => `<article class="project" id="project-${p.key}">
+      <div class="project-text">
+        <div class="title-group"><h3 class="title">${p.t}</h3><p class="role">${p.r}</p><p class="desc">${bold(p.d)}</p></div>
+        <span class="m-metric">${p.m}</span>
+        <a class="m-read" href="cases/${p.key}.html">Смотреть проект<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <div class="tags">${tagsHtml(p.tags)}</div>
+        <a class="btn-project" href="cases/${p.key}.html">Смотреть проект</a>
+      </div>
+      <div class="cover" role="img" aria-label="Промо сайта ${p.t}: ${PROMO[p.key].host}" data-promo="${p.key}"></div></article>`).join('');
+  $$('[data-promo]').forEach(c => promoCover(c, c.dataset.promo));
+
+  /* ---------- концепт «Криптокошелёк»: сценарий как запись прототипа ----------
+     с 27.10 в сетке не используется (в макете на его месте картинка); оставлено, чтобы вернуть одной строкой */
+  const walletFlow = (cover) => {
+    const q = s => cover.querySelector(s), qa = s => [...cover.querySelectorAll(s)];
+    const screen = q('.wf-screen'), A = q('.wf-a'), B = q('.wf-b'), spark = q('.wf-spark'), total = q('[data-total]');
+    const swapAct = q('[data-swap]'), from = q('[data-from]'), to = q('[data-to]'), go = q('[data-exec]'), goLabel = q('[data-golabel]');
+    const done = q('.wf-done'), shade = q('.wf-shade'), ok = q('[data-ok]'), swapBtn = q('.wf-swapbtn');
+    const row = c => q(`.wf-row[data-c="${c}"]`);
+    const START = { eth:['1.2400 ETH', 4030.00], usdt:['1 880.25 USDT', 1880.25] }, END = { eth:['0.9900 ETH', 3217.50], usdt:['2 691.94 USDT', 2691.94] };
+    const money = n => { const [i, d] = n.toFixed(2).split('.'); return '$' + i.replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + '.' + d; };
+    const setTotal = n => { const [i, d] = money(n).split('.'); total.innerHTML = `${i}<em>.${d}</em>`; };
+    const count = (fromV, toV, ms, set) => new Promise(res => { const t0 = performance.now(); const step = now => { const k = Math.min(1, Math.max(0, (now - t0) / ms)), e = 1 - Math.pow(1 - k, 3); set(fromV + (toV - fromV) * e); k < 1 ? requestAnimationFrame(step) : res(); }; requestAnimationFrame(step); });
+    let gen = 0;
+    const sleep = (ms, g) => new Promise((res, rej) => setTimeout(() => g === gen ? res() : rej('stop'), ms));
+    const ins = qa('.wf-in');
+    const reveal = on => ins.forEach((el, i) => { el.style.transitionDelay = on ? (i * 70) + 'ms' : '0ms'; }) || screen.classList.toggle('wf-off', !on);
+    const reset = () => {
+      A.classList.remove('away'); B.classList.remove('in'); done.classList.remove('up'); shade.classList.remove('on'); spark.classList.remove('on');
+      swapBtn.classList.remove('turn'); tap.style.opacity = 0; go.classList.add('dis'); go.classList.remove('busy', 'press'); goLabel.textContent = 'Обменять';
+      from.className = 'wf-amt ph'; from.innerHTML = '0<span class="wf-caret"></span>'; to.className = 'wf-amt ph'; to.textContent = '0';
+      for (const c of ['eth', 'usdt']) { row(c).querySelector('[data-q]').textContent = START[c][0]; row(c).querySelector('[data-v]').textContent = money(START[c][1]); }
+      setTotal(0);
+    };
+    const final = () => { reveal(true); spark.classList.add('on'); for (const c of ['eth', 'usdt']) { row(c).querySelector('[data-q]').textContent = END[c][0]; row(c).querySelector('[data-v]').textContent = money(END[c][1]); } setTotal(12479.54); };
+    const cap = q('.wf-t'), tap = q('.wf-tap'), ring = q('.wf-ring'), stage = q('.wf-stage');
+    const replay = el => { el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); };
+    const point = el => { const k = cover.clientWidth / 600, st = stage.getBoundingClientRect(), r = el.getBoundingClientRect(); return { x: (r.left + r.width / 2 - st.left) / k, y: (r.top + r.height / 2 - st.top) / k }; };
+    // палец касается кнопки: точка подъезжает, кольцо, нажатие
+    const zoomEl = q('.wf-zoom'), dots = qa('.wf-dots i');
+    const zoomTo = (p, z) => { const k = cover.clientWidth / 600; zoomEl.style.transformOrigin = (p.x * k) + 'px ' + (p.y * k) + 'px'; zoomEl.style.transform = z === 1 ? '' : `scale(${z})`; };
+    const say = async (t, g) => { cap.classList.add('out'); await sleep(260, g); cap.textContent = t; const n = parseInt(t, 10) - 1; dots.forEach((d, i) => d.classList.toggle('on', i === n)); cap.classList.remove('out'); };
+    // палец касается кнопки: камера наезжает, кольцо, нажатие, камера возвращается
+    const hit = async (el, g) => { const p = point(el); tap.style.left = p.x + 'px'; tap.style.top = p.y + 'px'; tap.style.opacity = 1; zoomTo(p, 1.45); await sleep(1000, g); replay(ring); tap.classList.add('press'); await sleep(160, g); tap.classList.remove('press'); await sleep(250, g); tap.style.opacity = 0; zoomTo(p, 1); await sleep(900, g); };
+    const press = async (el, g) => { el.classList.add('press'); await sleep(170, g); el.classList.remove('press'); };
+    const cycle = async (g) => {
+      reset(); reveal(false); await sleep(450, g);
+      reveal(true); spark.classList.add('on'); count(0, 12480.35, 1100, setTotal);
+      await sleep(2400, g);
+      await say('2. Выбираю обмен', g); await hit(swapAct, g); A.classList.add('away'); B.classList.add('in'); await sleep(800, g);
+      await say('3. Ввожу сумму', g);
+      const typed = ['0', '0.', '0.2', '0.25'], vals = [0, 0, 649.35, 811.69]; let shown = 0;
+      for (let i = 0; i < typed.length; i++) {
+        from.className = 'wf-amt'; from.innerHTML = typed[i] + '<span class="wf-caret"></span>';
+        if (vals[i] !== shown) { to.className = 'wf-amt'; count(shown, vals[i], 260, v => { to.textContent = v.toFixed(2); }); shown = vals[i]; }
+        await sleep(190, g);
+      }
+      from.innerHTML = '0.25'; go.classList.remove('dis'); await sleep(650, g);
+      await say('4. Подтверждаю обмен', g); await hit(go, g); go.classList.add('busy'); goLabel.textContent = 'Обмен…'; swapBtn.classList.add('turn'); await sleep(1250, g);
+      shade.classList.add('on'); done.classList.add('up'); await say('5. Готово', g); await sleep(900, g);
+      await hit(ok, g); done.classList.remove('up'); shade.classList.remove('on'); await sleep(250, g);
+      B.classList.remove('in'); A.classList.remove('away'); await sleep(650, g);
+      for (const c of ['eth', 'usdt']) {
+        const r = row(c); r.classList.add('flash'); r.querySelector('[data-q]').textContent = END[c][0];
+        count(START[c][1], END[c][1], 700, v => { r.querySelector('[data-v]').textContent = money(v); });
+        setTimeout(() => r.classList.remove('flash'), 1200);
+      }
+      count(12480.35, 12479.54, 700, setTotal);
+      await sleep(3200, g); await say('1. Смотрю баланс', g); reveal(false); await sleep(700, g);
+    };
+    const loop = async () => { const g = ++gen; try { while (g === gen) await cycle(g); } catch (e) {} };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { final(); return; }
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) loop(); else gen++; }), { threshold:.2 }).observe(cover);
+  };
+
+  /* ---------- лаборатория: мобильное криптоприложение — тот же телефон, подписи и зум, что у кошелька ---------- */
+  // координаты тапов и зон — в пикселях кадра Figma (402 px по ширине)
+  const CF = [
+    { src:'onboarding', cap:'1. Открываю приложение', taps:[[200, 680]] },
+    { src:'home', cap:'2. Смотрю баланс и курсы', taps:[[199, 994]] },
+    { src:'swap', cap:'3. Меняю ETH на SUB', taps:[[200, 770]] },
+    { src:'tx', cap:'4. Проверяю транзакцию', pulse:[143, 316, 117, 30], taps:[[42, 108]] },
+    { src:'balance', cap:'5. Всё в одном месте', scroll:264 },
+  ];
+  const cryptoFlow = cover => {
+    const SC = 258 / 402, N = CF.length, OX = 164 + 7, OY = 66 + 7;   // экран телефона в координатах сцены 600×711
+    const pl = CF[3].pulse;
+    cover.innerHTML = `<div class="wf" aria-hidden="true">
+      <div class="wf-cap"><span class="wf-t">${CF[0].cap}</span></div>
+      <div class="wf-dots">${CF.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</div>
+      <div class="wf-zoom"><div class="wf-stage">
+        <span class="wf-tap"></span><span class="wf-ring"></span>
+        <div class="wf-phone"><div class="wf-screen"><div class="wf-island"></div>
+          ${CF.map(c => `<figure class="cf-shot"><img data-src="assets/crypto/${c.src}.jpg" alt="" decoding="async"></figure>`).join('')}
+          <span class="cf-pulse" style="left:${pl[0] * SC}px; top:${pl[1] * SC}px; width:${pl[2] * SC}px; height:${pl[3] * SC}px"></span></div></div>
+      </div></div></div>`;
+    const q = sel => cover.querySelector(sel), stage = q('.wf-stage'), cap = q('.wf-t'), zoomEl = q('.wf-zoom');
+    const shots = [...cover.querySelectorAll('.cf-shot')], imgs = shots.map(f => f.querySelector('img')), dots = [...cover.querySelectorAll('.wf-dots i')];
+    const tap = q('.wf-tap'), ring = q('.wf-ring'), pulse = q('.cf-pulse');
+    const fit = () => stage.style.setProperty('--k', cover.clientWidth / 600);
+    fit(); new ResizeObserver(fit).observe(cover);
+    const replay = el => { el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); };
+    const loadImgs = () => imgs.forEach(i => { if (i.dataset.src) { i.src = i.dataset.src; i.removeAttribute('data-src'); } });
+    const zoomTo = (p, z) => { const k = cover.clientWidth / 600; zoomEl.style.transformOrigin = (p.x * k) + 'px ' + (p.y * k) + 'px'; zoomEl.style.transform = z === 1 ? '' : `scale(${z})`; };
+    const toStage = (x, y) => ({ x: OX + x * SC, y: OY + y * SC });
+    let gen = 0;
+    const sleep = (ms, g) => new Promise((res, rej) => setTimeout(() => g === gen ? res() : rej('stop'), ms));
+    const say = (t, g) => { cap.classList.add('out'); return sleep(260, g).then(() => { cap.textContent = t; cap.classList.remove('out'); }); };
+    const cycle = async g => {
+      for (let i = 0; i < N; i++) {
+        const c = CF[i];
+        shots.forEach((f, j) => f.classList.toggle('on', j === i)); dots.forEach((d, j) => d.classList.toggle('on', j === i));
+        imgs[i].style.transform = '';
+        if (i > 0) await say(c.cap, g); else cap.textContent = c.cap;
+        await sleep(1100, g);
+        if (c.scroll) { imgs[i].style.transform = `translateY(${-c.scroll * SC}px)`; await sleep(1900, g); }
+        if (c.pulse) { const p = toStage(c.pulse[0] + c.pulse[2] / 2, c.pulse[1] + c.pulse[3] / 2); zoomTo(p, 1.5); await sleep(900, g); replay(pulse); await sleep(2300, g); zoomTo(p, 1); await sleep(900, g); }
+        for (const [x, y] of c.taps || []) {
+          const p = toStage(x, y); tap.style.left = p.x + 'px'; tap.style.top = p.y + 'px'; tap.style.opacity = 1; zoomTo(p, 1.45); await sleep(1000, g);
+          replay(ring); tap.classList.add('press'); await sleep(160, g); tap.classList.remove('press'); await sleep(250, g); tap.style.opacity = 0; zoomTo(p, 1); await sleep(900, g);
+        }
+        await sleep(c.taps || c.scroll || c.pulse ? 200 : 1200, g);
+      }
+    };
+    const loop = async () => { const g = ++gen; try { while (g === gen) await cycle(g); } catch (e) {} };
+    shots[0].classList.add('on');
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) loadImgs(); }), { rootMargin:'600px' }).observe(cover);
+    if (reduced) { loadImgs(); return; }
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) loop(); else gen++; }), { threshold:.2 }).observe(cover);
+  };
+
+  /* ---------- Lab masonry: «камера по картинке» ----------
+     Картинка концепта целая, без нарезки. Камера по очереди наезжает на кадры из cam, палец нажимает точки taps, потом общий план.
+     box — где картинка лежит внутри Cover (в % от Cover, как в Figma);
+     cam — [x, y, w, h, taps] в % от картинки: что показать крупно; taps — [[x, y], …] точки касаний в этом кадре;
+     kMax — предел зума (по умолчанию 2.4; меньше у картинок малого разрешения, чтобы не мылились);
+     live — живой концепт, свёрстанный кодом (lab/<id>.html), картинка остаётся постером, пока он грузится */
+  const camScene = (cover, c) => {
+    const src = `assets/lab/${c.id}.jpg`, [bx, by, bw, bh] = c.box;
+    cover.innerHTML = `<div class="ls" aria-hidden="true"${c.bg ? ` style="background:${c.bg}"` : ''}><div class="cam"${c.bg ? ` style="background:${c.bg}"` : ''}>
+      <div class="ls-img" style="left:${bx}%;top:${by}%;width:${bw}%;height:${bh}%"><img data-src="${src}" alt="" decoding="async" style="object-fit:cover"></div></div>
+      ${c.live ? `<iframe class="live" data-src="lab/${c.id}.html" title="${c.a}" tabindex="-1" aria-hidden="true"></iframe>` : ''}<i class="cam-tap"></i><i class="cam-cur"></i></div>`;
+    const img = $('img', cover), camEl = $('.cam', cover), cur = $('.cam-cur', cover), tapEl = $('.cam-tap', cover), live = $('.live', cover);
+    const load = () => { if (img.dataset.src) { img.src = src; img.removeAttribute('data-src'); }
+      if (live && live.dataset.src && !reduced) { live.src = live.dataset.src; live.removeAttribute('data-src'); } };
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) load(); }), { rootMargin:'600px' }).observe(cover);
+    if (reduced) return;
+    let W = 0, H = 0, on = false, raf = 0, t0 = 0, keys = [], taps = [], LOOP = 0, liveReady = false;
+    const ease = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+    const pt = (x, y) => ({ x:(bx + x * bw / 100) / 100 * W, y:(by + y * bh / 100) / 100 * H });   // точка картинки → px обложки
+    // сценарий: общий план → кадр за кадром (наезд 1.1 с, пауза под касания) → общий план
+    const build = () => {
+      const r = cover.getBoundingClientRect(); W = r.width; H = r.height; if (!W) return;
+      const wide = { x:W / 2, y:H / 2, k:1 }; let t = 1.2; keys = [[0, wide], [t, wide]]; taps = [];
+      c.cam.forEach(([x, y, w, h, tp = []]) => {
+        const a = pt(x, y), b = pt(x + w, y + h);
+        const v = { x:(a.x + b.x) / 2, y:(a.y + b.y) / 2, k:Math.max(1, Math.min(c.kMax || 2.4, W / ((b.x - a.x) * 1.1), H / ((b.y - a.y) * 1.1))) };
+        t += 1.1; keys.push([t, v]); t += .35;
+        tp.forEach(p => { t += .55; taps.push([t, p]); t += .5; });
+        t += tp.length ? .3 : 1.1; keys.push([t, v]);
+      });
+      t += 1.2; keys.push([t, wide]); t += .8; keys.push([t, wide]); LOOP = t;
+    };
+    const view = t => { for (let i = 0; i < keys.length - 1; i++) { const [ta, a] = keys[i], [tb, b] = keys[i + 1];
+      if (t <= tb) { const p = ease(Math.min(1, Math.max(0, (t - ta) / (tb - ta)))); return { x:a.x + (b.x - a.x) * p, y:a.y + (b.y - a.y) * p, k:a.k + (b.k - a.k) * p }; } }
+      return keys[keys.length - 1][1]; };
+    const frame = now => {
+      let t = (now - t0) / 1000; if (t >= LOOP) { t0 = now; t = 0; }
+      let bump = 0; taps.forEach(([T]) => { const d = t - T; if (d > 0 && d < .35) bump = Math.max(bump, Math.sin(d / .35 * Math.PI)); });
+      const v = view(t), k = v.k * (1 - bump * .006);
+      const tx = Math.min(0, Math.max(W - W * k, W / 2 - v.x * k)), ty = Math.min(0, Math.max(H - H * k, H / 2 - v.y * k));
+      camEl.style.transform = `translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) scale(${k.toFixed(4)})`;
+      // палец подлетает по дуге к точке (она едет вместе с камерой), нажимает и уходит
+      let op = 0, pos = null, ring = null;
+      taps.forEach(([T, [x, y]], i) => {
+        const prev = taps[i - 1], next = taps[i + 1], chained = prev && T - prev[0] < 1.3, lead = chained ? T - prev[0] - .1 : .55;
+        if (t < T - lead || t > T + .65) return;
+        const p0 = pt(x, y), to = { x:tx + p0.x * k, y:ty + p0.y * k };
+        const from = chained ? (q => ({ x:tx + q.x * k, y:ty + q.y * k }))(pt(...prev[1])) : { x:to.x + 24, y:to.y + 64 };
+        const p = ease(Math.min(1, (t - (T - lead)) / lead)), arc = Math.sin(p * Math.PI) * 14;
+        pos = { x:from.x + (to.x - from.x) * p - arc * .4, y:from.y + (to.y - from.y) * p - arc };
+        op = t < T ? (chained ? 1 : Math.min(1, (t - (T - lead)) / .25)) : (next && next[0] - T < 1.3 ? 1 : 1 - Math.max(0, (t - T - .4) / .25));
+        const d = t - T; if (d >= 0 && d < .55) ring = { ...to, q:d / .55 };
+        cur.style.scale = d >= 0 && d < .14 ? .8 : 1;
+      });
+      if (pos) cur.style.translate = `${pos.x.toFixed(1)}px ${pos.y.toFixed(1)}px`;
+      cur.style.opacity = Math.max(0, op).toFixed(3);
+      if (ring) { tapEl.style.translate = `${ring.x.toFixed(1)}px ${ring.y.toFixed(1)}px`; tapEl.style.scale = (.5 + ring.q * 1.1).toFixed(3); tapEl.style.opacity = (1 - ring.q).toFixed(3); }
+      else tapEl.style.opacity = 0;
+      if (on) raf = requestAnimationFrame(frame);
+    };
+    const reset = () => { camEl.style.transform = ''; cur.style.opacity = tapEl.style.opacity = 0; };
+    // у живого концепта своя камера внутри; картинку-камеру крутим только пока он не загрузился
+    const start = () => { if (live && liveReady) { live.contentWindow.postMessage({ lab:'play' }, '*'); return; }
+      if (on) return; build(); if (!LOOP) return; on = true; t0 = performance.now() - (c.lag || 0) * 1000; raf = requestAnimationFrame(frame); };
+    const stop = () => { if (live && liveReady) live.contentWindow.postMessage({ lab:'rest' }, '*'); on = false; cancelAnimationFrame(raf); reset(); };
+    let seen = false;
+    new IntersectionObserver(es => es.forEach(e => { seen = e.isIntersecting; seen ? start() : stop(); }), { threshold:.2 }).observe(cover);
+    new ResizeObserver(() => { if (on) build(); }).observe(cover);
+    if (live) addEventListener('message', e => {
+      if (e.source !== live.contentWindow || !e.data || e.data.lab !== 'ready') return;
+      liveReady = true; on = false; cancelAnimationFrame(raf); reset(); cover.classList.add('is-live'); if (seen) start();
+    });
+  };
+
+  // 9 концептов в трёх колонках, как Column 1 / 2 / 3 в макете (правки Максима 27.10); h — высота Cover
+  // id = имя файла в assets/lab; t / d — название и описание (RU), tEn / dEn — английские; lag — сдвиг сценария, чтобы карточки не двигались хором
+  const LAB = {
+    volna:       { h:480, t:'Волна — подкасты', d:'Лента выпусков и плеер в одном потоке', tEn:'Volna — podcasts', dEn:'Episode feed and player in one flow',
+                   a:'Подкаст-приложение Волна, два экрана', bg:'#CCCCCC', box:[0, -0.49, 100, 100.97], live:true,
+                   cam:[[8.5, 50, 39.8, 32, [[37, 49]]], [52, 18.2, 39.5, 36], [52, 55, 39.5, 36, [[82.45, 80.1]]]] },
+    kata:        { h:364, t:'Ката — ИИ-наставник', d:'Знания, ритм и прогресс в карточках', tEn:'Kata — AI mentor', dEn:'Knowledge, rhythm and progress in cards',
+                   a:'Карточки ИИ-наставника Ката', box:[0, -32.41, 100.32, 169.78], lag:2.1,
+                   cam:[[20.6, 43.5, 18.5, 14.7, [[29.85, 47]]], [64.1, 24, 18.8, 14.8, [[79.85, 26.6]]], [57.5, 59.3, 18.5, 14.7, [[66.9, 66.35]]]] },
+    move:        { h:480, t:'Фитнес-компаньон', d:'Серия тренировок и цели на каждый день', tEn:'Fitness companion', dEn:'Workout streaks and daily goals',
+                   a:'Фитнес-приложение Move, два экрана', bg:'#C7C8C8', box:[-8.95, 3.89, 117.95, 92.22], lag:4.3, kMax:1.7,
+                   cam:[[10.75, 50, 36.5, 42.5, [[28.85, 73.35]]], [52.9, 6.8, 36.6, 40, [[79.9, 30.4]]], [52.9, 45, 36.6, 40, [[84.25, 58.5]]]] },
+    crypto:      { h:364, t:'Криптоприложение', d:'Вход, баланс, обмен и история операций', tEn:'Crypto app', dEn:'Sign-in, balance, swap and history',
+                   a:'Криптоприложение, три экрана', box:[-12.75, -4.27, 125.73, 117.22], lag:1.2,
+                   cam:[[13.1, 30, 23.4, 43.7, [[25.05, 60.55]]], [38.25, 19.4, 23.5, 45, [[42.65, 54.65]]], [63.5, 30, 23.5, 43.7, [[75.2, 65.05]]]] },
+    banking:     { h:480, t:'Мультивалютный банк', d:'Баланс, счета и переводы на одном экране', tEn:'Multi-currency bank', dEn:'Balance, accounts and transfers on one screen',
+                   a:'Банковское приложение: баланс и счёт', box:[-3.71, -7.58, 107.58, 115.05], lag:3.4, kMax:1.5,
+                   cam:[[9.4, 16.5, 39, 36, [[29.5, 39]]], [51.6, 16.5, 39, 36, [[62.6, 42]]], [51.6, 47, 39, 36.5]] },
+    cobalt:      { h:364, t:'Карточки продукта', d:'Характеристики наушников в модульной сетке', tEn:'Product cards', dEn:'Headphone specs in a modular grid',
+                   a:'Модульные карточки продукта', box:[-6.9, -16.05, 113.86, 133.82], lag:5.2,
+                   cam:[[11.6, 16.6, 50.4, 23, [[23.6, 28.1], [50, 28]]], [64.4, 16.6, 24, 38, [[76.4, 19], [76.4, 33.65]]], [11.6, 41.7, 50.4, 42, [[23.6, 69.15]]]] },
+    finance:     { h:480, t:'Финансы на каждый день', d:'Баланс, траты и категории за неделю', tEn:'Everyday finance', dEn:'Balance, spending and categories by week',
+                   a:'Финансовое приложение, два экрана', bg:'#C7C6C6', box:[-6.94, 5.46, 113.95, 89.09], lag:.6, kMax:1.7,
+                   cam:[[11.9, 8.6, 35.6, 40, [[29.7, 30.95], [17.95, 43.45]]], [52.6, 25, 35.65, 40, [[70.45, 45.35]]]] },
+    'design-app':{ h:364, t:'Трекер задач', d:'Модульные карточки статусов и сроков', tEn:'Task tracker', dEn:'Modular status and deadline cards',
+                   a:'Карточки интерфейса трекера задач', bg:'#EFEFEF', box:[-4.74, -4.9, 109.73, 114.2], lag:2.8,
+                   cam:[[6.6, 11.9, 64.65, 22.8, [[15.8, 23.3], [50, 21.3]]], [56.4, 40.4, 37.1, 22.7, [[84, 51.75]]], [6.6, 66.9, 48.9, 21, [[31, 81.65]]]] },
+    fitness:     { h:476, t:'Форма — фитнес', d:'Онбординг и план тренировок на неделю', tEn:'Forma — fitness', dEn:'Onboarding and a weekly workout plan',
+                   a:'Фитнес-приложение Форма, два экрана', bg:'#CECECE', box:[-9, 7.95, 118, 84.1], lag:4.9, kMax:1.6,
+                   cam:[[10.25, 45, 37, 51, [[28.75, 68.2]]], [53, 3.6, 37, 40, [[81.5, 13.35], [71.6, 22.45]]], [53, 38, 37, 40, [[63.15, 43.55], [74.2, 62.6]]]] },
+  };
+  const LAB_COLS = [['volna', 'kata', 'move'], ['crypto', 'banking', 'cobalt'], ['finance', 'design-app', 'fitness']];
+  const PLACEHOLDER = { ru:{ t:'Название концепта', d:'Краткое описание концепта' }, en:{ t:'Concept name', d:'Short concept description' } };
+  const conceptText = (id, l) => ({ t: LAB[id]['t' + (l === 'en' ? 'En' : '')] || PLACEHOLDER[l].t, d: LAB[id]['d' + (l === 'en' ? 'En' : '')] || PLACEHOLDER[l].d });
+  $('#lab').innerHTML = LAB_COLS.map((col, ci) => `<div class="lab-col">${col.map((id, ri) => { const c = LAB[id], T = conceptText(id, 'ru');
+    return `<article class="concept-card" data-id="${id}" style="--i:${ci + ri}">
+      <div class="cover" style="aspect-ratio:410.67/${c.h}" role="img" aria-label="${c.a}"></div>
+      <div class="card-info"><div class="title-row"><h3 class="title">${T.t}</h3><span class="year">2026</span></div><p class="desc">${T.d}</p></div></article>`; }).join('')}</div>`).join('');
+  $$('#lab .concept-card').forEach(card => camScene(card.querySelector('.cover'), { id:card.dataset.id, ...LAB[card.dataset.id] }));
+
+  /* ---------- прокрутка: параллакс картинки в обложке (колонки стоят ровно, как в Figma) ---------- */
+  if (!reduced) {
+    const covers = $$('#lab .cover');
+    let ticking = false;
+    const onScroll = () => { ticking = false; const vh = innerHeight;
+      covers.forEach(cv => { const r = cv.getBoundingClientRect(); if (r.bottom < -100 || r.top > vh + 100) return;
+        const p = Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2))); cv.style.setProperty('--sp', p.toFixed(3)); });
+    };
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive:true });
+    addEventListener('resize', onScroll); onScroll();
+  }
+
+  /* ---------- навигация по странице ---------- */
+  const scrollToEl = el => el && el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+  $$('[data-go]').forEach(b => b.addEventListener('click', () => scrollToEl(b.dataset.go === 'lab' ? $('#p-lab').previousElementSibling : $('#project-' + b.dataset.go))));
+  $$('.tabs-row a.tab').forEach(a => a.addEventListener('click', e => { e.preventDefault(); scrollToEl($(a.getAttribute('href')).previousElementSibling); }));
+  const revealIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); revealIO.unobserve(e.target); } }), { threshold:.15, rootMargin:'0px 0px -8% 0px' });
+  $$('#projects .project, #lab .concept-card').forEach(el => { el.classList.add('reveal'); if (reduced) el.classList.add('in'); else revealIO.observe(el); });
+  /* открываем всегда с хиро; к проектам — только при возврате из кейса по ссылке «Все проекты» */
+  try { history.scrollRestoration = 'manual'; } catch (e) {}
+  /* обновление страницы — всегда с первого экрана; к проектам или лаборатории — только по ссылке (из кейса «Все проекты») */
+  const navType = ((performance.getEntriesByType && performance.getEntriesByType('navigation')[0]) || {}).type;
+  const toTop = () => scrollTo(0, 0);
+  if (navType === 'reload') { if (location.hash) history.replaceState(null, '', location.pathname + location.search); toTop(); addEventListener('load', toTop); }
+  else if (location.hash === '#lab') addEventListener('load', () => $('#p-lab').previousElementSibling.scrollIntoView());
+  else if (location.hash === '#projects' && /\/cases\//.test(document.referrer)) { const toTabs = () => $('#tabs').scrollIntoView(); addEventListener('load', () => { toTabs(); if (document.fonts) document.fonts.ready.then(() => setTimeout(toTabs, 200)); }); }
+  else { if (location.hash) history.replaceState(null, '', location.pathname + location.search); toTop(); addEventListener('load', toTop); }
+
+  /* ---------- «Обо мне» и CV ---------- */
+  const drawer = $('#drawer'), cv = $('#cv'); let last = null;
+  const open = (cls, el) => { last = document.activeElement; document.body.classList.add(cls); setTimeout(() => el.focus({ preventScroll:true }), 30); };
+  const closeAll = () => { document.body.classList.remove('open-about', 'open-cv'); cv.setAttribute('aria-hidden', 'true'); if (last && last.focus) last.focus({ preventScroll:true }); };
+  $$('.js-about').forEach(b => b.addEventListener('click', () => open('open-about', drawer)));
+  // резюме — страница cv.html в рамке, грузится при первом открытии на текущем языке
+  const cvFrame = $('#cv-frame');
+  $$('.js-cv').forEach(b => b.addEventListener('click', e => { e.preventDefault();
+    if (!cvFrame.src) cvFrame.src = cvFrame.dataset.src + '&lang=' + curLang;
+    cv.setAttribute('aria-hidden', 'false'); open('open-cv', $('.viewer')); }));
+  $$('.js-close').forEach(b => b.addEventListener('click', closeAll));
+  $('#scrim').addEventListener('click', closeAll);
+  cv.addEventListener('click', e => { if (e.target === cv) closeAll(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+  $('#totop').addEventListener('click', e => { e.preventDefault(); scrollTo({ top:0, behavior: reduced ? 'auto' : 'smooth' }); });
+
+  /* ---------- язык RU / EN ---------- */
+  const EN_PROJ = {
+    respawn: { r:'AI Native Product Designer<br>February 2026 – August 2026', d:'Redesigned the website and booking flows, built the admin console: bookings **+15%**, revenue **+18%**, repeat visits **+25%**, user rating **5***', m:'+15% bookings', mr:'Website and console for a club · 2026' },
+    queen:   { r:'Product Designer<br>June 2025 – January 2026', d:'Designed acquisition, bonus, VIP and cashback flows and e-mails, reworked the KYC console: retention **+10%**, average check **+8%**, new users **+5%**, verification time **from 7 to 4 minutes**', m:'+10% retention', mr:'B2B platform for iGaming · 2025–2026' },
+    prowrap: { r:'AI Native Product Designer<br>April 2026', d:'Designed and built a website with AI: clear services, transparent pricing and a short path to booking', m:'Price calculator', mr:'Studio website redesign · 2026' },
+  };
+  const EN_UI = {
+    // панель «Обо мне»
+    cv_close: '(Close)', cv_upd: 'Updated 28 October 2026', cv_open: 'Open', cv_dl: 'Download PDF',
+    ab_label: 'About me',
+    ab_close: '(Close)',
+    ab_h1: 'From sales to product design',
+    ab_p1: 'I came to design after 5 years in sales, so I am used to looking at tasks from two sides:',
+    ab_li1: 'What does the user need?',
+    ab_li2: 'What result will it bring the business?',
+    ab_p2: 'Today I design digital products, explore new approaches and look for ways to do my work better',
+    ab_p3: 'I am interested not just in making beautiful interfaces,<br> but in understanding what problems they solve and why they work the way they do',
+    ab_h2: 'How I approach tasks',
+    ab_s1: 'I get to the bottom of the problem',
+    ab_s1t: 'I study the product, the audience and existing solutions to understand what really needs to change',
+    ab_s2: 'I think through the flows',
+    ab_s2t: 'I work out the user flow, check the logic of transitions and look for places where users may struggle',
+    ab_s3: 'I test ideas in practice',
+    ab_s3t: 'I build prototypes, evaluate solutions and refine them into a clear user flow',
+    ab_h3: 'AI in my work',
+    ab_ai: 'I use AI at different stages of design: from finding ideas and visual concepts to building interactive prototypes. It helps me test hypotheses faster, experiment and move from an idea to a working solution.',
+    ab_tools: 'My toolkit:',
+    ab_h4: 'A little about me',
+    ab_m1: 'In my free time I try to grow beyond my profession too. I read books such as “Steal Like an Artist”, “Write, Cut” and “Interfaces. The Art of Washing an Elephant”. I box, and sometimes I just get together with friends to play computer games.',
+    ab_m2: 'I like trying new things, figuring out the unfamiliar and finding ideas where I did not expect them. I think it helps me in design too: looking at familiar tasks from a different angle and finding my own solutions.',
+    ab_r1: 'AI-native product designer',
+    ab_r2: 'Product designer',
+    ab_sales: 'Sales',
+    ab_r3: 'Head of Sales',
+    ab_t3: '+ before 2023—2025',
+
+    h1: 'Designing digital services for B2B and B2C. <br>Using AI to automate processes <br>and deliver business value faster',
+    more: 'About me', write: 'Contact me', 'm.projects': 'Projects', 'm.lab': 'Lab', 'm.write': 'Contact', 'm.other': 'Other',
+    'tab.projects': 'Projects', 'tab.lab': 'Lab', 'lab.link': 'UI concepts', top: 'Back to top ↑', copy: '© 2026 Maksim Gridnev',
+  };
+  document.querySelectorAll('[data-i18n]').forEach(el => { if (!el.dataset.ru) el.dataset.ru = el.innerHTML; });
+  let curLang = 'ru'; try { curLang = localStorage.getItem('lang') === 'en' ? 'en' : 'ru'; } catch (e) {}
+
+  /* ---------- Meta — Координаты: МСК время · долгота · широта (сдвигаются за курсором) ---------- */
+  const TZ = 'Europe/Moscow', CENTER = { lat:55.74131, lon:37.53096 };
+  let coords = { ...CENTER }, lastCoords = '', ptr = { x:innerWidth / 2, y:innerHeight / 2 }, ptrIn = false;
+  const renderCoords = () => {
+    const t = new Intl.DateTimeFormat(curLang === 'en' ? 'en-GB' : 'ru-RU', { timeZone:TZ, hour:'2-digit', minute:'2-digit', hour12:false }).format(new Date());
+    const parts = [`${curLang === 'en' ? 'MSK' : 'МСК'} ${t}`, '·', `${coords.lon.toFixed(5)}° E`, '·', `${coords.lat.toFixed(5)}° N`], s = parts.join('|');
+    if (s !== lastCoords) { $('#coords').innerHTML = parts.map(p => `<span>${p}</span>`).join(''); lastCoords = s; } };
+  const renderDateTxt = () => {
+    const d = new Date().toLocaleDateString(curLang === 'en' ? 'en-US' : 'ru-RU', { weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:TZ }).replace(/\s?г\.?$/, '');
+    const el = $('#date'); if (el) el.textContent = d.charAt(0).toUpperCase() + d.slice(1) + ' (GMT +03)'; };
+  addEventListener('pointermove', e => { ptr = { x:e.clientX, y:e.clientY }; ptrIn = true; }, { passive:true });
+  document.documentElement.addEventListener('pointerleave', () => { ptrIn = false; });
+  const coordsFrame = () => {
+    const tgt = ptrIn && !reduced ? { lat: CENTER.lat + (ptr.y / innerHeight - 0.5) * -0.04, lon: CENTER.lon + (ptr.x / innerWidth - 0.5) * 0.06 } : CENTER;
+    coords.lat += (tgt.lat - coords.lat) * 0.12; coords.lon += (tgt.lon - coords.lon) * 0.12;
+    renderCoords(); requestAnimationFrame(coordsFrame); };
+
+  /* типограф: короткие слова и предлоги не висят в конце строки — пробел после них неразрывный */
+  const SHORT = { ru: /(^|[\s(«"\u00a0“])([A-Za-zА-Яа-яЁё0-9]{1,3}) /g, en: /(^|[\s(«"\u00a0“])([A-Za-zА-Яа-яЁё0-9]{1,3}) /g };
+  const typo = (root, l) => {
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement.closest('script,style,.headline') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+    for (let n; (n = w.nextNode());) { let s = n.nodeValue; if (s.length < 3) continue;
+      for (let i = 0; i < 2; i++) s = s.replace(SHORT[l], '$1$2 ');
+      s = s.replace(/ (—|–) /g, ' $1 '); if (s !== n.nodeValue) n.nodeValue = s; } };
+  const renderLang = l => {
+    curLang = l; document.documentElement.lang = l;
+    document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = l === 'en' && EN_UI[el.dataset.i18n] ? EN_UI[el.dataset.i18n] : el.dataset.ru; });
+    $('#lang').textContent = l === 'en' ? 'rus' : 'eng';
+    $('#drawer').setAttribute('aria-label', l === 'en' ? 'About me' : 'Обо мне');
+    $('#cv').setAttribute('aria-label', l === 'en' ? 'CV' : 'Резюме'); $('#cv-frame').title = l === 'en' ? 'Maksim Gridnev — CV' : 'Резюме Максима Гриднева';
+    $('#cv-open').href = 'cv.html?lang=' + l; $('#cv-pdf').href = `assets/Maksim-Gridnev-CV-${l}.pdf`; $('#cv-pdf').setAttribute('download', `Maksim-Gridnev-CV-${l}.pdf`);
+    if ($('#cv-frame').contentWindow && $('#cv-frame').src) $('#cv-frame').contentWindow.postMessage({ cvLang:l }, location.origin); $('#drawer .portrait').alt = l === 'en' ? 'Maksim Gridnev' : 'Максим Гриднев';
+    $$('#projects .project').forEach((row, i) => { const p = PROJECTS[i], T = l === 'en' ? EN_PROJ[p.key] : p;
+      row.querySelector('.role').innerHTML = MOB ? T.mr : T.r; row.querySelector('.desc').innerHTML = bold(T.d); row.querySelector('.m-metric').textContent = T.m;
+      row.querySelector('.btn-project').textContent = l === 'en' ? 'View project' : 'Смотреть проект'; const mb = row.querySelector('.m-read'); if (mb) mb.firstChild.textContent = l === 'en' ? 'View project' : 'Смотреть проект'; });
+    $$('#lab .concept-card').forEach(card => { const T = conceptText(card.dataset.id, l);
+      card.querySelector('.title').textContent = T.t; card.querySelector('.desc').textContent = T.d; });
+    lastCoords = ''; renderCoords(); renderDateTxt(); typo(document.body, l);
+    try { localStorage.setItem('lang', l); } catch (e) {} };
+  /* печать заголовка: курсор мигает → печать с живым ритмом (разброс по времени, паузы после знаков и в конце строк),
+     курсор горит ровно, пока печатает, и снова мигает в покое; после конца гаснет */
+  const typeH1 = () => {
+    const h = $('h1.headline');
+    if (!h || reduced) return;
+    clearTimeout(typeH1.t);
+    const run = ++typeH1.run;
+    const src = document.createElement('div');
+    src.innerHTML = h.innerHTML.replace(/<span class="caret[^"]*"><\/span>/g, '').replace(/<span class="ch[^"]*">([^<]*)<\/span>/g, '$1');
+    typo(src, curLang);
+    window.typeBuild(h, src.innerHTML);
+    const chars = [...h.querySelectorAll('.ch')], caret = h.querySelector('.caret');
+    let i = 0;
+    const next = () => {
+      if (run !== typeH1.run) return;
+      if (i >= chars.length) { caret.classList.add('idle'); typeH1.t = setTimeout(() => caret.classList.add('out'), 2600); return; }
+      const ch = chars[i++]; ch.classList.add('on'); ch.after(caret);
+      const c = ch.textContent, lineEnd = ch.nextElementSibling && ch.nextElementSibling.tagName === 'BR' || (caret.nextSibling && caret.nextSibling.nodeName === 'BR');
+      let d = 24 + Math.random() * 32;
+      if (c === ' ') d *= 0.6;
+      if (/[.,!?:;]/.test(c)) d += 150 + Math.random() * 100;
+      if (lineEnd) d += 220;
+      typeH1.t = setTimeout(next, d);
+    };
+    caret.classList.add('idle');
+    typeH1.t = setTimeout(() => { caret.classList.remove('idle'); next(); }, 650);
+  };
+  typeH1.run = 0;
+
+  /* ---------- мобильная версия (Figma «Site · Mobile App 390»): вкладки Проекты · Лаборатория · Обо мне, шторка «Связаться» ---------- */
+  matchMedia('(max-width: 767px)').addEventListener('change', () => location.reload());
+  if (MOB) {
+    const root = document.documentElement;
+    const ICO = p => `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+    const P = { grid:'<rect width="7" height="7" x="3" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="14" rx="1.5"/><rect width="7" height="7" x="3" y="14" rx="1.5"/>',
+      flask:'<path d="M10 2v7.5a2 2 0 0 1-.2.9L4.7 20.5a1 1 0 0 0 .9 1.5h12.8a1 1 0 0 0 .9-1.5l-5.1-10.1a2 2 0 0 1-.2-.9V2"/><path d="M8.5 2h7M7 16h10"/>',
+      user:'<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>', msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+      send:'<path d="M14.5 21.7a.5.5 0 0 0 .9 0l6.5-19a.5.5 0 0 0-.6-.6l-19 6.5a.5.5 0 0 0 0 .9l7.9 3.2a2 2 0 0 1 1.1 1.1z"/><path d="m21.9 2.1-11 11"/>',
+      mail:'<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-9 5.7a2 2 0 0 1-2 0L2 7"/>', bag:'<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/>',
+      dl:'<path d="M12 15V3M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>', out:'<path d="M7 7h10v10M7 17 17 7"/>',
+      copy:'<rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>', close:'<path d="M18 6 6 18M6 6l12 12"/>', chev:'<path d="m9 18 6-6-6-6"/>' };
+    const el = (tag, cls, html, i18n) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; if (i18n) { e.dataset.i18n = i18n; e.dataset.ru = html; } return e; };
+    Object.assign(EN_UI, { 'mob.proj':'Projects', 'mob.lab':'Lab', 'mob.all':'All 9', 'mob.labsub':'Interface concepts: finance, fitness, podcasts and an AI mentor',
+      'mob.about':'About me', 'mob.exp':'Experience', 'mob.cv':'CV', 'mob.write':'Contact me', 'mob.contact':'Contact', 'mob.cvsub':'PDF in Russian and English',
+      'mob.role':'AI-native product designer', 'mob.copy':'Copy', 'mob.copied':'Copied',
+      'mob.intro':'I came to design after 5 years in sales, so I look at a task from two sides: what the user needs and what result it will bring the business.',
+      'mob.e1':'Respawn Esports', 'mob.e1s':'AI-native product designer · 2026', 'mob.e2':'Queen Interactive Games', 'mob.e2s':'Product designer · 2025–2026', 'mob.e3s':'Head of Sales · until 2025',
+      'mob.ai':'I use AI at different stages: from finding ideas and visual concepts to interactive prototypes.', 'mob.out':'Outside work', 'mob.outt':'Boxing, books like “Write, Cut” and “Steal Like an Artist”, games with friends. It helps me see familiar tasks from a different angle.', 'mob.t1':'Projects', 'mob.t2':'Lab', 'mob.t3':'About me', 'mob.t4':'Contact',
+      h1m:'Designing digital services for B2B and B2C. Using AI to automate processes, speeding up the creation of business value' });
+    // заголовок — как в мобильном макете (правка Максима в Figma 879:2808)
+    const h1 = $('h1.headline'); h1.dataset.i18n = 'h1m'; h1.dataset.ru = 'Проектирую цифровые сервисы для B2B и B2C. С помощью AI автоматизирую процессы, ускоряя создание ценности для бизнеса'; h1.textContent = h1.dataset.ru; const role = $('.hero-role'); role.dataset.i18n = 'mob.role'; role.dataset.ru = 'AI-native продуктовый дизайнер'; role.textContent = role.dataset.ru;
+    // «Связаться» сразу под заголовком (та же шторка, что и во вкладке)
+    const heroBtn = el('button', 'm-btn primary m-hero-btn', `<span data-i18n="mob.contact" data-ru="Связаться">Связаться</span>`); heroBtn.type = 'button';
+    $('.hero-content').append(heroBtn);
+    // Проекты: карусель карточек 300, вся карточка — ссылка на кейс
+    const projects = $('#projects'), pSec = $('#p-projects');
+    const shP = el('div', 'm-sh'); shP.append(el('h2', '', 'Проекты', 'mob.proj'));
+    const wrapP = el('div', 'm-sec'); wrapP.id = 'm-sec-projects'; pSec.before(wrapP); wrapP.append(shP, pSec);
+    $$('.project', projects).forEach(p => p.addEventListener('click', e => { if (!e.target.closest('a')) location.href = $('.btn-project', p).getAttribute('href'); }));
+    // Лаборатория: на главной ряд карточек, во вкладке — заголовок и сетка
+    const lSec = $('#p-lab'), shL = el('div', 'm-sh m-sh-lab'); shL.append(el('h2', '', 'Лаборатория', 'mob.lab'));
+    const all = el('button', '', `<span data-i18n="mob.all" data-ru="Все 9">Все 9</span>${ICO(P.chev)}`); all.type = 'button'; shL.append(all);
+    const headL = el('div', 'm-head m-head-lab'); headL.append(el('h1', '', 'Лаборатория', 'mob.lab'), el('p', '', 'Концепты интерфейсов: финансы, фитнес, подкасты и AI-наставник', 'mob.labsub'));
+    lSec.before(shL); shL.before(headL);
+    // «Обо мне»: отдельная страница вкладки по макету (Figma «Главная · Обо мне»)
+    const cvFrame = $('#cv-frame');
+    const ab = el('section', 'm-about'); ab.setAttribute('aria-label', 'Обо мне');
+    const T = (tag, cls, ru, k) => { const e = el(tag, cls, ru, k); return e.outerHTML; };
+    const aCell = (ru, k, sub, sk) => `<div class="m-cell"><i>${ICO(P.bag)}</i><span>${T('b', '', ru, k)}${T('em', '', sub, sk)}</span></div>`;
+    const aStep = (n, k, tk) => `<div class="m-step"><small>${n}</small>${T('b', '', $('[data-i18n="' + k + '"]').dataset.ru, k)}${T('p', '', $('[data-i18n="' + tk + '"]').dataset.ru, tk)}</div>`;
+    ab.innerHTML = `<div class="m-head">${T('h1', '', 'Обо мне', 'mob.about')}${T('p', 'm-sub', 'От продаж к продуктовому дизайну', 'ab_h1')}</div>
+      <img class="m-portrait" src="assets/portrait-about.jpg" alt="Максим Гриднев" width="1050" height="1400" loading="lazy">
+      ${T('p', 'm-lead', 'В дизайн я пришёл после 5 лет в продажах, поэтому смотрю на задачу с двух сторон: что нужно пользователю и какой результат это принесёт бизнесу.', 'mob.intro')}
+      ${T('h2', '', 'Опыт', 'mob.exp')}
+      <div class="m-cells">${aCell('Respawn Esports', 'mob.e1', 'AI-native продуктовый дизайнер · 2026', 'mob.e1s')}${aCell('Queen Interactive Games', 'mob.e2', 'Продуктовый дизайнер · 2025–2026', 'mob.e2s')}${aCell('Продажи', 'ab_sales', 'Руководитель отдела продаж · до 2025', 'mob.e3s')}</div>
+      ${T('h2', '', 'Как я подхожу к задачам', 'ab_h2')}
+      <div class="m-steps">${aStep('01', 'ab_s1', 'ab_s1t')}${aStep('02', 'ab_s2', 'ab_s2t')}${aStep('03', 'ab_s3', 'ab_s3t')}</div>
+      <div><h2 data-i18n="ab_h3" data-ru="AI в работе">AI в работе</h2>${T('p', 'm-sub', 'Использую AI на разных этапах: от поиска идей и визуальных концепций до интерактивных прототипов.', 'mob.ai')}</div>
+      <div class="m-tags">${['Figma', 'Claude Code', 'Phygital+', 'Figma Make', 'ChatGPT', 'Gemini', 'Seedance', 'Kling'].map(x => `<span>${x}</span>`).join('')}</div>
+      <div class="m-note">${T('small', '', 'Вне работы', 'mob.out')}${T('p', '', 'Бокс, книги вроде «Пиши, сокращай» и «Воруй как художник», игры с друзьями. Это помогает смотреть на привычные задачи под другим углом.', 'mob.outt')}</div>`;
+    const btns = el('div', 'm-btns');
+    const arrow = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10M7 17 17 7"/></svg>`;
+    const bCv = el('button', 'm-btn js-cv', `<span data-i18n="mob.cv" data-ru="Резюме">Резюме</span>${arrow}`), bWr = el('button', 'm-btn primary', `<span data-i18n="mob.write" data-ru="Написать">Написать</span>${arrow}`); bCv.type = bWr.type = 'button';
+    btns.append(bCv, bWr); ab.append(btns);
+    bCv.addEventListener('click', e => { e.preventDefault(); if (!cvFrame.src) cvFrame.src = cvFrame.dataset.src + '&lang=' + curLang; cv.setAttribute('aria-hidden', 'false'); open('open-cv', $('.viewer')); });
+    $('.content').append(ab);
+    // карусели и счётчик «1 / n»
+    const track = (t, count) => { t.classList.add('m-track'); if (!count) return;
+      const n = t.children.length, c = el('div', 'm-count', `<span class="m-dots">${'<i></i>'.repeat(n)}</span><span>1 / ${n}</span>`); c.querySelector('i').classList.add('on'); t.after(c);
+      t.addEventListener('scroll', () => { const w = t.children[0].getBoundingClientRect().width + 12, k = Math.min(n - 1, Math.round(t.scrollLeft / w));
+        c.lastChild.textContent = `${k + 1} / ${n}`; [...c.querySelectorAll('i')].forEach((d, j) => d.classList.toggle('on', j === k)); }, { passive:true }); };
+    track(projects, true); track($('#lab'), false);
+    // шторка «Связаться»
+    const scrim = el('div', 'm-scrim'), sheet = el('div', 'm-sheet');
+    const cell = (tag, ico, t, s, trail, i18n) => `<${tag} class="m-cell"${tag === 'a' ? '' : ' type="button"'}><i>${ICO(P[ico])}</i><span><b${i18n ? ` data-i18n="${i18n}" data-ru="${t}"` : ''}>${t}</b><em${s.i18n ? ` data-i18n="${s.i18n}" data-ru="${s.t}"` : ''}>${s.t || s}</em></span>${ICO(P[trail])}</${tag}>`;
+    sheet.innerHTML = `<span class="m-grab"></span><div class="m-sheet-head"><h3 data-i18n="mob.contact" data-ru="Связаться">Связаться</h3><button type="button" class="m-ic" aria-label="Закрыть">${ICO(P.close)}</button></div>`
+      + cell('a', 'send', 'Telegram', '@grid1max', 'out').replace('<a ', '<a href="https://t.me/grid1max" target="_blank" rel="noopener" ')
+      + cell('button', 'mail', 'Email', 'gridnevmm48@gmail.com', 'copy').replace('<button ', '<button data-copy ')
+      + cell('a', 'bag', 'LinkedIn', 'in/gridnevmm', 'out').replace('<a ', '<a href="https://www.linkedin.com/in/gridnevmm" target="_blank" rel="noopener" ')
+      + cell('button', 'dl', 'Резюме', { t:'PDF на русском и английском', i18n:'mob.cvsub' }, 'dl', 'mob.cv').replace('<button ', '<button data-cv ');
+    document.body.append(scrim, sheet);
+    const openSheet = () => root.classList.add('m-sheet-open'), closeSheet = () => root.classList.remove('m-sheet-open');
+    scrim.addEventListener('click', closeSheet); $('.m-sheet-head button', sheet).addEventListener('click', closeSheet);
+    addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+    $('[data-copy]', sheet).addEventListener('click', e => { const em = $('em', e.currentTarget);
+      (navigator.clipboard ? navigator.clipboard.writeText('gridnevmm48@gmail.com') : Promise.reject()).then(() => { em.textContent = curLang === 'en' ? EN_UI['mob.copied'] : 'Скопировано'; setTimeout(() => { em.textContent = 'gridnevmm48@gmail.com'; }, 1600); }, () => { location.href = 'mailto:gridnevmm48@gmail.com'; }); });
+    $('[data-cv]', sheet).addEventListener('click', () => { closeSheet(); bCv.click(); });
+    bWr.addEventListener('click', openSheet); heroBtn.addEventListener('click', openSheet);
+    // таб-бар и переключение вкладок (адрес: #lab, #about — работает кнопка «назад»)
+    const tabs = el('nav', 'm-tabs'); tabs.setAttribute('aria-label', 'Разделы');
+    [['home', 'grid', 'Проекты', 'mob.t1'], ['lab', 'flask', 'Лаборатория', 'mob.t2'], ['about', 'user', 'Обо мне', 'mob.t3'], ['contact', 'msg', 'Связаться', 'mob.t4']].forEach(([v, ic, t, k]) => {
+      const b = el('button', '', `${ICO(P[ic])}<span data-i18n="${k}" data-ru="${t}">${t}</span>`); b.type = 'button'; b.dataset.v = v; tabs.append(b); });
+    document.body.append(tabs);
+    const setView = (v, push = true) => { if (v === 'contact') { openSheet(); return; }
+      root.dataset.view = v; $$('button', tabs).forEach(b => b.classList.toggle('on', b.dataset.v === v)); scrollTo(0, 0);
+      if (push) history.pushState({ v }, '', v === 'home' ? location.pathname + location.search : '#' + v); };
+    tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (b) setView(b.dataset.v); });
+    all.addEventListener('click', () => setView('lab'));
+    addEventListener('popstate', e => setView(e.state && e.state.v || viewFromHash(), false));
+    const viewFromHash = () => location.hash === '#lab' ? 'lab' : location.hash === '#about' ? 'about' : 'home';
+    const v0 = viewFromHash(); setView(v0, false); history.replaceState({ v:v0 }, '', location.href);
+    if (location.hash === '#projects') addEventListener('load', () => wrapP.scrollIntoView());
+  }
+
+  $('#lang').addEventListener('click', () => { renderLang(curLang === 'ru' ? 'en' : 'ru'); typeH1(); });
+  renderLang(curLang);
+  (window.bootDone || Promise.resolve()).then(typeH1);
+  requestAnimationFrame(coordsFrame);
+
+})();
+</script>
+</body>
 </html>
