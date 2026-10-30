@@ -658,7 +658,7 @@
 <div class="content" id="top">
   <!-- Header -->
   <header class="header">
-    <a class="link-name" href="#top" aria-label="Maksim Gridnev">
+    <a class="link-name" href="/" aria-label="Maksim Gridnev">
       <span class="avatar" aria-hidden="true"><img src="assets/avatar.jpg" alt="" width="64" height="64"></span>
       <span>Maksim Gridnev</span>
     </a>
@@ -736,7 +736,7 @@
   <!-- Footer -->
   <footer class="footer">
     <span>Designed by me. Built with AI</span>
-    <a class="to-top" href="#top" id="totop" data-i18n="top">Наверх ↑</a>
+    <a class="to-top" href="/" id="totop" data-i18n="top">Наверх ↑</a>
     <span data-i18n="copy">© 2026 Максим Гриднев</span>
   </footer>
 </div>
@@ -790,11 +790,11 @@
 <div class="modal" id="cv" role="dialog" aria-modal="true" aria-label="Резюме" aria-hidden="true">
   <div class="sheet">
     <header><span class="fn">cv</span><button type="button" class="js-close" data-i18n="cv_close">(Закрыть)</button></header>
-    <div class="viewer" tabindex="-1"><iframe id="cv-frame" title="Резюме Максима Гриднева" data-src="cv.html?embed=1"></iframe></div>
+    <div class="viewer" tabindex="-1"><iframe id="cv-frame" title="Резюме Максима Гриднева" data-src="cv?embed=1"></iframe></div>
     <footer>
       <span data-i18n="cv_upd">Обновлено 28 октября 2026</span>
       <nav>
-        <a id="cv-open" href="cv.html" target="_blank" rel="noopener"><span data-i18n="cv_open">Открыть</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a id="cv-open" href="cv" target="_blank" rel="noopener"><span data-i18n="cv_open">Открыть</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <a id="cv-pdf" href="assets/Maksim-Gridnev-CV-ru.pdf" download="Maksim-Gridnev-CV-ru.pdf"><span data-i18n="cv_dl">Скачать PDF</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </nav>
     </footer>
@@ -949,9 +949,9 @@
       <div class="project-text">
         <div class="title-group"><h3 class="title">${p.t}</h3><p class="role">${p.r}</p><p class="desc">${bold(p.d)}</p></div>
         <span class="m-metric">${p.m}</span>
-        <a class="m-read" href="cases/${p.key}.html">Смотреть проект<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a class="m-read" href="cases/${p.key}">Смотреть проект<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
         <div class="tags">${tagsHtml(p.tags)}</div>
-        <a class="btn-project" href="cases/${p.key}.html">Смотреть проект</a>
+        <a class="btn-project" href="cases/${p.key}">Смотреть проект</a>
       </div>
       <div class="cover" role="img" aria-label="Промо сайта ${p.t}: ${PROMO[p.key].host}" data-promo="${p.key}"></div></article>`).join('');
   $$('[data-promo]').forEach(c => promoCover(c, c.dataset.promo));
@@ -1086,7 +1086,7 @@
     const src = `assets/lab/${c.id}.jpg`, [bx, by, bw, bh] = c.box;
     cover.innerHTML = `<div class="ls" aria-hidden="true"${c.bg ? ` style="background:${c.bg}"` : ''}><div class="cam"${c.bg ? ` style="background:${c.bg}"` : ''}>
       <div class="ls-img" style="left:${bx}%;top:${by}%;width:${bw}%;height:${bh}%"><img data-src="${src}" alt="" decoding="async" style="object-fit:cover"></div></div>
-      ${c.live ? `<iframe class="live" data-src="lab/${c.id}.html" title="${c.a}" tabindex="-1" aria-hidden="true"></iframe>` : ''}<i class="cam-tap"></i><i class="cam-cur"></i></div>`;
+      ${c.live ? `<iframe class="live" data-src="lab/${c.id}" title="${c.a}" tabindex="-1" aria-hidden="true"></iframe>` : ''}<i class="cam-tap"></i><i class="cam-cur"></i></div>`;
     const img = $('img', cover), camEl = $('.cam', cover), cur = $('.cam-cur', cover), tapEl = $('.cam-tap', cover), live = $('.live', cover);
     const load = () => { if (img.dataset.src) { img.src = src; img.removeAttribute('data-src'); }
       if (live && live.dataset.src && !reduced) { live.src = live.dataset.src; live.removeAttribute('data-src'); } };
@@ -1368,7 +1368,7 @@
     $('#lang').textContent = l === 'en' ? 'rus' : 'eng';
     $('#drawer').setAttribute('aria-label', l === 'en' ? 'About me' : 'Обо мне');
     $('#cv').setAttribute('aria-label', l === 'en' ? 'CV' : 'Резюме'); $('#cv-frame').title = l === 'en' ? 'Maksim Gridnev — CV' : 'Резюме Максима Гриднева';
-    $('#cv-open').href = 'cv.html?lang=' + l; $('#cv-pdf').href = `assets/Maksim-Gridnev-CV-${l}.pdf`; $('#cv-pdf').setAttribute('download', `Maksim-Gridnev-CV-${l}.pdf`);
+    $('#cv-open').href = 'cv?lang=' + l; $('#cv-pdf').href = `assets/Maksim-Gridnev-CV-${l}.pdf`; $('#cv-pdf').setAttribute('download', `Maksim-Gridnev-CV-${l}.pdf`);
     if ($('#cv-frame').contentWindow && $('#cv-frame').src) $('#cv-frame').contentWindow.postMessage({ cvLang:l }, location.origin); $('#drawer .portrait').alt = l === 'en' ? 'Maksim Gridnev' : 'Максим Гриднев';
     $$('#projects .project').forEach((row, i) => { const p = PROJECTS[i], T = l === 'en' ? EN_PROJ[p.key] : p;
       row.querySelector('.role').innerHTML = MOB ? T.mr : T.r; row.querySelector('.desc').innerHTML = bold(T.d); row.querySelector('.m-metric').textContent = T.m;
@@ -1516,6 +1516,14 @@
     if (location.hash === '#projects') addEventListener('load', () => wrapP.scrollIntoView());
   }
 
+  /* логотип и «Наверх» ведут на главную без #top в адресе: на главной просто возвращаемся к началу */
+  $$('a.link-name, #totop').forEach(a => a.addEventListener('click', e => {
+    if (location.pathname !== '/' && location.pathname !== '/index.html') return;
+    e.preventDefault();
+    if (MOB) $('.m-tabs button[data-v="home"]').click();
+    if (location.hash) history.replaceState(history.state, '', location.pathname + location.search);
+    scrollTo({ top:0, behavior:reduced ? 'auto' : 'smooth' });
+  }));
   $('#lang').addEventListener('click', () => { renderLang(curLang === 'ru' ? 'en' : 'ru'); typeH1(); });
   renderLang(curLang);
   (window.bootDone || Promise.resolve()).then(typeH1);
